@@ -19,3 +19,10 @@ LinkedList는 현재 데이터의 이전,다음 데이터가 무엇인지 기억
 |             종류             | Single Dimensional Array<br />Two Dimensional Array<br />Multidimensional Array | Linear(Singly) Linked List<br />Double Linked List<br />Circular Linked List |
 |             결론             |            데이터에 접근하는 것이 중요할 때 사용             |                 삽입과 삭제가 빈번할 때 사용                 |
 
+### 이수형
+
+Array는 선언시에 크기를 지정해주며 메모리에 고정되어 크기를 변경할수 없지만 LinkedList는 데이터를 삽입할때마다 동적으로 크기가 증가한다
+
+Array는 중간에 삽입연산을 하려면 기존 데이터의 위치를 모두 뒤로 이동시키고 넣어야하고 삭제시 모두 앞으로 당겨주는 연산을 해야 하므로 비효율적이지만 인덱스에 바로 접근이 가능하므로 접근속도는 빠르다는 장점이있다. LinkedList는 삽입시 리스트에 연결되어있는 위치까지 순차접근하여 추가하고 삭제시에도 순차접근하여 그 부분을 끊고 뒤부터 다시 이어줄수있으므로 삽입삭제가 빠르지만 순차접근을 해야하므로 탐색이 느리다
+
+### 
