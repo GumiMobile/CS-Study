@@ -4,7 +4,7 @@
 
 REST란 REpresentational State Transfer의 약자로 월드 와이드 웹(www)과 같은 분산 하이퍼미디어 시스템을 위한 소프트웨어 개발 아키텍처의 한 형식이다. REST는 자원 기반의 구조(Resource Oriented Architecture)로 설계의 중심에 자원(Resource)이 있고 HTTP Method를 통해 Resource를 처리하도록 설계된 아키텍쳐이다.
 
-RESTful은 REST API 설계 가이드에 따라 API를 만드는 것으로 그러한 API를 제공하면 해당 웹 서비스는 RESTful하다고 한다. RESTful API는 그 자체만으로도 API의 목적이 무엇인지 쉽게 알 수 있기 때문에 (self-descriptiveness) RESTful함을 지향한다.
+RESTful API는 REST API 설계 가이드에 따라 API를 만드는 것으로 그러한 API를 제공하면 해당 웹 서비스는 RESTful하다고 한다. RESTful API는 그 자체만으로도 API의 목적이 무엇인지 쉽게 알 수 있기 때문에 (self-descriptiveness) RESTful함을 지향한다.
 
 REST의 구성 요소
 
