@@ -58,3 +58,15 @@ REST는 자원의 이름으로 구분하여 해당 자원의 상태를 주고받
 JSON혹은 XML을 통해 데이터를 주고받는것이 일반적임
 RESTFul API는 CRUD(GET, POST, PUT, DELETE)의 HTTP 메소드로 표현함에 있어REST의 설계 가이드에 따라 만든 API이고 이해하기 쉽고 사용하기쉬운 REST API를 만드는것이 목적임
 그 자체 만으로 API의 목적이 무엇인지 쉽게 알수있고 그것을 지향함
+
+### 이유진
+REST API == Representational State Transfer API
+
+REST API는 URI만 보고 어떤 요청을 하는지 추측이 가능하도록 하는 형식이다. REST API의 규칙을 잘 지킨 요청을 RESTful 하다고 한다.
+URI는 정보의 행위가 아닌 자원을 표현하는데 중점을 둔다. REST API에서 URI는 정보의 행위가 아닌 자원을 표현하는데 중점을 둬야 한다. 자원의 행위는 HTTP Method(GET, POST, PUT, DELETE emd)로 표현한다.
+|메소드|역할 (CRUD)|
+|--|--|
+|POST|리소스 생성|
+|GET|리소스 조회 (+ 도큐먼트에 대한 자세한 정보 얻기)|
+|PUT|리소스 수정|
+|DELETE|리소스 삭제|
