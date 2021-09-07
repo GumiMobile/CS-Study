@@ -93,3 +93,41 @@ POST
 **POST**의 요청데이터는 HTTP Request Message의 body에 담겨서 전송된다. 따라서 get보다 많은 양의 데이터를 전송할 수있고, 상대적으로 보안성이 낫다. post는 서버에 값을 추가하거나 변경할 때 사용된다.
 
 post와 달리 get은 캐싱/브라우저히스토리/북마크 가 가능하다.
+
+
+### 윤상일
+
+HTTP가 제공하는 7가지 메서드(GET, POST, HEAD, PUT, OPTION, DELETE, TRACE)가 있다. 요즘은 GET, POST를 제외한 나머지 메서드를 비활성화는 편인데, 보안 취약점이 생길 수 있기 때문이다.
+
+HTTP통신 시 주고받는 데이터를 HTTP 패킷이라 한다. 패킷의 구조는 크게 Header 영역과 Body 영역으로 나눌 수 있다. Header에는 크게 여러가지 정보와 어떠한 방식의 메서드를 사용하였는지 적게 된다. Body의 경우, 메서드 방식에 따라 사용 유무와 사용 방법이 다르다.
+
+#### GET 방식
+
+- [특징]
+  URL에 Parameter를 붙여서 전송 => 따라서 Body 영역 사용하지 않음 => 대용량 데이터 전송이 제한된다.  
+  Idempotent(역동적인, 가변적인)하다 => CRUD의 Read에 해당하는 만큼, Select 용도의 개발에 이용한다.  
+  캐싱을 이용하기 때문에 POST방식보다 빠르다.  
+  
+- [예시]  
+
+  https://www.google.com/search?q=get+post+%EB%B0%A9%EC%8B%9D&newwindow=1&sxsrf=AOaemvLzvkfAJBeAZWpujHIZeqXrKOkp-A%3A1630972821590&ei=las2Yae3I4GxmAXo0p34Bg&oq=GET&gs_lcp=Cgdnd3Mtd2l6EAMYADIECCMQJzIECCMQJzIICAAQgAQQsQMyCAgAEIAEELEDMgsIABCABBCxAxCDATILCAAQgAQQsQMQgwEyCwgAEIAEELEDEIMBMgUIABCABDIFCAAQgAQyCwgAEIAEELEDEIMBOgcIIxDqAhAnSgQIQRgAUNKRpwJYupynAmDaqKcCaANwAHgAgAHWAogB5AqSAQcwLjEuNC4xmAEAoAEBsAEKwAEB&sclient=gws-wiz
+
+
+
+#### POST 방식
+  
+- [특징]
+  URL이 아닌 Body 영역에 데이터를 실어 보내기 때문에 데이터 전송량에 제한이 없으며, 대용량 데이터 전송에 유리하다.  
+  Body 영역 데이터 타입을 Header Content-Type에 명시해줘야 한다.  
+  non-idempotent => CRUD의 Create에 해당하는 만큼, 결과값이 바뀌는 유형의 개발에 이용한다.  
+  캐싱을 사용할 수 없다.  
+- [예시] BOJ  
+
+
+
+#### 비교
+
+- 보안 취약성  
+  GET방식이 URL에 정보를 담아 보내기 때문에 정보의 접근은 더 쉽지만, POST방식도 Body 영역의 데이터를 들여다볼 수 있기 때문에 보안 성능이 특별히 더 뛰어난 것은 아니다. 보안을 위해서는 두 방식 모두 데이터를 암호화해야 한다.
+- 속도  
+  GET방식은 캐싱을 사용하므로 POST방식보다 빠르다.
