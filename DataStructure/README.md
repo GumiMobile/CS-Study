@@ -1,12 +1,12 @@
 # Data Structure
 
-* [Array VS Linked List](#Array-VS-Linked-List)
-  * [Array (배열)](#Array-(배열))
-  * [Linked List (연결리스트)](#Linked-List-(연결리스트))
+* [Array VS Linked List](#array-vs-linked-list)
+  * [Array (배열)](#array-----)
+  * [Linked List (연결리스트)](#linked-list--------)
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
-
+</br>
 
 ## Array VS Linked List
 
@@ -65,3 +65,4 @@
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
 
+</br>
