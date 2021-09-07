@@ -1,8 +1,8 @@
 # Data Structure
 
-
-
-[TOC]
+* [Array VS Linked List](#Array-VS-Linked-List)
+  * [Array (배열)](#Array-(배열))
+  * [Linked List (연결리스트)](#Linked-List-(연결리스트))
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
