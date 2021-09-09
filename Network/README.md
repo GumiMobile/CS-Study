@@ -1,5 +1,5 @@
 # Network
-- [GET, POST 방식의 차이점](#GET,-POST-방식의-차이점)
+- [GET, POST 방식의 차이점](#get,-post-방식의-차이점)
 <br><br>
 
 ## GET, POST 방식의 차이점
