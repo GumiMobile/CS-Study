@@ -9,7 +9,7 @@ Tree
 
 Tree 관련 용어
 
-<img src = "https://w.namu.la/s/606aecc8b8a27d42129f3e13c6db9a871a4566cd88c123689585256281efb5dde5b35f4e516572f0e5f0e419f0ae2be3aedf7a9c8dbb1756d1bf635a48da67ecd461dd60bccbd7b2b649dcf4ac2e98603e469257ee3261e6d2148154fbc6b0ce0f0e03ec1c9c6f832d6a50abcf0c05e2" width = "800" height="600" />
+<img src = "https://w.namu.la/s/606aecc8b8a27d42129f3e13c6db9a871a4566cd88c123689585256281efb5dde5b35f4e516572f0e5f0e419f0ae2be3aedf7a9c8dbb1756d1bf635a48da67ecd461dd60bccbd7b2b649dcf4ac2e98603e469257ee3261e6d2148154fbc6b0ce0f0e03ec1c9c6f832d6a50abcf0c05e2" width = "600" height="400" />
 
 - Node (노드) : 트리를 구성하고 있는 각각의 요소
 - Edge (간선) : 트리를 구성하기 위해 노드와 노드를 연결하는 선
