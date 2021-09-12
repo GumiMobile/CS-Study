@@ -15,17 +15,40 @@ Tree 관련 용어
 - Edge (간선) : 트리를 구성하기 위해 노드와 노드를 연결하는 선
 - Root Node (루트 노드) : 트리 구조에서 최상위에 있는 노드
 - Leaf Node (Terminal Node, 단말 노드) : 하위에 다른 노드가 연결되어 있지 않은 노드
-- Internal Node (내부노드, 비단말 노드) : 단말 노드를 제외한 모든 노드로 루트 노드도 포함
+- Internal Node (내부 노드, 비단말 노드) : 단말 노드를 제외한 모든 노드로 루트 노드도 포함
 - Sibling Node (Brother Node, 형제 노드) : 동일한 부모를 가지는 노드
 - Path (경로) : 한 노드에서 다른 한 노드에 이르는 길 사이에 있는 노드들의 순서
 - Level (레벨) : 루트 노드(level = 0)부터 노드까지 연결된 간선 수
-- Depth (깊이) : 루트 경로의 길이 (트리의 최대 레벨)
-- Degree (차수) : 각 노드의 자식 노드의개수
+- Depth (깊이) : 루트 경로의 길이 
+- Height (높이) : 가장 긴 루트 경로의 길이 (트리의 최대 레벨)
+- Degree (차수) : 각 노드의 자식 노드의 개수
 - Degree of Tree (트리의 차수) : 트리에 있는 노드의 최대 차수
+- Subtree (서브트리) : 큰 트리에 속하는 작은 트리
 - Forest (포레스트) : 서로 독립인 트리들의 모임
 
-Binary Tree
+Binary Tree (이진 트리)
 
-Full Binary Tree
+- 루트 노드를 중심으로 두 개의 서브 트리로 나뉘어진다.
+- 또한 나뉘어진 두 서브 트리도 모두 이진 트리여야 한다.
+- 공집합, 노드가 하나인 트리도 이진 트리에 포함된다.
+- 배열로 구성된 Binary Tree는 노드의 개수가 n개이고 root가 0이 아닌 1에서 시작할 때, i번째 노드에 대해서 parent(i) = i / 2, left_child(i) = 2 * i, right_child(i) = 2 * i + 1의 index 값을 갖는다.
+- Full Binary Tree, Complete Binary Tree, Perfect Binary Tree
 
-Complete Binary Tree
+Full Binary Tree (정 이진 트리)
+
+![Full Binary Tree](https://blog.martinwork.co.kr/images/datastructure/tree03.png)
+
+- 모든 노드가 0개 혹은 2개의 자식 노드만을 갖는 이진 트리
+
+Complete Binary Tree (완전 이진 트리)
+
+![Complete Binary Tree](https://blog.martinwork.co.kr/images/datastructure/tree04.png)
+
+- 위에서 아래로, 왼쪽에서 오른쪽으로 순서대로 차곡차곡 채워진 이진 트리
+
+Perfect Binary Tree (포화 이진 트리)
+
+![Perfect Binary Tree](https://blog.martinwork.co.kr/images/datastructure/tree05.png)
+
+- 모든 레벨이 꽉 찬 이진 트리
+
