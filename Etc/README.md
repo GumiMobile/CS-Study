@@ -7,11 +7,12 @@
 
 ### 1. REST
 
-> **RE**presentational **S**tate **T**ransfer
+> **RE**presentational **S**tate **T**ransfer  
 > 자원(Resource)의 표현(Representation) `=> 자원에 이름(ID) 부여` 에 의한 상태(State) 전달(Transfer)
 
-**대표적인 웹 기반 아키텍쳐**
-월드 와이드 웹(www)과 같은 분산 하이퍼미디어 시스템을 위한 소프트웨어 개발 아키텍처(설계 지침, 원리 등)의 한 형식이다. 2000년 로이 필딩(Roy Fielding)의 논문에서 정의되었다.
+**대표적인 웹 기반 아키텍쳐**  
+월드 와이드 웹(www)과 같은 분산 하이퍼미디어 시스템을 위한 소프트웨어 개발 아키텍처(설계 지침, 원리 등)의 한 형식이다.  
+2000년 로이 필딩(Roy Fielding)의 논문에서 정의되었다.
 
 #### 자원 기반의 구조(Resource Oriented Architecture)
 - 설계의 중심 : 자원(Resource)
@@ -21,15 +22,15 @@
 
 #### REST의 구성 요소
 
-- 자원(Resource) : URI
-    URI는 정보의 행위가 아닌 자원을 표현하는데 중점을 둔다. 
+- 자원(Resource) : URI  
+    - URI는 정보의 행위가 아닌 자원을 표현하는데 중점을 둔다. 
 
-- 행위(Verb) : HTTP Method (GET, POST, PUT, DELETE)
+- 행위(Verb) : HTTP Method (GET, POST, PUT, DELETE)  
     | CRUD            | Create | Read | Update | Delete |
     | --------------- | ------ | ---- | ------ | ------ |
     | **HTTP 메서드** | POST   | GET  | PUT    | DELETE |
 
-- 표현(Representations) : HTTP Message Pay Load
+- 표현(Representations) : HTTP Message Pay Load  
     - [상태코드](https://developer.mozilla.org/ko/docs/Web/HTTP/Status)(예. `200 OK`, `404 NOT FOUND`) : HTTP 요청의 성공여부를 서버에서 알려주는 코드
     - 요청에 대한 적절한 응답. JSON 혹은 XML 등으로 나타냄
 
@@ -38,8 +39,8 @@
 ### 2. RESTful API
 > **RE**presentational **S**tate **T**ransfer-**ful API**
 
-**RESTFul**은 **REST 아키텍처의 설계 가이드를 따라 만든 API**를 뜻한다.
-REST API 설계 가이드를 잘 지킨 API를 제공하면 해당 웹 서비스는 RESTful하다고 한다.
+**RESTFul**은 **REST 아키텍처의 설계 가이드를 따라 만든 API**를 뜻한다.  
+REST API 설계 가이드를 잘 지킨 API를 제공하면 해당 웹 서비스는 RESTful하다고 한다.  
 REST 원리를 따르는 시스템은 RESTful이라는 용어로 지칭된다.
 
 #### RESTful API의 목적
@@ -63,9 +64,13 @@ REST 원리를 따르는 시스템은 RESTful이라는 용어로 지칭된다.
 - CRUD기능을 모두 POST로만 처리하는 API
 - route에 resource,id외의 정보가 들어가는 경우(/students/updateName)
 
-- [x]  API와 RESTful API
-API는 기본적으로 프로그래밍 인터페이스로, 프로그램 내부에서 사용된다. 하지만 이식성을 증가시키기 위해 '웹'에 맞춰진 통신 인터페이스가 등장했는데, 그것이 바로 RESTful API이다. 소스코드를 통해 입출력이 이루어지는 일반 API와 달리 RESTful API는 웹을 이용하므로 거의 대부분 웹 프로토콜을 통해 주고 받는다. GET/POST 등의 형태로 인수를 전달받으면 결과값을 JSON이나 XML 형태로 전송해준다.
-> 용례 : 롤 전적 검색 사이트 (OP.GG) - 게임사가 제공하는 외부 RESTful API를 기반으로 동작
+<br>
+
+- [x]  API와 RESTful API  
+    API는 기본적으로 프로그래밍 인터페이스로, 프로그램 내부에서 사용된다. 하지만 이식성을 증가시키기 위해 '웹'에 맞춰진 통신 인터페이스가 등장했는데, 그것이 바로 RESTful API이다. 소스코드를 통해 입출력이 이루어지는 일반 API와 달리 RESTful API는 웹을 이용하므로 거의 대부분 웹 프로토콜을 통해 주고 받는다. GET/POST 등의 형태로 인수를 전달받으면 결과값을 JSON이나 XML 형태로 전송해준다.
+    > 용례 : 롤 전적 검색 사이트 (OP.GG) - 게임사가 제공하는 외부 RESTful API를 기반으로 동작
+
+<br>
 
 ### 3. REST 6가지 원칙 (또는 특징)
 > API가 RESTful하다고 간주되기 위한 필요조건
@@ -74,7 +79,7 @@ API는 기본적으로 프로그래밍 인터페이스로, 프로그램 내부�
     - URI로 지정한 리소스에 대한 조작을 통일되고 한정적인 인터페이스로 수행하는 아키텍처 스타일
     - 아키텍처를 단순화시키고 작은 단위로 분리함으로써 클라이언트-서버의 각 파트가 독립적으로 개선될 수 있도록 해준다.
 2. **Stateless** (무상태)
-    > 작업을 위한 상태정보를 따로 저장하고 관리하지 않음
+    - 작업을 위한 상태정보를 따로 저장하고 관리하지 않음
     - HTTP프로토콜이 Staleless Protocol이므로 REST 역시 무상태성을 갖는다.
     - 요청 간에 클라이언트 정보(세션, 쿠기와 같은 context정보)가 저장되지 않는다.
     ⇒ 구현이 단순해짐
@@ -95,11 +100,15 @@ API는 기본적으로 프로그래밍 인터페이스로, 프로그램 내부�
     - Server로부터 스크립트를 받아서 Client에서 실행한다.
     - 반드시 충족할 필요는 없다.
 
-- [x]  **Stateless?**
+<br>
+
+- [x]  **Stateless?**  
     서버처리방식의 한 분류. 애플리케이션의 상태에 대한 정보가 얼마나 오래 기록되는지, 어떤 식으로 저장되는지에 따라 Stateful / Stateless 를 분류한다. 이전 트랜잭션에 대한 정보가 저장되어 현재 트랜잭션에 영향을 주면 Stateful, 이전 트랜잭션에 대한 정보가 저장되지 않고 독립적인 기능을 수행하면 Stateless이다. 더 깊은 이야기는 따로 다루어야 할 영역이니 중략.
     > 참조 : https://www.redhat.com/ko/topics/cloud-native-apps/stateful-vs-stateless
 
-- [x]  **캐시란?**
+<br>
+
+- [x]  **캐시란?**  
 
     |               | 쿠키                                             | 세션                                     | 캐시                                                         |
     |-------------|-----------------------------------------------|----------------------------------------|------------------------------------------------------------|
@@ -111,9 +120,13 @@ API는 기본적으로 프로그래밍 인터페이스로, 프로그램 내부�
     즉, 보안성이 필요한 데이터를 다루는 쿠키, 세션과는 사뭇 다른 영역의 데이터 처리 방식이다.
     > 참조 : https://ryusae.tistory.com/7
 
-- [x]  **계층화된 시스템이란?** : ~~물데네전세표응~~
+<br>
+
+- [x]  **계층화된 시스템이란?** : ~~물데네전세표응~~  
     > 참조 : https://copycode.tistory.com/30
 
+
+<br>
 
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#기타)
