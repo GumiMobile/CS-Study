@@ -178,4 +178,15 @@ Server > Client : TCP SYN ACK
 Client > Server : TCP ACK  
 ![image](https://user-images.githubusercontent.com/37680108/133107223-a69b6b2c-45e3-4714-81be-88d2b99e6100.png)
 
+### 차세대 HTTP/3는 UDP를 사용한다
+#### TCP의 문제점 
+현재 HTTPS는 보안을 위해 TCP+TLS를 쓰는데, 핸드쉐이크 과정이 매우 복잡하고 최소 100ms시간이 소요된다. 반면 UDP는 핸드쉐이크 과정이 없으므로 빠르다.
+
+#### QUIC(Quck UDP Internet Connections)
+TCP의 성능을 개선하고자 UDP를 채택한 기술이다. 또한, UDP는 데이터 전송에만 초점을 맞추고 설계되어 헤더에 아무것도 없기 때문에 커스터마이징이 용이하다. 따라서 개발자의 구현에 따라 신뢰성을 높일 수 있고, 기능 확장이 쉽다.
+- 전달 속도의 개선
+- 클라이언트와 서버의 연결수 최소화
+- 대역폭을 예상하여 패킷 혼잡(congestion)을 피함
+
+> 참고 : [HTTP/3는 왜 UDP를 선택한 것일까?](https://evan-moon.github.io/2019/10/08/what-is-http3/) 
 
