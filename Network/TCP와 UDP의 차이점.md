@@ -152,3 +152,30 @@ UDP의 정의
 
 - 3-Way handshake는 TCP의 연결을 초기화 할 때 사용한다면, 4-Way handshake는 세션을 종료하기 위해 수행되는 절차
 
+
+### 이유진
+TCP와 UDP는 TCP/IP의 전송계층에서 사용되는 프로토콜로 IP계층에서 알려준 정보 경로를 바탕으로 데이터의 실제 송수신을 담당한다. TCP와 UCP의 차이점은 연결(Connection)과 신뢰도(Unrliable)에 있다.
+> **프로토콜** : 컴퓨터 네트워킹을 할 때 서로 약속하는 통신 규약
+
+#### TCP (Transmission Control Protocol)
+- 연결형 프로토콜
+- 3-way handshaking을 통해 Connection을 형성한 뒤에 정보의 송수신이 이루어진다.
+- 세그먼트가 유실될 경우 재전송을 통해 복구해준다.
+- 순서 번호를 이용해 순서를 맞춰서 전달한다.
+
+#### UDP (User Datagram Protocol)
+- 비 연결형 프로토콜
+- Connection설정 없이 바로 전송이 가능하다.
+- 전송한 데이터그램이 유실 될 수 있고, 순서가 바뀌어 도착할 수 있다. (낮은 신뢰성)
+- 상대적으로 빠르다.
+
+#### 3-way Handshake (TCP Connection)
+- TCP는 장치들 사이의 논리적인 접속을 성립하기 위해 3-way handshake를 사용한다. (반드시 필요)
+- Client와 Server모두 데이터를 전송할 준비가 되었다는 것을 보장한다.
+- 데이터를 전송하기 전에 정확한 전송을 보장하기 위해 컴퓨터와 사전에 세션을 수립하는 과정이다.
+- Client > Server : TCP SYN  
+Server > Client : TCP SYN ACK  
+Client > Server : TCP ACK  
+![image](https://user-images.githubusercontent.com/37680108/133107223-a69b6b2c-45e3-4714-81be-88d2b99e6100.png)
+
+
