@@ -103,3 +103,19 @@ Tree
 Heap 은 Complete Binary Tree 형태를 가진다.<br>
 Complete Binary Tree 구현에는 Array 를 사용하는 것이 일반적이다.<br>
 Heap 은 Array 를 사용해서 구현하는 것이 편하다.<br>
+
+### 이유진
+#### Binary Tree (이진 트리)
+- 자식 노드의 개수로 최대 2개를 갖는 트리
+- 노드들의 구성 방식에 따라 (아래와 같이) 구분된다.
+
+#### Full Binary Tree (정 이진 트리)
+- 모든 노드가 0개 또는 2개의 child를 갖는 이진 트리
+
+#### Perfect Binary Tree (포화 이진 트리) `균형 트리`
+- 모든 내부 노드가 2개의 child를 갖는 이진 트리
+- 모든 leaf 노드가 같은 level에 있다. 
+- Proper Binary Tree라고도 한다.
+
+#### Complete Binary Tree (완전 이진 트리) `균형 트리`
+- 노드를 삽입할 때 왼쪽 노드부터 차례대로 채우는 이진 트리
