@@ -84,3 +84,10 @@ Queue
 - 삽입과 삭제가 양 방향 각각에서 일어난다. 
 - BFS에서 많이 쓰인다. (재귀적 호출)
 - 다양한 형태의 Queue가 존재하는데, 특히 Deque의 경우는 삽입과 삭제가 양 방향에서 모두 일어날 수 있다.
+
+
+### 이유진
+|Stack|Queue|
+|--|--|
+|LIFO : 나중에 입력한 값이 먼저 출력되는 구조<br>일반적으로 top이라는 하나의 공간을 통해 입출력이 일어남|FIFO : 먼저 입력한 값이 먼저 출력되는 구조<br>선형 자료구조<br>출력을 담당하는 front + 입력을 담당하는 Rear<br>입출력을 반복하다 보면 front가 뒤로가고 rear도 뒤로가서 하나의 공간만 남게 된다.이러한 부분을 보완하기 위해 원형 큐의 개념이 등장했다.|
+|![image](https://user-images.githubusercontent.com/37680108/133214006-337acdd0-c3ba-4d2d-a329-85f711701b7e.png)|![image](https://user-images.githubusercontent.com/37680108/133214334-07118316-7a39-42c9-babe-e4b67691ccf7.png)|
