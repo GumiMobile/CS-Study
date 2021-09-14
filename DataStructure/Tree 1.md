@@ -71,3 +71,35 @@ Tree
   - 노드의 왼쪽가지에는 노드의 값보다 작은값들만있고 오른쪽 가지에는 큰값들로만 이루어진 트리 이진탐색을 하기에 적합한 구성이 됨
   - 최악의 경우 O(N)이 될수있어 이를보완한 AVL트리나 Red-Black트리를 사용하기도 함
 
+### 김현수
+
+#### Binary Tree 
+- degree가 최대 2인 트리
+- i번째 level에 나올 수 있는 노드의 최대 개수는 2^(i-1)
+- tree의 depth가 k일 때, 최대 노드의 개수는 2^k-1
+
+#### Binary Tree의 종류
+- Full Binary Tree
+- Perfect Binary Tree
+- Complete Binary Tree
+- Degenerate (or Pathological) Tree
+
+#### Full Binary Tree(정 이진트리)
+- leaf 노드들을 제외한 모든 노드들이 2개의 children 을 가지는 Binary Tree
+- L = leaf nodes 개수, I = internal nodes 개수일 때, L = I + 1
+	- 즉, Full Binary Tree 에서 모든 leaf 노드의 개수는 internal node 의 개수 + 1 이다.
+
+#### Complete Binary Tree(완전 이진트리)
+- 마지막 level을 제외한 나머지 level에 node들이 가득 차있고, 마지막 level은 node가 가장 왼쪽 부터 채워지는 형태
+- Complete Binary Tree 구조를 그대로 사용하여 Binary Heap이라는 데이터 구조를 만들 수 있는데, 이것이 Heap이다.
+- Complete Binary Tree(15개의 데이터가 저장된다면 index 0 ~ index 14 까지 채워진다) 구현에는 Array를 사용하는 것이 일반적이다.
+
+#### Perfect Binary Tree(포화 이진트리)
+- perfect binary tree는 complete이면서 full인 이진트리이다.
+- 모든 internal node가 두개의 children을 가지고 있고, 모든 leaf 노드가 같은 level에 있는 이진트리
+- Height 가 h인 Perfect Binary Tree는 2h - 1 개의 노드를 가진다.
+
+#### 정리
+Heap 은 Complete Binary Tree 형태를 가진다.<br>
+Complete Binary Tree 구현에는 Array 를 사용하는 것이 일반적이다.<br>
+Heap 은 Array 를 사용해서 구현하는 것이 편하다.<br>
