@@ -262,7 +262,7 @@ TCP의 성능을 개선하고자 UDP를 채택한 기술이다. 또한, UDP는 �
 
 - TCP와 UDP는 OSI 표준모델과(물데네**★전★**세표응) TCP/IP 모델의 전송계층에서 사용되는 프로토콜이에요
 
-<img src="C:\Users\tkddl\AppData\Roaming\Typora\typora-user-images\image-20210914161705270.png" alt="image-20210914161705270" style="zoom:67%;" />
+![image](https://user-images.githubusercontent.com/76988389/133215254-e89d9880-78e3-4810-bcfa-3d649e5015d6.png)
 
 - 여기서 전송계층은 데이터의 전달(송-수신자간 통신 서비스 제공, 패킷 검사, 재전송 요구 제어 등)을 담당해요
 - 이 때 TCP는 송-수신자간 서로 데이터의 송수신이 완료되었다는 확인 메시지를 통해 통신의 신뢰성을 높여요
@@ -272,7 +272,7 @@ TCP의 성능을 개선하고자 UDP를 채택한 기술이다. 또한, UDP는 �
 
 - TCP(Transmission Control Protocol)은 연결 지향적 프로토콜이에요. 즉, 클라이언트와 서버가 연결된 상태에서 데이터를 주고받아요
 
-  ![image-20210914162336799](C:\Users\tkddl\AppData\Roaming\Typora\typora-user-images\image-20210914162336799.png)
+  ![image](https://user-images.githubusercontent.com/76988389/133215282-032755d0-cf0d-4ed1-8ea2-7af056686e7b.png)
 
 - TCP는 패킷을 성공적으로 전송하면 ACK라는 신호를 날리고, ACK가 제 시간에 도달하지 않으면 Timeout을 발생시켜요
 - 위와 같이 3 way handshake 방식(SYN, ACK)를 통해 port에 연결하기 위해 3번의 요청/응답 후 연결이 돼요
@@ -289,7 +289,7 @@ TCP의 성능을 개선하고자 UDP를 채택한 기술이다. 또한, UDP는 �
 
 - UDP(User Datagram Protocol)는 전송계측의 비연결 지향적 프로토콜이에요
 
-  ![image-20210914163120071](C:\Users\tkddl\AppData\Roaming\Typora\typora-user-images\image-20210914163120071.png)
+![image](https://user-images.githubusercontent.com/76988389/133215312-cd88a72b-7a03-4986-b290-828700f8aa49.png)
 
 - 연결되지 않은 상태에서 발신자가 일방적으로 데이터를 전달해요
 - **장점**
