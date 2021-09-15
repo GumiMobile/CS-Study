@@ -92,7 +92,7 @@
     > 🚨  빈 스택에서 자료를 추출하려 하는 경우 stack underflow가 발생한다.
     
 
-
+<br />
 
 #### Stack의 활용
 
@@ -126,7 +126,7 @@
 
 - Java Colletion에서 Queue는 인터페이스이기 때문에 이를 구현하고 있는 Priority Queue 등을 사용할 수 있다
 
-
+<br />
 
 #### Queue의 활용
 
