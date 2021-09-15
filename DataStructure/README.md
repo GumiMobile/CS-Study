@@ -3,6 +3,11 @@
 * [Array VS Linked List](#array-vs-linked-list)
   * [Array (배열)](#array-배열)
   * [Linked List (연결리스트)](#linked-list-연결리스트)
+* [Stack and Queue](#stack-and-queue)
+  * [Stack](#stack)
+    * [Stack의 활용](#stack의-활용)
+  * [Queue](#queue)
+    * [Queue의 활용](#queue의-활용)
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
@@ -61,3 +66,80 @@
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
 
 </br>
+
+## Stack and Queue
+
+### Stack
+
+<img src="https://user-images.githubusercontent.com/37680108/133214006-337acdd0-c3ba-4d2d-a329-85f711701b7e.png"  width="500" style="float : left;"/>
+
+- 데이터를 차곡차곡 쌓아 올린 형태의 선형 자료구조
+
+- 후입선출 (Last In First Out, LIFO)
+
+- 입구와 출구가 같다. 즉, 삽입과 삭제가 한 방향에서만 이루어진다.
+
+  일반적으로 top이라는 하나의 공간을 통해 입출력이 일어난다. 
+
+  - top은 가장 최근에 들어온 자료를 가리킨다.
+
+  - push : top이 가리키는 자료의 위에 새 자료를 삽입한다.
+
+    > 🚨 이미 가득 차 있는 스택에 자료를 넣으려고 하는 경우 stack overflow가 발생한다. 
+
+  - pop : top이 가리키고 있는 자료를 반환하고 삭제한다.
+
+    > 🚨  빈 스택에서 자료를 추출하려 하는 경우 stack underflow가 발생한다.
+    
+
+
+
+#### Stack의 활용
+
+- 웹 브로우저 방문기록 (뒤로 가기): 가장 나중에 열린 페이지부터 다시 보여준다.
+- 실행 취소 (undo) : 가장 나중에 실행된 것부터 실행을 취소한다.
+- 후위 표기법 계산
+- 수식의 괄호 검사 (연산자 우선순위 표현을 위한 괄호 검사)
+- 함수의 콜스택, 깊이 우선 탐색(Depth-First Search, DFS) (재귀적 호출)
+- 문자열 역순 출력
+
+
+
+### Queue
+
+<img src="https://user-images.githubusercontent.com/37680108/133214334-07118316-7a39-42c9-babe-e4b67691ccf7.png" style="float : left;">
+
+- 데이터를 줄세운 형태의 선형 자료구조
+- 선입선출 (First In First Out, FIFO)
+- 놀이공원에 줄 서 있는 경우라고 쉽게 생각할 수 있다. 
+- 삽입과 삭제가 큐의 양 끝에서 각각 수행된다.
+  - enQueue : 삽입은 꼬리(rear)에서만 수행된다.
+  - deQueue : 삭제는 머리(front)에서만 수행된다.
+
+- 입출력을 반복하다 보면 front가 뒤로 가고 rear도 뒤로 가서 하나의 공간만 남게 된다.
+
+  이러한 부분을 보완하기 위해 원형 큐의 개념이 등장했다.
+
+  이외에도 우선순위 큐, Deque 등 다양한 형태의 큐가 있다.
+
+  그 중 Deque은 삽입과 삭제가 양 방향에서 모두 일어난다.
+
+- Java Colletion에서 Queue는 인터페이스이기 때문에 이를 구현하고 있는 Priority Queue 등을 사용할 수 있다
+
+
+
+#### Queue의 활용
+
+- 입력된 순서대로 작업을 수행해야 할 때 활용된다.
+- 버퍼 (Buffer)
+- 우선순위가 같은 작업 예약 (프린터의 인쇄 대기열, 고객 대기열)
+- 프로세스 관리 (CPU 스케줄링)
+- 너비 우선 탐색(Breadth-First Search, BFS) 구현
+- 캐시(Cache) 구현
+
+
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
+
+<br />
+
