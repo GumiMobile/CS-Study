@@ -52,3 +52,103 @@ Perfect Binary Tree (포화 이진 트리)
 
 - 모든 레벨이 꽉 찬 이진 트리
 
+
+### 이수형
+
+Tree
+
+- 부모 노드 밑에 여러 자식 노드가 연결되있고 자식노드 각각에도 다시 자식노드가 연결되는 비선형 재귀적 자료구조이다.
+- 이때 자식노드 개수(차수)를 최대 2개로 제한하면 이진 트리가 되며 보통 왼쪽,오른쪽 자식으로 나눈다.
+
+이진트리
+
+- 포화 이진트리
+  - 모든 자식노드의 높이가 같고 리프노드가 아닌 노드는 모두 2개의 자식을 갖고있음
+- 완전 이진트리
+  - 모든 노드의 오른쪽 자식이 있다면 왼쪽 자식이 있는 이진트리 왼쪽부터 차레로 채워나간 형태
+  - 완전 이진트리의 경우 왼쪽부터 빠짐없이 채워져 있으므로 배열을 이용해 N번째 원소의 왼쪽자식은 2N, 오른쪽자식은 2N+1원소로 꽉채울수있음
+- 이진 탐색트리
+  - 노드의 왼쪽가지에는 노드의 값보다 작은값들만있고 오른쪽 가지에는 큰값들로만 이루어진 트리 이진탐색을 하기에 적합한 구성이 됨
+  - 최악의 경우 O(N)이 될수있어 이를보완한 AVL트리나 Red-Black트리를 사용하기도 함
+
+### 김현수
+
+#### Binary Tree 
+- degree가 최대 2인 트리
+- i번째 level에 나올 수 있는 노드의 최대 개수는 2^(i-1)
+- tree의 depth가 k일 때, 최대 노드의 개수는 2^k-1
+
+#### Binary Tree의 종류
+- Full Binary Tree
+- Perfect Binary Tree
+- Complete Binary Tree
+- Degenerate (or Pathological) Tree
+
+#### Full Binary Tree(정 이진트리)
+- leaf 노드들을 제외한 모든 노드들이 2개의 children 을 가지는 Binary Tree
+- L = leaf nodes 개수, I = internal nodes 개수일 때, L = I + 1
+	- 즉, Full Binary Tree 에서 모든 leaf 노드의 개수는 internal node 의 개수 + 1 이다.
+
+#### Complete Binary Tree(완전 이진트리)
+- 마지막 level을 제외한 나머지 level에 node들이 가득 차있고, 마지막 level은 node가 가장 왼쪽 부터 채워지는 형태
+- Complete Binary Tree 구조를 그대로 사용하여 Binary Heap이라는 데이터 구조를 만들 수 있는데, 이것이 Heap이다.
+- Complete Binary Tree(15개의 데이터가 저장된다면 index 0 ~ index 14 까지 채워진다) 구현에는 Array를 사용하는 것이 일반적이다.
+
+#### Perfect Binary Tree(포화 이진트리)
+- perfect binary tree는 complete이면서 full인 이진트리이다.
+- 모든 internal node가 두개의 children을 가지고 있고, 모든 leaf 노드가 같은 level에 있는 이진트리
+- Height 가 h인 Perfect Binary Tree는 2h - 1 개의 노드를 가진다.
+
+#### 정리
+Heap 은 Complete Binary Tree 형태를 가진다.<br>
+Complete Binary Tree 구현에는 Array 를 사용하는 것이 일반적이다.<br>
+Heap 은 Array 를 사용해서 구현하는 것이 편하다.<br>
+
+### 이유진
+#### Binary Tree (이진 트리)
+- 자식 노드의 개수로 최대 2개를 갖는 트리
+- 노드들의 구성 방식에 따라 (아래와 같이) 구분된다.
+
+#### Full Binary Tree (정 이진 트리)
+- 모든 노드가 0개 또는 2개의 child를 갖는 이진 트리
+
+#### Perfect Binary Tree (포화 이진 트리) `균형 트리`
+- 모든 내부 노드가 2개의 child를 갖는 이진 트리
+- 모든 leaf 노드가 같은 level에 있다. 
+- Proper Binary Tree라고도 한다.
+
+#### Complete Binary Tree (완전 이진 트리) `균형 트리`
+- 노드를 삽입할 때 왼쪽 노드부터 차례대로 채우는 이진 트리
+
+
+### 윤상일
+
+#### Binary Tree (이진 트리)
+
+- 부모 노드 밑의 자식 노드의 개수를 차수(degree)라고 해요
+- 차수를 최대 2로 제한하는, 트리의 가장 간단한 형태에요
+- 보통 왼쪽 자식과 오른쪽 자식으로 구분지어요
+- 따라서 `값 - 왼쪽 자식 노드 포인터 - 오른쪽 자식 노트 포인터` 로써 구현할 수 있어요
+- 모든 트리는 이진 트리로 재구성할 수 있기 때문에 일반적으로 트리 구조는 이진 트리로 구현돼요
+
+
+
+#### Full Binary Tree (정 이진 트리)
+
+- 모든 노드의 자식이 0개이거나 2개인 이진 트리에요. 즉, 자식이 1개인 노드는 없어요
+
+
+
+#### Perfect Binary Tree (포화 이진 트리)
+
+- 모든 리프 노드의 높이가 같고 리프 노드가 아닌 노드는 모두 2개의 자식을 가져요
+- 즉, 완전한 이등변삼각형 모양으로 표현할 수 있는 이진 트리에요
+- 보통 리프 노드 중 사용되지 않는 노드는 default값 (0, null, false 등) 이 들어가요
+
+
+
+#### Complete Binary Tree (완전 이진 트리)
+
+- 트리의 노드들이 좌측 상단부터 차곡차곡 하나씩 쌓인 형태의 트리에요
+- 즉, 왼쪽 자식 노드가 먼저 채워지고 그 후에 오른쪽 자식 노드가 채워져요
+- 수학적 성질을 사용하기 용이하고, 배열을 이용해 구현하기도 용이하기 때문에 많이 쓰이는 트리 구조에요
