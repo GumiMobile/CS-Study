@@ -1,7 +1,14 @@
 # 기타
 
 - [RESTful API](#RESTful-API)
-<br><br>
+    - [REST](#1.-REST)
+    - [RESTful API](#2.-RESTful-API)
+    - [REST 6가지 원칙 (또는 특징)](#3.-REST-6가지-원칙-(또는-특징))
+<br>
+
+[뒤로](https://github.com/GumiMobile/CS-Study)
+
+<br>
 
 ## RESTful API
 
