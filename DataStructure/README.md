@@ -14,7 +14,7 @@
   * [Full Binary Tree (정 이진 트리)](#full-binary-tree-정-이진-트리)
   * [Complete Binary Tree (완전 이진 트리 균형 트리)](#complete-binary-tree-완전-이진-트리-균형-트리)
   * [Perfect Binary Tree (포화 이진 트리 균형 트리)](#perfect-binary-tree-포화-이진-트리-균형-트리)
-  * [Binary Search Tree (이진 탐색 트리)[#binary-search-tree-이진-탐색-트리)
+  * [Binary Search Tree (이진 탐색 트리)](#binary-search-tree-이진-탐색-트리)
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
