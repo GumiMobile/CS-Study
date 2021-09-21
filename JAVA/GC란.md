@@ -91,7 +91,7 @@ Weak Generational Hypothesis는 신규로 생성한 객체의 대부분은 금�
 
 1. 새로운 객체가 들어오면 Eden space에 할당된다. 두 개의 Survivor space는 비워진 상태로 시작한다.
 
-   ![1](https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/images/gcslides/Slide13.png)
+   ![1]()
 
 2. Eden space가 가득 차게 되면, Minor Garbage Collection이 시작된다.
 
