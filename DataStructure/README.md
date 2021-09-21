@@ -9,7 +9,12 @@
   * [Queue](#queue)
     * [Queue의 활용](#queue의-활용)
 * [Tree](#tree)
-
+  * [Tree 관련 용어](#tree-관련-용어)
+  * [Binary Tree (이진 트리)](#binary-tree-이진-트리)
+  * [Full Binary Tree (정 이진 트리)](#full-binary-tree-정-이진-트리)
+  * [Complete Binary Tree (완전 이진 트리 균형 트리)](#complete-binary-tree-완전-이진-트리-균형-트리)
+  * [Perfect Binary Tree (포화 이진 트리 균형 트리)](#perfect-binary-tree-포화-이진-트리-균형-트리)
+  * [Binary Search Tree (이진 탐색 트리)[#binary-search-tree-이진-탐색-트리)
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
@@ -172,6 +177,8 @@
 |Forest (포레스트) | 서로 독립인 트리들의 모임|
 
 <br>
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
+<br>
 
 ### Binary Tree (이진 트리)
 > **degree가 최대 2인 트리** 
@@ -193,10 +200,14 @@
 - Perfect Binary Tree
 - Degenerate (or Pathological) Tree
 
+
+<br>
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
 <br>
 
 ### Full Binary Tree (정 이진 트리)
 > **모든 노드가 0개 혹은 2개의 자식 노드만을 갖는 이진 트리**
+
 ![Full Binary Tree](https://blog.martinwork.co.kr/images/datastructure/tree03.png)
 
 - 자식이 1개인 노드는 없다.
@@ -204,10 +215,14 @@
 - L = leaf nodes 개수, I = internal nodes 개수일 때, L = I + 1
 	- 즉, Full Binary Tree 에서 모든 leaf 노드의 개수는 internal node 의 개수 + 1 이다.
 
+
+<br>
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
 <br>
 
 ### Complete Binary Tree (완전 이진 트리) `균형 트리`
 > **위에서 아래로, 왼쪽에서 오른쪽으로 (좌측상단부터) 순서대로 차곡차곡 채워진 이진 트리**
+
 ![Complete Binary Tree](https://blog.martinwork.co.kr/images/datastructure/tree04.png)
 
 - 마지막 level을 제외한 나머지 level에 node들이 가득 차있고, 마지막 level은 node가 가장 왼쪽 부터 채워지는 형태
@@ -216,10 +231,14 @@
 - 완전 이진 트리 구조를 그대로 사용하여 Binary Heap이라는 데이터 구조를 만들 수 있는데, 이것이 Heap
 - 수학적 성질을 사용하기 용이하고, 배열을 이용해 구현하기도 용이하기 때문에 많이 쓰임
 
+
+<br>
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
 <br>
 
 ### Perfect Binary Tree (포화 이진 트리) `균형 트리`
 > **모든 internal node가 2개의 children을 가지고 있고, 모든 leaf 노드가 같은 level에 있는 이진트리**
+
 ![Perfect Binary Tree](https://blog.martinwork.co.kr/images/datastructure/tree05.png)
 
 - complete이면서 full인 이진트리
@@ -229,6 +248,9 @@
 - Proper Binary Tree라고도 함
 - 보통 리프 노드 중 사용되지 않는 노드는 default값 (0, null, false 등) 이 들어감
 
+
+<br>
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
 <br>
 
 ### Binary Search Tree (이진 탐색 트리)
@@ -238,7 +260,5 @@
 <br>
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
-
-
 
 <br />
