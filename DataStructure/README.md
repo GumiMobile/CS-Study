@@ -177,7 +177,9 @@
 |Forest (포레스트) | 서로 독립인 트리들의 모임|
 
 <br>
+
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
+
 <br>
 
 ### Binary Tree (이진 트리)
@@ -202,7 +204,9 @@
 
 
 <br>
+
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
+
 <br>
 
 ### Full Binary Tree (정 이진 트리)
@@ -217,7 +221,9 @@
 
 
 <br>
+
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
+
 <br>
 
 ### Complete Binary Tree (완전 이진 트리) `균형 트리`
@@ -233,7 +239,9 @@
 
 
 <br>
+
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
+
 <br>
 
 ### Perfect Binary Tree (포화 이진 트리) `균형 트리`
@@ -250,7 +258,9 @@
 
 
 <br>
+
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
+
 <br>
 
 ### Binary Search Tree (이진 탐색 트리)
