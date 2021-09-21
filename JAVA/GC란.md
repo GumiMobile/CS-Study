@@ -91,35 +91,35 @@ Weak Generational Hypothesis는 신규로 생성한 객체의 대부분은 금�
 
 1. 새로운 객체가 들어오면 Eden space에 할당된다. 두 개의 Survivor space는 비워진 상태로 시작한다.
 
-   ![1](https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/images/gcslides/Slide13.png)
+   ![1](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F2GSeE%2Fbtq2cofF3IA%2FZKPpBxMgxFhgEzOx6cazH1%2Fimg.png)
 
 2. Eden space가 가득 차게 되면, Minor Garbage Collection이 시작된다.
 
-   ![2](https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/images/gcslides/Slide14.png)
+   ![2](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdKcHSO%2Fbtq2gJW8sKm%2Fumn7ZwEJHwgLH2JkXmdxw1%2Fimg.png)
 
 3. 참조되는(reachable) 객체들은 첫 번째 survivor(S0)로 이동하고, 비 참조(unreachable) 객체는 Eden space가 clear 될 때 함께 메모리에서 사라진다.
 
-   ![3](https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/images/gcslides/Slide6.png)
+   ![3](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FKuJ8l%2Fbtq2cYH0tcu%2FTfxIieMdjFNgKZpDSUyUG1%2Fimg.png)
 
 4. 다음 Minor GC 때, Eden space에서 3번과 같은 과정이 발생한다. 비 참조 객체들은 지워지고, 참조 객체들은 Survivor space로 이동한다. 기존에 S0에 있던 참조 객체들은 S1으로 옮겨지는데, 이때 age 값이 증가되어 옮겨진다. 살아남은 모든 객체들이 S1으로 모두 옮겨지면 S0과 Eden space는 clear 된다.
 
-   ![4](https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/images/gcslides/Slide8.png)
+   ![4](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F0sDj7%2Fbtq2fejbE9F%2FFbQo1kaQoZ2N9TRAUOiu4k%2Fimg.png)
 
 5. 다음 Minor GC가 발생하면 4번 과정이 반복되는데, S1이 가득 차 있었으므로 S1에서 살아남은 객체들은 S0으로 옮겨지면서 Eden과 S1은 clear 된다. 이때도 age 값이 증가되어 옮겨진다.
 
    > 💡 Survivor 영역 중 하나는 반드시 비어 있는 상태로 남아 있어야 한다. 만약 두 Survivor 영역에 모두 데이터가 존재하거나, 두 영역 모두 사용량이 0이라면 시스템이 정상적인 상황이 아니라고 생각하면 된다.
 
-   ![5](https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/images/gcslides/Slide9.png)
+   ![5](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdirtUA%2Fbtq2ggVv0Fj%2FmUfT9KJYtUPK0DQTWkCV8k%2Fimg.png)
 
 6. Young Generation에서 계속해서 살아남으며 age 값이 증가하는 객체들은 age 값이 특정값 이상이 되면 Old Generation(Java 8까지는 Tenured Generation이라 부름)으로 옮겨지는데 이 단계를 Promotion(진급)이라고 한다.
 
-   ![6](https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/images/gcslides/Slide7.png)
+   ![6](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FnOTRT%2Fbtq2hZx23Zv%2FzsS5VLmSmDJL3FGmRNM1Ok%2Fimg.png)
 
 7. Minor GC가 계속해서 반복된다면, Promotion 작업도 꾸준히 발생하게 된다.
 
-   ![7](https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/images/gcslides/Slide10.png)
+   ![7](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbORCfm%2Fbtq2hIwtsMW%2FaScgxO9wIKfd7ba2Kzjua0%2Fimg.png)
 
 8. Promotion 작업이 게속해서 반복되면서 Old Generation이 가득 차게 되면 Major GC가 발생하게 된다. 그렇게 Old Generation이 clear 되고 공간이 compact 된다.
 
-   ![8](https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/images/gcslides/Slide11.png)
+   ![8](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FJEPsg%2Fbtq2h3AnBTz%2FeGo8NBLU31DqAQTxmycKg1%2Fimg.png)
 
