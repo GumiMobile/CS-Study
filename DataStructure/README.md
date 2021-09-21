@@ -8,6 +8,8 @@
     * [Stack의 활용](#stack의-활용)
   * [Queue](#queue)
     * [Queue의 활용](#queue의-활용)
+* [Tree](#tree)
+
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
@@ -142,5 +144,101 @@
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
 
 <br />
+
+## Tree
+- 스택이나 큐와 같은 선형 구조가 아닌 비선형 자료구조
+- 계층적 관계 (Hierarchical Relationship)을 표현하는 자료구조
+- 부모 노드 밑에 여러 자식 노드가 연결되있고 자식노드 각각에도 다시 자식노드가 연결되는 비선형 재귀적 자료구조
+- 자식노드 개수(차수)를 최대 2개로 제한하면 이진 트리가 되며 보통 왼쪽, 오른쪽 자식으로 나눔
+
+### Tree 관련 용어
+![image](https://user-images.githubusercontent.com/37680108/134206930-04aa2d33-15b2-4e8f-a5ca-6a6fcd1ac861.png)
+
+|용어|설명|
+|--|--|
+|Node (노드) | 트리를 구성하고 있는 각각의 요소|
+|Edge (간선) | 트리를 구성하기 위해 노드와 노드를 연결하는 선|
+|Root Node (루트 노드) |트리 구조에서 최상위에 있는 노드|
+|Leaf Node (Terminal Node, 단말 노드) |하위에 다른 노드가 연결되어 있지 않은 노드|
+|Internal Node (내부 노드, 비단말 노드)|단말 노드를 제외한 모든 노드로 루트 노드도 포함|
+|Sibling Node (Brother Node, 형제 노드) |동일한 부모를 가지는 노드|
+|Path (경로)| 한 노드에서 다른 한 노드에 이르는 길 사이에 있는 노드들의 순서|
+|Level (레벨) |루트 노드(level = 0)부터 노드까지 연결된 간선 수|
+|Depth (깊이) | 루트 경로의 길이|
+|Height (높이) | 가장 긴 루트 경로의 길이 (트리의 최대 레벨)|
+|Degree (차수) |각 노드의 자식 노드의 개수|
+|Degree of Tree (트리의 차수) | 트리에 있는 노드의 최대 차수|
+|Subtree (서브트리) |큰 트리에 속하는 작은 트리|
+|Forest (포레스트) | 서로 독립인 트리들의 모임|
+
+<br>
+
+### Binary Tree (이진 트리)
+> **degree가 최대 2인 트리** 
+- 자식 노드로 최대 2개를 가짐 (공집합, 노드가 하나인 트리도 이진 트리에 포함)
+- 구현시 `값 - 왼쪽 자식 노드 포인터 - 오른쪽 자식 노트 포인터`
+- i번째 level에 나올 수 있는 노드의 최대 개수는 `2^(i-1)`
+- tree의 depth가 k일 때, 최대 노드의 개수는 `2^k-1`
+- 모든 트리는 이진 트리로 재구성할 수 있기 때문에 일반적으로 트리 구조는 이진 트리로 구현됨
+
+#### 배열로 구성하는 경우
+노드의 개수가 n개이고 root가 0이 아닌 1에서 시작할 때, i번째 노드에 대해서 부모, 자식 노드는 다음과 같은 index를 갖는다.
+> parent(i) = i / 2  
+> left_child(i) = 2 * i  
+> right_child(i) = 2 * i + 1  
+
+#### Binary Tree의 종류
+- Full Binary Tree
+- Complete Binary Tree
+- Perfect Binary Tree
+- Degenerate (or Pathological) Tree
+
+<br>
+
+### Full Binary Tree (정 이진 트리)
+> **모든 노드가 0개 혹은 2개의 자식 노드만을 갖는 이진 트리**
+![Full Binary Tree](https://blog.martinwork.co.kr/images/datastructure/tree03.png)
+
+- 자식이 1개인 노드는 없다.
+- leaf 노드들을 제외한 모든 노드들이 2개의 children 을 가진다.
+- L = leaf nodes 개수, I = internal nodes 개수일 때, L = I + 1
+	- 즉, Full Binary Tree 에서 모든 leaf 노드의 개수는 internal node 의 개수 + 1 이다.
+
+<br>
+
+### Complete Binary Tree (완전 이진 트리) `균형 트리`
+> **위에서 아래로, 왼쪽에서 오른쪽으로 (좌측상단부터) 순서대로 차곡차곡 채워진 이진 트리**
+![Complete Binary Tree](https://blog.martinwork.co.kr/images/datastructure/tree04.png)
+
+- 마지막 level을 제외한 나머지 level에 node들이 가득 차있고, 마지막 level은 node가 가장 왼쪽 부터 채워지는 형태
+  - 즉, 모든 노드의 오른쪽 자식이 있다면 왼쪽 자식이 있고, 왼쪽부터 차례로 채워나간 형태의 이진트리
+- 왼쪽부터 빠짐없이 채워져 있으므로 **Array를 사용**하는 것이 일반적임
+- 완전 이진 트리 구조를 그대로 사용하여 Binary Heap이라는 데이터 구조를 만들 수 있는데, 이것이 Heap
+- 수학적 성질을 사용하기 용이하고, 배열을 이용해 구현하기도 용이하기 때문에 많이 쓰임
+
+<br>
+
+### Perfect Binary Tree (포화 이진 트리) `균형 트리`
+> **모든 internal node가 2개의 children을 가지고 있고, 모든 leaf 노드가 같은 level에 있는 이진트리**
+![Perfect Binary Tree](https://blog.martinwork.co.kr/images/datastructure/tree05.png)
+
+- complete이면서 full인 이진트리
+- 모든 레벨이 꽉 찬 이진 트리
+- 완벽한 이등변삼각형 모양으로 표현되는 이진 트리  
+- Height 가 h인 Perfect Binary Tree는 `2h - 1`개의 노드를 가짐
+- Proper Binary Tree라고도 함
+- 보통 리프 노드 중 사용되지 않는 노드는 default값 (0, null, false 등) 이 들어감
+
+<br>
+
+### Binary Search Tree (이진 탐색 트리)
+- 노드의 왼쪽가지에는 노드의 값보다 작은값들만있고 오른쪽 가지에는 큰값들로만 이루어진 트리 => 이진탐색을 하기에 적합한 구성이 됨
+- 최악의 경우 O(N)이 될수있어 이를보완한 AVL트리나 Red-Black트리를 사용하기도 함
+
+<br>
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
+
+
 
 <br />
