@@ -123,3 +123,39 @@ Weak Generational Hypothesis는 신규로 생성한 객체의 대부분은 금�
 
    ![8](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FJEPsg%2Fbtq2h3AnBTz%2FeGo8NBLU31DqAQTxmycKg1%2Fimg.png)
 
+### 이수형
+
+Garbage Collection
+
+- 메모리를 비워주는 동작
+
+Garbage Collector
+
+- Garbage Collection을 동작하는 알고리즘 
+
+
+### Garbage Collection의 영역
+
+Young
+
+- 생성된지 얼마 안된 객체들이 저장되는 장소이고 Eden 영역과 두개의 서바이버 영역으로 나뉘어 있음
+- Minor GC가 일어남
+
+Old 
+
+- 오랫동안 사용중인 객체들이 저장되는 장소
+- Full GC가 일어남
+
+Metaspace 
+
+- 클래스, 메타데이터가 저장되는 곳
+
+### Minor GC
+
+작동방식은 Eden영역이 가득차게되면 참조되지 않는 객체들은 비우고 남은 객체들을 서바이버 영역으로 옮긺 (이때 한쪽의 서바이버 영역은 비워져 있어야함 )
+그리고 서바이버 영역으로 옮길 때마다 기존에 저장되있는 객체들의 age값이 늘어나며 기준 age값을 넘어가면 Old 영역으로 올라감(promotion 과정)
+
+### Full GC
+
+ Old 영역도 Young 영역처럼 메모리가 가득차면 똑같은 GC가 일어남
+Minor GC보다 시간이 오래걸림
