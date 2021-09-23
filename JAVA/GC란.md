@@ -159,3 +159,32 @@ Metaspace
 
  Old 영역도 Young 영역처럼 메모리가 가득차면 똑같은 GC가 일어남
 Minor GC보다 시간이 오래걸림
+
+
+## 윤상일
+
+### 💡 GC란?
+
+**가비지 컬렉션(Garbage Collection)**, JVM 기반 언어(Java, Kotlin)에서 유효하지 않은 메모리를 알아서 정리해주는 시스템을 의미해요
+
+객체는 대부분 일회성이므로, GC에서는 객체의 생존 기간에 따라 물리적인 Heap 영역을 나눠서 사용해요. 바로 Young 영역과 Old영역이에요
+
+
+
+### 💡 Young 영역(Young Generation)
+
+- 새롭게 생성된 객체가 할당되는 영역이에요
+- 대부분의 객체가 금방 Unreachable 상태가 되기 때문에, 많은 객체가 Young 영역에 생성되었다가 사라져요
+- Young 영역에 대한 GC를 **Minor GC**라고 불러요
+- 실행 속도가 빨라요
+
+
+
+### 💡 Old 영역(Old Generation)
+
+- Young 영역에서 Reachable 상태를 오래 유지하여 살아남은 객체가 복사되는 영역이에요
+- 복사되면서 대부분 Young 영역보다 크게 할당되며, 크기가 큰 만큼 Garbage는 적게 발생해요
+- Old 영역에 있는 객체가 Young 영역의 객체를 참조하는 경우를 대비하여 Old 영역 내에 512bytes의 덩어리(Chunk)로 되어 있는 카드 테이블(Card Table)이 존재해요
+- Old 영역에 대한 GC를 **Major GC** 또는 **Full GC**라고 불러요
+- 실행 속도가 느려요
+
