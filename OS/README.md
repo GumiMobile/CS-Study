@@ -72,7 +72,7 @@ CPU는 매우 빠른 속도로 연산할 수 있으므로 아주 잠깐씩 여�
 >
 > `Device Queue` : **Device I/O 작업을 대기하고 있는 프로세스의 집합**
 
-
+![image](https://user-images.githubusercontent.com/76988389/134460682-49f86127-ea73-4373-88c4-cf7ad340c0a2.png)
 
 ### 장기 스케줄러(Long-Term Scheduler)
 
