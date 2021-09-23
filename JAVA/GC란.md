@@ -188,3 +188,51 @@ Minor GC보다 시간이 오래걸림
 - Old 영역에 대한 GC를 **Major GC** 또는 **Full GC**라고 불러요
 - 실행 속도가 느려요
 
+## 김현수
+
+### GC(Garbage Collector)
+JVM 기반 언어와 C, C++과 가장 큰 차이점은 free()와 같은 메모리 접근을 통한 명시적 메모리 해제 여부이다. 자바는 OS메모리 영역에 직접 접근하지 않고 JVM이라는 Process이자 가상머신을 통해 접근한다. 
+자바 application은 System.gc()와 같은 명시적 명령어를 통해 garbage collection을 수행할 수 있으나, 시스템의 성능에 매우 큰 영향을 미치므로 권장되지 않는다. 대신 JVM의 옵션에 따라 Serial GC, Parallel GC, CMS(Concurrent Mark Sweep) GC, G1 GC(after java 7)가 사용되고, 각 GC들은 특정 알고리즘과 주어진 옵션에 따라 메모리 관리를 하게 된다.
+
+
+### Garbage
+Java application에서는 가비지 컬렉션을 통해 더이상 사용되지 않는 오브젝트들을 제거한다. 가비지 컬렉션에서 '더이상 사용되지 않는'의 의미는 'Unreachable object'라고 말할 수 있다. Unrechable object들은 Stack에 도달할 수 없는 Heap영역의 객체단위라고 할수 있다.
+
+### Garbage Collections 과정
+
+deallocating memory과정은 가비지 컬렉터에 의해 자동으로 실행된다.
+
+- Step 1: Marking
+	- 가비지 컬렉터는 메모리에서 live object를 확인 하고, unrechable object가 무엇인지 마킹하는 절차를 진행한다.
+
+- Step 2: Normal Deletion
+	- 가비지 컬렉터는 unrechable object를 삭제한다.
+
+> - Step 2a: Deletion with Compacting
+>	- 가비지 컬렉터중 일부는 memory를 더욱 효과적으로 쓰기위해  unreachable object를 삭제함과 동시에 압축을 진행하기도 한다.
+
+### GC 알고리즘
+GC 알고리즘의 기본 흐름은 GC 대상을 식별하고, 식별된 대상을 메모리에 제거하며, 필요한 경우 최적화까지 수행한다. 간단해 보이지만 이러한 알고리즘에도 여러 종류가 있으며, 각각 다음과 같다.
+
+#### Reference Counting Algorithm
+- Garbage의 탐색에 초점을 맞춘 초기 알고리즘이다. 
+- 각 객체마다 Reference Count 라는 것을 관리하는데, 말 그대로 참조 되고 있는 갯수를 의미하며, Reference Count가 0이되면 GC를 수행한다. 
+- 단순한 구조인데다가, Reference Count가 0이 되면 즉시 메모리에서 해제된다는 장점이 있다.
+- Reference Count를 계속 관리해주어야 하고, Linked List 같은 순환 참조 구조에서 Memory Leak이 발생할 가능성이 크다.
+
+#### Mark-Sweep-Compaction
+- 기본적인 GC 과정으로, 다양한 GC에서 사용되는 알고리즘이다.
+- 이름 그대로, GC 대상 객체를 식별(Mark)하고, 청소(Sweep)하고, 압축(Compaction, 앞에서부터 채움)한다.
+- Root Set에서 시작하는 Reference의 관계를 추적하며, Tracing Algorithm이라고도 불린다.
+- Mark 단계에서는 Garbage 대상 외 살아남을 객체를 마킹하며, 마킹 방식은 각 객체의 Header에 Flag를 심거나 별도의 BitmapTable을 이용한다.
+- Sweep 단계는 Mark 단계가 끝나면 바로 실행되며, 마킹이 없는 객체를 모두 삭제하는 작업을 한다. Sweep이 완료되면 살아남은 모든 마킹 정보를 초기화한다.
+- Compact 단계에서는 Sweep 단계 후 살아남은 객체들 사이사이의 빈 공간, 즉 단편화를 살아남은 객체들을 이어붙여 해결한다.
+	- 이 작업 이후 살아남은 객체들의 Reference를 업데이트하는 작업이 필요하여 부가적인 Overhead가 수반된다.
+
+### Java Garbage Collector의 종류
+
+- Serial GC
+- Parallel GC
+- CMS(Concurrent Mark Sweep) Collector
+- G1 Garbage Collector
+- Z GC
