@@ -16,9 +16,9 @@
 쉬운 구현을 위해 인덱스 0 은 사용하지 않는다.
 
 #### 부모노드와 자식노드 index
-> 왼쪽 자식 index = (부모 index) * 2
-> 오른쪽 자식 index = (부모 index) * 2 + 1
-> 부모 index = (자식 index) / 2
+> 왼쪽 자식 index = (부모 index) * 2  
+> 오른쪽 자식 index = (부모 index) * 2 + 1  
+> 부모 index = (자식 index) / 2  
 
 #### 삽입
 1. 새로운 요소를 힙의 마지막 노드에 삽입한다. (`heapSize+1`)
