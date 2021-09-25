@@ -163,7 +163,7 @@ REST 원리를 따르는 시스템은 RESTful이라는 용어로 지칭된다.
 - 동일한 입력에 대해 항상 같은 값을 반환.
 - 부작용(다른 요인에 따른 결과변경)이 없는 결과를 생성.
 - 함수에서 인자를 변경하거나 프로그램의 상태를 변경하지 않음.
-```
+```JavaScript
 //언제 어디서든 항상 같은 값을 리턴함(순수함수)
 function add(a,b){
     return a + b;
@@ -182,10 +182,22 @@ function add2(a,b){
 - 함수의 인자로 함수를 전달할 수 있다.
 - 함수의 리턴값으로 함수를 사용할 수 있다.
 
+```JavaScript
+const arr1 = [1, 2, 3];
+const arr2 = arr1.map(item => item * 2);
+console.log(arr2);
+```
 ### 익명 함수(Anonymous function)
 
 이름이 없는 함수, 즉 람다식으로 표현되는 함수 구현을 말한다.
-
+```Kotlin
+//안드로이드에 흔히 보이는 
+button.setOnClickListener(object : OnClickListener{
+  override fun onClick(view: View){
+    doSomething()
+  }
+})
+```
 ### 합성 함수 (Function composition)
 
 새로운 함수를 만들거나 계산하기 위해 둘 이상의 함수를 조합하는 과정.
