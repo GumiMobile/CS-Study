@@ -6,10 +6,10 @@
     - [REST 6가지 원칙 (또는 특징)](#3-REST-6가지-원칙-또는-특징)
 - [함수형 프로그래밍](#함수형-프로그래밍)
     - [1급 객체](#1급-객체)
-    - [순수 함수](#순수-함수)
-    - [고차 함수](#고차-함수)
-    - [익명 함수](#익명-함수)
-    - [합성 함수](#합성-함수)
+    - [순수 함수](#순수-함수(pure-function))
+    - [고차 함수](#고차-함수(High-Order-Function))
+    - [익명 함수](#익명-함수(Anonymous-function))
+    - [합성 함수](#합성-함수(Function-composition))
 
 <br>
 
@@ -198,7 +198,7 @@ button.setOnClickListener(object : OnClickListener{
   }
 })
 ```
-### 합성 함수 (Function composition)
+### 합성 함수(Function composition)
 
 새로운 함수를 만들거나 계산하기 위해 둘 이상의 함수를 조합하는 과정.
 
