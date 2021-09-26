@@ -1,12 +1,13 @@
 # Network
 - [GET, POST 방식의 차이점](#get-post-방식의-차이점)
 - [TCP와 UDP의 차이점](#tcp와-udp의-차이점)
-
+- [HTTP와 HTTPS의 차이점](#http와-https의-차이점)
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 <br><br>
 
 ## GET, POST 방식의 차이점
+
 ### HTTP 요청 메서드
 HTTP가 제공하는 7가지 메서드(GET, POST, HEAD, PUT, OPTION, DELETE, TRACE)가 있다.
 요즘은 GET, POST를 제외한 나머지 메서드를 비활성화는 편인데, 보안 취약점이 생길 수 있기 때문이다.
@@ -221,3 +222,68 @@ TCP의 성능을 개선하고자 UDP를 채택한 기술이다. 또한, UDP는 �
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Network)
 <br><br>
+
+## HTTP와 HTTPS의 차이점
+
+### HTTP (HyperText Transfer Protocol)
+
+- 서로 다른 시스템들 사이에서 통신을 주고 받게 해주는 가장 기초적인 프로토콜
+
+  > 프로토콜 : 컴퓨터 내부에서, 또는 컴퓨터 사이에서 데이터의 교환 방식을 정의하는 규칙 체계
+
+- 인터넷 상에서 클라이언트와 서버가 자원을 주고 받을 때 쓰는 통신 규약
+
+- 애플리케이션 레벨의 프로토콜로 TCP/IP 위에서 작동한다.
+
+- HTTP는 80번 포트를 이용한다. 즉, 클라이언트는 80번 포트로 요청을 보내고 HTTP 서버도 80번 포트에서 요청을 받는다.
+
+- 상태를 가지고 있지 않는 Stateless 프로토콜이며 Method, Path, Version, Headers, Body 등으로 구성된다.
+
+- 단순한 정보 조회 등만을 처리할 때 사용한다.
+
+### HTTP의 문제점
+
+- HTTP는 평문 통신이기 때문에 도청이 가능하다.
+
+- 통신 상대를 확인하지 않기 때문에 위장이 가능하다.
+
+- 완전성을 증명할 수 없기 때문에 변조가 가능하다.
+
+- 즉, 보안이 취약하다. 위의 문제들은 다른 암호화하지 않은 프로토콜에도 공통되는 문제점들이다. 이런 문제를 해결해주는 프로토콜이 HTTPS이다.
+
+  [Reference](https://github.com/JaeYeopHan/Interview_Question_for_Beginner/tree/master/Network#http%EC%99%80-https)
+
+### HTTPS (HyperText Transfer Protocol Secure)
+
+- HTTPS는 HTTP에 암호화와 인증, 그리고 완정성 보호를 더한 것이다.
+  - HTTP는 원래 TCP와 직접 통신했지만, HTTPS에서 HTTP는 SSL(Secure Socket Layer)과 통신하고 SSL이 TCP와 통신하게 된다.
+  - TLS 보안프로토콜도 사용하여 보안을 유지한다.
+  - SSL을 사용한 HTTPS는 암호화와 증명서, 안정성 보호를 이용할 수 있게 된다.
+- HTTPS의 SSL에서는 공통키 암호화 방식과 공개키 암호화 방식을 혼합한 하이브리드 암호 시스템을 사용한다.
+  - 공개키 방식으로 대칭키를 전달하고, 공유된 대칭키를 가지고 통신하게 된다.
+  - SSL 방식을 적용하려면 인증서를 발급받아 서버에 적용해야 한다. 인증서는 의도한 서버로 접속했는지 보장하는 역할을 한다.
+  - 인증서를 바급하는 기관을 CA(Certificate authority)라고 한다.
+- 기본 TCP/IP 포트는 443번이다.
+- 암호화/복호화 과정이 필요하기 때문에 HTTP보다 속도가 느리다.
+- 인증서를 발급하고 유지하기 위한 추가 비용이 발생한다.
+- 검색 엔진 최적화와 가속화된 모바일 페이지를 만들 수 있다. (구글)
+
+> **TLS** (Transport Layer Security)
+>
+> - 데이터 무결성 제공
+> - 데이터가 전송 중 수정되거나 손상되는 것 방지
+> - 사용자가 의도하는 웹사이트와 통신하고 있음을 입증하는 인증 기능
+
+#### 👀 총평
+
+HTTP는 보안에 취약한 반면 속도가 빠르다 : 단순 정보 조회 시 사용
+
+HTTPS는 보안이 뛰어난 반면 인증서 발급 및 유지를 위한 추가 비용이 발생하고, 속도가 느리다(큰 차이는 없다) : 민감 정보 전달/제공 시 사용
+
+### 모든 웹 페이지에서 HTTPS를 사용해도 될까?
+
+암호화 통신은 CPU, 메모리 등의 리소스를 더 많이 요구하기 때문에 서버 한 대당 처리할 수 있는 리퀘스트의 수가 상대적으로 줄어들게 된다. 하지만 최근에는 하드웨어의 발달로 HTTPS를 사용하더라도 속도 저하가 거의 일어나지 않으며, HTTPS가 HTTP보다 더 빠르게 동작한다. 따라서 과거에는 민감한 정보를 다룰 때만 HTTPS에 의한 암호화 통신을 사용했지만 현재는 모든 웹 페이지에 HTTPS를 적용하는 방향으로 바뀌어가고 있다.
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Network)
+<br><br>
+
