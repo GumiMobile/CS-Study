@@ -255,7 +255,7 @@ TCP의 성능을 개선하고자 UDP를 채택한 기술이다. 또한, UDP는 �
 
 ### HTTPS (HyperText Transfer Protocol Secure)
 
-- HTTPS는 HTTP에 암호화와 인증, 그리고 완정성 보호를 더한 것이다.
+- HTTPS는 HTTP에 암호화와 인증, 그리고 완전성 보호를 더한 것이다.
   - HTTP는 원래 TCP와 직접 통신했지만, HTTPS에서 HTTP는 SSL(Secure Socket Layer)과 통신하고 SSL이 TCP와 통신하게 된다.
   - TLS 보안프로토콜도 사용하여 보안을 유지한다.
   - SSL을 사용한 HTTPS는 암호화와 증명서, 안정성 보호를 이용할 수 있게 된다.
