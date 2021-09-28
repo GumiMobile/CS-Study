@@ -180,6 +180,8 @@ CPU는 매우 빠른 속도로 연산할 수 있으므로 아주 잠깐씩 여�
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#operating-system)
 <br><br>
 
+## 프로세스 동기화
+
 ### 프로세스 동기화란?
 
 - 하나의 자원을 한 순간에 하나의 프로세스만이 이용하도록 제어하는 것을 말한다.
