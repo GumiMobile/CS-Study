@@ -15,6 +15,12 @@
   * [Complete Binary Tree (완전 이진 트리 균형 트리)](#complete-binary-tree-완전-이진-트리-균형-트리)
   * [Perfect Binary Tree (포화 이진 트리 균형 트리)](#perfect-binary-tree-포화-이진-트리-균형-트리)
   * [Binary Search Tree (이진 탐색 트리)](#binary-search-tree-이진-탐색-트리)
+* [Heap](#heap)
+  * [Binary Heap](#binary-heap)
+  * [종류](#종류)
+  * [구현](#구현)
+  * [삽입](#삽입)
+  * [삭제](#삭제)
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
@@ -70,7 +76,7 @@
 
 
 
-[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
 
 <br /><br />
 
@@ -146,7 +152,7 @@
 
 
 
-[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
 
 <br />
 
@@ -178,7 +184,7 @@
 
 <br>
 
-[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
 
 <br>
 
@@ -205,7 +211,7 @@
 
 <br>
 
-[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
 
 <br>
 
@@ -222,7 +228,7 @@
 
 <br>
 
-[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
 
 <br>
 
@@ -240,7 +246,7 @@
 
 <br>
 
-[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
 
 <br>
 
@@ -259,7 +265,7 @@
 
 <br>
 
-[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
 
 <br>
 
@@ -269,6 +275,74 @@
 
 <br>
 
-[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Data-Structure)
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
 
 <br />
+
+## Heap
+
+- 정식명은 Heap tree, 여러 개의 값 중에서 가장 크거나 작은 값을 빠르게 찾기 위해 만든 트리이다.
+
+- 큰 값이 상위 레벨에 있고 작은 값이 하위 레벨에 있다는 정도의 정렬 상태로 반 정렬 상태(느슨한 정렬 상태)라고 한다. 간단히 말하면 부모 노드의 키 값이 자식 노드의 키 값보다 항상 큰(작은) 트리를 말한다.
+
+- 가장 큰(작은) 값을 알아내면 되기 때문에 전체 데이터를 정렬할 필요는 없다.
+
+- 힙 트리에서는 이진 탐색 트리와 달리 중복된 값을 허용한다.
+
+- 최댓값, 최솟값은 O(1) 만에 찾을수 있지만 삽입 삭제 경우에는 O(log N) 의 시간이 필요하다. 따라서 우선순위 큐 구현에 적합하다.
+
+### Binary Heap
+
+- 이진 트리 형태의 힙이다. 힙 중에서 가장 널리 쓰이는 형태이므로 보통 힙이라 함은 이진 힙을 뜻한다.
+- 완전 이진 트리이다.
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
+
+### 종류
+
+![image](https://user-images.githubusercontent.com/76988389/135033590-2b23b17b-0da9-4011-aba8-abc23da7fe0c.png)
+
+- 최소 힙 (Min Heap)
+
+  부모 노드의 키 값이 자식 노드의 키 값보다 작거나 같은 완전 이진 트리
+
+- 최대 힙 (Max Heap)
+
+  부모 노드의 키 값이 자식 노드의 키 값보다 크거나 같은 완전 이진 트리
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
+
+### 구현
+
+- 표준적인 자료구조는 배열이며, 0번째 인덱스는 건너뛰고 1번째 인덱스의 루트노드부터 시작된다.
+  노드의 고유번호 값과 배열의 인덱스를 일치시켜 혼동을 피하기 위함이다.
+
+> 💡 부모 노드와 자식 노드의 관계
+>
+> 왼쪽 자식 index = (부모 index) * 2
+>
+> 오른쪽 자식 index = (부모 index) * 2 + 1
+>
+> 부모 index = (자식 index) / 2
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
+
+### 삽입
+
+> 1. 가장 끝의 자리에 노드 삽입
+> 2. 그 노드와 부모 노드를 비교하여 규칙(최대/최소)에 맞으면 보존, 아니면 교환
+> 3. 규칙에 맞을 때까지 2번 과정 반복
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
+
+### 삭제
+
+> 1. 루트 노드(최상위 노드)를 제거
+> 2. 그 자리에 가장 마지막 노드 삽입
+> 3. 올라간 노트와 자식 노드들을 비교
+> 4. 1. (최대 힙) 부모보다 더 큰 자식들 중 큰 값과 교환, 없으면 종료
+>    2. (최소 힙) 부모보다 더 작은 자식들 중 작은 값과 교환, 없으면 종료
+> 5. 4번을 반복
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
+
