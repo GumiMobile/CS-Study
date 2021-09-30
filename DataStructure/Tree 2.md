@@ -228,7 +228,7 @@ left / right는 전체 범위 내의 구간 합을 구할 구간의 시작 / 끝
 2. 두번째 노드는 ( 첫번째 값(start) ~ 중간값 값(start + end /2) ) 을 저장
 3. 세번째 노드는 ( 중간값 값(start + end /2)+1 ~ 마지막값(end) ) 을 저장
 4. 범위를 반씩 분할하며 1 ~3 의 과정을 반복
-![생성](https://user-images.githubusercontent.com/37038119/135448107-168007b2-e132-4722-8868-e5f1fb985c75.png){: width="50%" height="50%"}
+<img src = "https://user-images.githubusercontent.com/37038119/135448107-168007b2-e132-4722-8868-e5f1fb985c75.png" width="width 50%" height="height 50%">
 
 
 ### 세그먼트트리 구간 합구하기
