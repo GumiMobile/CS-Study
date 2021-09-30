@@ -228,15 +228,15 @@ left / right는 전체 범위 내의 구간 합을 구할 구간의 시작 / 끝
 2. 두번째 노드는 ( 첫번째 값(start) ~ 중간값 값(start + end /2) ) 을 저장
 3. 세번째 노드는 ( 중간값 값(start + end /2)+1 ~ 마지막값(end) ) 을 저장
 4. 범위를 반씩 분할하며 1 ~3 의 과정을 반복
-![생성](https://user-images.githubusercontent.com/37038119/135448107-168007b2-e132-4722-8868-e5f1fb985c75.png)
+![생성](https://user-images.githubusercontent.com/37038119/135448107-168007b2-e132-4722-8868-e5f1fb985c75.png){: width="50%" height="50%"}
 
 
 ### 세그먼트트리 구간 합구하기
 - 재귀적으로 범위 안에 있는 경우를 더해준다.
-![구간합](https://user-images.githubusercontent.com/37038119/135448038-08021ab1-1acd-4a1f-9d7d-4177fb5a66a2.png)
+![구간합](https://user-images.githubusercontent.com/37038119/135448038-08021ab1-1acd-4a1f-9d7d-4177fb5a66a2.png){: width="50%" height="50%"}
 
 
 ### 세그먼트트리 수정
 - 리프노드를 찾을때까지 범위안에 있으면 값을 수정해준다.
-![수정](https://user-images.githubusercontent.com/37038119/135448115-9f23a0df-f345-4247-be57-f034bbc50cd8.png)
+![수정](https://user-images.githubusercontent.com/37038119/135448115-9f23a0df-f345-4247-be57-f034bbc50cd8.png){: width="50%" height="50%"}
 
