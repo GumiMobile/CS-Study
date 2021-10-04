@@ -330,7 +330,7 @@ void checkOut(Receipt receipt, PaymentMethod method) {
 
 ### SOLID
 > 객체지향을 올바르게 설계할수있도록 도와주는 원칙들이다. 
-> SOLID 원칙들은 자기자신의 클래스안에 응집도는 내부적으로 높이고, 타 클래스들 간 결합도는 낮추는 High - Cohesion Loose Coupling 원칙을 도입한것이다.
+- SOLID 원칙들은 자기자신의 클래스안에 응집도는 내부적으로 높이고, 타 클래스들 간 결합도는 낮추는 High - Cohesion Loose Coupling 원칙을 도입한것이다.
 
 
 ### SRP (Single Responsibility Principle) 단일 책임 원칙
@@ -345,7 +345,7 @@ void checkOut(Receipt receipt, PaymentMethod method) {
 
 자신의 확장에서는 개방되어있고, 주변의 변화에 대해서는 패쇄되어 있어야한다.
 
-즉 구현된 클래스를 이용하기 보다는 Interface 나 abstract class 를 만들어 완충제 역할을 하도록한다.
+즉, 구현된 클래스를 이용하기 보다는 Interface 나 abstract class 를 만들어 완충제 역할을 하도록한다.
 
 ex) JDBC Driver Manager 
 
@@ -370,9 +370,7 @@ Interface는 해당 역할만 구현하면 된다.
 
 만약 DIP 가 지켜지지 않는 다면 클래스가 수정 될떄마다 상위클래스들이 수정 되어야한다.
 
-따라서 자신보다 변하기 쉬운 것에 의존하던것을 인터페이스나 
-
-상위클래스를 두어 하위 클래스의 변화에 영향을 받지 않도록 설계한다.
+따라서 자신보다 변하기 쉬운 것에 의존하던것을 인터페이스나 상위클래스를 두어 하위 클래스의 변화에 영향을 받지 않도록 설계한다.
 
 하위클래스나 구체클래스가 아닌 더 추상적인 것에 의존하라는 것이 의존 역전 원칙이다.
 
