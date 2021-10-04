@@ -382,6 +382,8 @@ flag[i]=false;//사용이 끝나면 해제
 - 입출력 요청과 상관 없이 수행할 수 있는 작업을 먼저 수행
 - 자원을 효율적으로 사용
 
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#operating-system)
+<br><br>
 
 ## CPU 스케줄러
 
