@@ -96,7 +96,147 @@ DIP를 구현하는 한가지 방법이 DI(Dependency Injection)이다.
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://sehun-kim.github.io/sehun/assets/images/1541916908016.png"><br />자동차는 스노우타이어에 의존하고 있다. | <img src="https://sehun-kim.github.io/sehun/assets/images/1541917299687.png"><br />해당 의존 관계를 타이어 인터페이스를 사용하여 역전시킨다.<br />즉, 구체적인 스노우타이어에 의존하던 것을 추상적인 타이어에 의존하는 것으로 변경했다. |
 
+## 김민수
+
+### SOLID
+
+### 단일 책임 원칙 - Single Responsibility
+
+> 같은 이유로 변경될 코드들은 모으고, 다른 이유로 변경될 코드들은 흩어라
+
+**모든 메서드 또는 클래스는 단 하나의 책임을 가져야한다**.
+
+```java
+public class CarService() {
+
+    public void findCarById(String query) {
+        // DB에서 찾아오기..
+        // Log 파일에 찾은 정보 쓰기..
+    }
+
+}
+```
+
+위 메서드는 DB에서 책을 찾고 찾아온 정보를 log에 기록하는 2가지의 일을 한다. 이런 메서드는 단일 책임 원칙에 위배된다. 단일 책임 원칙에 맞게 수정하면 아래와 같다.
+
+``` java
+public class CarService() {
+
+    public String findCarById(String query) {
+        // DB에서 찾아오기..
+    }
+
+    public void WriteLog(String log) {
+        // Log 파일에 찾은 정보 쓰기..
+    }
+}
+```
+
+### 개방 폐쇄 원칙 - Open-Closed
+
+> 모듈은 확장에 열려있고, 변경에는 닫혀있어야 한다
+
+**소프트웨어의 entity(클래스, 모듈, 메서드)의 확장은 권장하지만 기존 모듈의 수정은 권장하지 않는다.**
+
+``` java
+void checkOut(Receipt receipt) {
+  // 영수증의 금액 취합
+  Money total = Money.zero;
+  for (item : items) {
+    total += item.getPrice();
+    receipt.addItem(item);
+  }
+  // 현금으로 계산
+  Payment p = acceptCash(total);
+  receipt.addPayment(p);
+}
+```
+
+이때 카드 결제를 추가한다면 checkOut 메서드는 반드시 수정을 해야한다. 따라서 위 예시는 개방 폐쇄 원칙에 위배된다. 아래 예시는 개방 폐쇄 원칙에 맞게 수정된 코드이다.
+
+``` java
+interface PaymentMethod {
+    Payment acceptPayment(Money total);
+}
+
+class PaymentCash {
+    public Payment acceptPayment(Money total){
+        // 현금 계산 구현
+    }
+}
+
+class PaymentCreditCard {
+    public Payment acceptPayment(Money total){
+        // 신용카드 계산 구현
+    }
+}
+
+void checkOut(Receipt receipt, PaymentMethod method) {
+  // 영수증의 금액 취합
+  Money total = Money.zero;
+  for (item : items) {
+    total += item.getPrice();
+    receipt.addItem(item);
+  }
+
+  // function을 호출할 때 함께 들어오는 PaymentMethod Type으로 어떻게 계산할지가 정해진다.
+  Payment p = method.acceptPayment(total);
+  receipt.addPayment(p);
+}
+```
+
+더욱 적절한 예시는 jdbc 드라이버 매니저이다. jdbc 드라이버는 다른 DB에 개방적(확장성)이면서 자바 어플리케이션 입장에서 폐쇄적(DB에 따라 수정이 필요치 않는)이다.
+
+<img src="http://etutorials.org/shared/images/tutorials/tutorial_47/13fig01.gif"/>
+
+### 리스코프 치환 원칙 - Liskov Substitution
+
+> 인터페이스를 사용하는 프로그램은 그 인터페이스의 구현체에 의해 동작이 바뀌면 안된다
+
+**부모 자식 클래스 관계 혹은 인터페이스와 클래스 관계에서, 하위 클래스의 행위는 상위클래스의 행위의 범위 내에서 이루어져야한다.**
+
+즉, 하위클래스는 상위클래스의 역할을 대체하는데 문제가 없어야 한다.
 
 
 
+잘못된 상속관계 : 아버지, 아들
 
+아들은 아버지의 종류가 아니다. 아들은 아버지의 속성, 역할을 전부 포함하지 않는다.
+
+올바른 상속관계 : 포유류, 고양이
+
+고양이는 포유류의 한 종류이다.
+
+고양이는 포유류의 속성, 역할을 전부 포함한다.
+
+
+
+### 인터페이스 분리 원칙 - Interface Segregation
+
+> 사용자가 필요하지 않은 것들에 의존하지 않도록 인터페이스를 작게 유지하라
+
+**인터페이스를 각 용도에 맞게 분리해야 한다.**
+
+인터페이스를 지나치게 범용적으로 구현한다면 그 인터페이스를 상속받은 클래스는 자신이 필요하지 않은 메서드마저도 구현해야한다. 또한 필요치 않은 인터페이스 메서드가 변경되면 상속받은 클래스는 해당 메서드를 사용하지 않음에도 변경이 필요하다. 따라서 이는 인터페이스 분리 원칙에 위배된다.
+
+
+
+### 의존 역전 원칙 - Dependency Inversion
+
+> 추상화하는 방향으로 의존하라. 상위 레벨 모듈이 하위 레벨 세부사항에 의존하면 안된다
+
+**자신보다 변하기 쉬운 것에 의존하지 마라. 추상클래스, 상위 클래스는 하위 클래스에 의존적이면 안된다. 하위 클래스는 가장 전면에서 사용되고 변화에 민감하기 때문이다.**
+
+
+
+<img src="https://miro.medium.com/max/1044/1*7y1fn5uBV0v7YgiRtIIang.png"/>
+
+
+
+한 전사는 칼, 활, 창을 사용한다. 이 때, 전사가 사용하는 무기의 종류는 변하기 쉬운 것이다. 따라서 칼, 활, 창을 추상화하는 무기라는 개념을 사용한다.
+
+<img src="https://miro.medium.com/max/1336/1*LnYJyEPbu6sKSrLDlBivfQ.png"/>
+
+위 예시에서는 구체적인 무기를 직접 의존했던 것과는 달리 무기라는 추상화된 개념을 의존한다. 또한 칼, 활, 창은 무기라는 개념을 상속한다. 따라서 추상클래스를 이용하여 의존 관계를 역전시켰다.
+
+변하기 쉬운 것에 의존하던 것을 상위 개념을 의존하여 변화에 영향을 받지 않는 것을 의존 역전 원칙이라 한다.
