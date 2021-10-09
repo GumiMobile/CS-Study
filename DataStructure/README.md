@@ -27,9 +27,9 @@
   * [해시 충돌](#해시충돌)
   * [충돌 해결 방법](#충돌-해결-방법)
   * [Resizing](#Resizing)
-  * [Hash Table vs Hash Map vs Hash Set](#Hash Table vs Hash Map vs Hash Set)
+  * [Hash Table vs Hash Map vs Hash Set](#Hash-Table-vs-Hash-Map-vs-Hash-Set)
 
-[뒤로](
+[뒤로](https://github.com/GumiMobile/CS-Study)
 
 </br>
 
