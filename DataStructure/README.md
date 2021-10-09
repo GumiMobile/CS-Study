@@ -345,4 +345,100 @@
 > 5. 4번을 반복
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
+## Hash Table
 
+### 정의
+
+해시 테이블은 <Key, Value>로 데이터를 저장하는 자료 구조 중 하나이다. Key값에 해시 함수를 적용해 index를 생성하고, index를 활용하여 값을 저장, 검색 할 수 있다. Key값을 해싱하여 검색, 저장하므로 평균 시간 복잡도는 O(1)이다.
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
+
+### 해시 함수
+
+해시 함수는 임의의 길이의 데이터를 고정된 길이의 데이터로 매핑하는 함수이다. 해시 함수의 성능은 입력 영역에서 해시 충돌 확률로 결정되는데, 해시 충돌 확률이 높을수록 서로 다른 데이터를 구별하기 어려워지고 검색하는 비용이 증가한다. 해시 테이블에서는 크게 4가지 해시 함수가 사용된다.
+
+- **Division Method**
+
+  모듈러 연산을 이용하는 방법으로 입력값을 테이블의 크기로 나누어 계산한다.
+
+  주소 = 입력값 % 테이블 크기
+
+- **Digit Folding Method**
+
+  각 Key의 문자열을 ASCII 코드로 바꾼 뒤, 그 값의 합을 주소로 사용하는 방법이다.
+
+- **Multiplication Method**
+
+  숫자로 된 Key와 0과 1 사이의 실수, 보통 2의 제곱수를 사용하여 해시값을 계산한다.
+
+  Hash(Key) = (<u>Key</u> * <u>R(0..1)</u> % 1) * <u>2^n</u>
+
+- **Universal Hashing**
+
+  다수의 해시 함수를 만들어 집합 H에 넣어두고, **무작위**로 해시함수를 선택해 해시값을 만든다.
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
+
+### 해시충돌
+
+해시 충돌은 해시함수가 서로 다른 두 개의 입력값에 대해 동일한 출력값을 내는 상황을 말한다. 따라서 서로 다른 Key값이 동일한 index로 매핑 될 경우, 해시 충돌이 발생하여 해시 테이블의 성능을 저하시킨다.
+
+![img](https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Hash_table_4_1_1_0_0_1_0_LL.svg/240px-Hash_table_4_1_1_0_0_1_0_LL.svg.png)
+
+위 그림에서 John Smith와 Sandra Dee라는 키의 해시가 서로 충돌을 일으킨다.
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
+
+### 충돌 해결 방법
+
+- 분리 연결법
+
+  동일한 버킷의 데이터에 대해 추가 메모리와 자료구조를 사용하여 다음 데이터의 주소를 저장하는 것이다. 보통 linked list와 tree를 사용하여 구현한다.
+
+  - Linked List
+
+    각각의 버킷을 linked list로 만들어 충돌이 발생하면 해당 버킷의 list에 추가하는 방식
+
+  - Tree
+
+    linked list 대신 tree를 사용하며, 데이터 수가 많을 때 사용한다.
+
+  <img src="https://media.vlpt.us/post-images/cyranocoding/329e7e60-b226-11e9-a4ce-730fc6b3757a/16eBeaqTti8MxWPsw4xBgw.png" style width = "400" height/>
+
+  
+
+- 개방 주소법
+
+  기존의 해시 테이블의 비어있는 공간을 활용하는 방법이다. 비어있는 공간을 찾는 방법은 크게 3가지 방법이 있다.
+
+  - Linear Probing
+
+    충돌이 난 지점부터 순차적으로 탐색하며 비어있는 버킷을 찾는다.
+
+  - Quadratic Probing
+
+    2차 함수를 사용하여 비어있는 버킷을 찾는다.
+
+  - Double Hashing Probing
+
+    충돌이 발생하면 2차 해시 함수를 사용하여 새로운 주소를 할당한다.
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
+
+### Resizing
+
+해시 테이블은 Key, Value쌍이 늘어날수록 해시 충돌 확률이 올라가며 성능이 떨어진다. 기준 임계점은 빈공간 대비 75%가 사용될 때이고, 해시 버킷의 수를 두배로 늘린다.
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
+
+### Hash Table vs Hash Map vs Hash Set
+
+3개의 자료구조는 모두 해시함수를 사용한다. 그러나 다음과 같은 차이가 있다.
+
+|            | Hash Table | Hash Map | Hash Set |
+| ---------- | ---------- | -------- | -------- |
+| 동기화     | o          | x        | x        |
+| 값의 중복  | o          | o        | x        |
+| 인터페이스 | Map        | Map      | Set      |
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#data-structure)
