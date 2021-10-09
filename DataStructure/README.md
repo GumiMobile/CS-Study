@@ -26,8 +26,6 @@
   * [해시 함수](#해시-함수)
   * [해시 충돌](#해시충돌)
   * [충돌 해결 방법](#충돌-해결-방법)
-    * [분리 연결법](#분리-연결법)
-    * [개방 주소법](#개방-주소법)
   * [Resizing](#Resizing)
   * [Hash Table vs Hash Map vs Hash Set](#Hash Table vs Hash Map vs Hash Set)
 
