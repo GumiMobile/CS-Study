@@ -3,7 +3,6 @@
 - [TCP와 UDP의 차이점](#tcp와-udp의-차이점)
 - [HTTP와 HTTPS의 차이점](#http와-https의-차이점)
 - [Round Robin DNS](#Round-Robin-DNS)
-[뒤로](https://github.com/GumiMobile/CS-Study)
 <br><br>
 
 ## GET, POST 방식의 차이점
@@ -285,8 +284,8 @@ HTTPS는 보안이 뛰어난 반면 인증서 발급 및 유지를 위한 추가
 암호화 통신은 CPU, 메모리 등의 리소스를 더 많이 요구하기 때문에 서버 한 대당 처리할 수 있는 리퀘스트의 수가 상대적으로 줄어들게 된다. 하지만 최근에는 하드웨어의 발달로 HTTPS를 사용하더라도 속도 저하가 거의 일어나지 않으며, HTTPS가 HTTP보다 더 빠르게 동작한다. 따라서 과거에는 민감한 정보를 다룰 때만 HTTPS에 의한 암호화 통신을 사용했지만 현재는 모든 웹 페이지에 HTTPS를 적용하는 방향으로 바뀌어가고 있다.
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#Network)
-<br>## Round Robin DNS
-
+<br>
+## Round Robin DNS
 ### Round Robin
 
 시분할 시스템을 위해 설계된 선점형 스케줄링 방법
