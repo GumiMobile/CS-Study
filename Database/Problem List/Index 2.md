@@ -48,7 +48,6 @@ CREATE INDEX idx_emp_comp
 ON emp( name, gender );
 ```
 
-
 ## 이수형
 
 ### Primary Index vs Secondary Index
@@ -69,3 +68,22 @@ Composite Index
 
 인덱스를 생성할때 두개 이상의 컬럼을 합쳐서 인덱스를 생성하는것<br/>
 WHERE절의 조건 컬럼이 2개 이상 AND로 연결되어 함께 사용되는 경우에 많이 사용
+
+## 우지현
+
+### Primary Index (기본 인덱스)
+
+- 기본키를 포함하는 인덱스
+- 키의 순서가 레코드의 순서를 결정짓는다.
+
+### Secondary Index (보조 인덱스)
+
+- 기본 인덱스 외의 인덱스
+- 키의 순서가 레코드의 순서를 의미하지는 않는다.
+
+### Composite Index (결합 인덱스)
+
+- 두 개 이상의 컬럼을 합쳐서 만든 인덱스
+- 단일 컬럼으로는 나쁜 분포도를 가지지만 여러 개의 컬럼을 합친다면 좋은 분포도를 가진다.
+- WHERE절에서 AND 조건에 많이 사용되는 컬럼들을 결합 인덱스로 구성한다.
+
