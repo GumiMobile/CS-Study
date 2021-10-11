@@ -2,7 +2,7 @@
 
 - [객체 지향 프로그래밍이란 무엇인가?](#객체-지향-프로그래밍이란-무엇인가)
 - [Garbage Collection](#Garbage-Collection)
-- SOLID](#SOLID)
+- [SOLID](#SOLID)
 <br><br>
 
 ## 객체 지향 프로그래밍이란 무엇인가?
