@@ -778,6 +778,7 @@ OS가 스케줄링의 알고리즘에 따라 적당한 프로세스에게 CPU를
 
 ### 스택과 힙의 주소 할당 방향
 <img src="https://user-images.githubusercontent.com/37038119/135815656-9829b1f6-310c-43be-a90a-6b789dc15a23.png"/>
+
 > HEAP과 SATCK은 같은 공간을 공유하고 HEAP은 메모리 위쪽주소부터 할당되고 STACK은 아래쪽부터 할당된다</br>
 <br/>
 
