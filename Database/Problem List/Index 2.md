@@ -47,3 +47,25 @@ WHERE name = "Aron"(150/1000건) AND gender = "M"(550/1000건)
 CREATE INDEX idx_emp_comp
 ON emp( name, gender );
 ```
+
+
+## 이수형
+
+### Primary Index vs Secondary Index
+
+Primary Index
+
+- 테이블당 하나만 생성가능
+- record가 정렬된 field에 대한 index
+- 행 데이터를 인덱스로 지정한 열에 맞춰서 자동으로 정렬함
+
+Secondary index
+
+- 테이블당 여러개 생성가능
+- 정렬되지 않은 field에 대한 인덱스
+- Primary Index 의 추가적인 보조기능 제공
+
+Composite Index
+
+인덱스를 생성할때 두개 이상의 컬럼을 합쳐서 인덱스를 생성하는것<br/>
+WHERE절의 조건 컬럼이 2개 이상 AND로 연결되어 함께 사용되는 경우에 많이 사용
