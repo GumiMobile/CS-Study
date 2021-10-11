@@ -46,3 +46,48 @@
 
   앞선 두가지 방식을 혼용한 방법으로 미리 정해둔 특정 위치들 중 임의로 저장한다. Direct mapping에 비해 검색 속도는 느리지만 저장이 빠르고 Full associative mapping 보단 저장이 느리지만 검색이 빠르다. 주로 사용하는 방법이다.
 
+## 이수형
+
+### 캐시의 지역성
+
+캐시 메모리는 CPU가 어떤 데이터를 원할것인가에 대해 어느정도 예측할 수 있어야된다
+이때 적중율을 극대화 시키기 위해서 사용되는것이 지역성의 원리이다.
+
+시간의 지역성
+
+- 현재 참조된 기억장소는 미래에도 계속 참조될 가능성이 높음
+
+공간의 지역성
+
+- 하나의 기억장소가 참조되면 근처의 기억장소가 계속 참조될 가능성이 높음
+
+### Caching line
+
+캐시가 아무리 가까이 있어도 찾고자 하는 데이터가 어느곳에 저장되어 있는지를 모른다면 효율적이지 않기 때문에 캐시에 데이터를 저장 할때는 태그의 묶음으로 저장하게 되고 이를 Caching line이라고 한다
+
+1. Direct Mapping
+   
+   주기억장치의 블록들이 지정된 한 개의 캐시 라인으로 블록단위로 정해진 위치에 매핑 
+
+   장점 : 구현이 쉽고 비용이 적음<br/>
+   단점 : 적중률이 낮아질 수 있음, 동일한 인덱스 필드 값을 가진 다수의 메모리 주소를 함께 저장할 수 없음(address conflict)
+
+2. Full Associative Mapping
+
+   Direct Mapping의 단점을 보완한 방식 모든 태그들을 병렬로 검사
+   
+   단점 : 저장은 쉬우나 과정이 복잡함, 데이터에 특별한 순서가 없으므로 검색하는데 추가 비용이 많이 듦
+
+
+3. Set Associative Mapping
+
+    Direct Mapping과 Full Associative Mapping의 장점만을 취한 방식
+    
+    Direct Mapping에서 동일 인덱스 필드의 메모리 영역 데이터를 함께 공유할 수 없다는 단점을 극복하기 위해 마련되었음 
+    
+    여러 개의 set으로 구성되어있고 Main memory의 block들은 들어갈 set은 정해져있지만 set 내에서는 어디로 들어가든 상관 없음
+   
+   
+저장속도 : Full Associative > Set Associative > Direct
+
+검색속도 : Direct > Set Asoociative > Full Associative
