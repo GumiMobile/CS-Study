@@ -2,6 +2,7 @@
 
 - [객체 지향 프로그래밍이란 무엇인가?](#객체-지향-프로그래밍이란-무엇인가)
 - [Garbage Collection](#Garbage-Collection)
+- SOLID](#SOLID)
 <br><br>
 
 ## 객체 지향 프로그래밍이란 무엇인가?
@@ -176,6 +177,8 @@ Weak Generational Hypothesis는 신규로 생성한 객체의 대부분은 금�
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://sehun-kim.github.io/sehun/assets/images/1541862421739.png"> | <img src="https://sehun-kim.github.io/sehun/assets/images/1541913074849.png"> |
 
+<br>
+
 ### OCP (Open Closed Principle) 개방 폐쇄 원칙
 > 기존의 코드를 변경하지 않고 기능을 추가할수 있도록 설계해야 하는 원칙
 
@@ -191,6 +194,8 @@ Weak Generational Hypothesis는 신규로 생성한 객체의 대부분은 금�
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://sehun-kim.github.io/sehun/assets/images/1541913936787.png"><br /><img src="https://sehun-kim.github.io/sehun/assets/images/1541913944420.png"><br />운전자는 마티즈와 쏘나타의 변화에 따라 행동이 의존적으로 변하게 된다. 이와 같이 직접적으로 클래스의 메서드를 호출하고 결합도를 높게 설계했다면 확장적이지 못할 뿐더러 많은 수정이 발생되어 유지 보수가 어려워진다. | <img src="https://sehun-kim.github.io/sehun/assets/images/1541913950879.png"><br />마티즈, 쏘나타의 상위에 자동차라는 상위 클래스를 둔다. 이렇게 되면 자동차 클래스는 하위에 다른 차종을 상속하여 확장할 수 있고, 운전자는 그 변경 사항에 전혀 영향을 받지 않을 수 있다. |
 
+<br>
+
 ### LSP (Liskov Substitution Principle) 리스코프 치환 원칙
 > 자식 클래스는 최소한 부모 클래스의 기능은 수행할수있어야 한다는 원칙
 
@@ -203,6 +208,8 @@ Weak Generational Hypothesis는 신규로 생성한 객체의 대부분은 금�
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://sehun-kim.github.io/sehun/assets/images/1541915202328.png"><br />딸은 아버지의 역할을 할 수 없다. | <img src="https://sehun-kim.github.io/sehun/assets/images/1541915209305.png"><br />박쥐는 포유류의 역할을 할 수 있다. |
 
+<br>
+
 ### ISP (Interface Segregation Principle) 인터페이스 분리 원칙
 > 자신이 사용하지 않는 인터페이스와 의존관계를 맺거나 영향을 받지 않아야 한다는 원칙
 
@@ -213,7 +220,7 @@ Weak Generational Hypothesis는 신규로 생성한 객체의 대부분은 금�
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://sehun-kim.github.io/sehun/assets/images/1541913074849.png"><br />역할마다 클래스를 분리한다. | <img src="https://sehun-kim.github.io/sehun/assets/images/1541915738069.png"><br />다양한 역할을 인터페이스로 만들고 각 역할에 맞는 메소드만 제공한다. |
 
-
+<br>
 
 ### DIP (Dependency Inversion Principle) 의존 역전 원칙
 > 의존관계 성립시 추상성이 높은 클래스와 의존 관계를 맺어야 하는 원칙
