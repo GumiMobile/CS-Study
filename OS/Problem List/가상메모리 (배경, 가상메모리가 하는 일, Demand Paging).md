@@ -75,8 +75,8 @@ Demand Paging
 
 이때 페이지 테이블은 메인 메모리에 적재되어 있는지 backing store에 있는지를 구분해주는것이  valid 비트이다
 
-> 메인 메모리에 있는 페이지
+> 메인 메모리에 있는 페이지 : 
 > CPU가 요구할 시 페이지 테이블을 따라 실행
 
-> backing store에 있는 페이지
+> backing store에 있는 페이지 : 
 > CPU의 동작을 멈추고 운영체제가 backing store에서 페이지를 찾아 메인 메모리에 적재를 시키고 valid비트를 바꾸어주는 작업을 수행
