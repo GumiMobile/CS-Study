@@ -228,7 +228,7 @@
     }
     ```
     
-    ## 김민수
+## 김민수
 
 ### Singleton Pattern?
 
