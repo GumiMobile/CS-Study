@@ -119,3 +119,111 @@
 
    
 
+# 제목 없음
+
+## 이수형
+
+### Singleton Pattern
+
+- 싱글톤 패턴은 인스턴스가 오직 한개만 생성되야하는 경우 사용
+    - 레지스트리 같은 설정 파일의 경우 객체가 여러개 생성되면 설정 값이 바뀔 위험이 생길수 있기 때문
+- 여러 스레드가 동시에 하나의 인스턴스를 공유하여 사용하게 하여 요청이 많은 곳에서 사용하여 효율을 높힐수 있음
+    - 두번째 사용부터 객체 로딩시간이 줄어듦
+
+단점
+
+- 너무많은 일을하거나 너무 많은 데이터를 공유시키면 "개방-폐쇠 원칙" 위배
+    - 수정이 어려워지고, 유지보수 비용이 높아짐
+- 멀티 쓰레드 환경에서 동기화 문제가 생길수 있음 ( 인스턴스가 2개 생성 될 수 있음)
+- private 생성자를 가지고 있어서 상속이 불가능
+    - 객체지향적이지 못한 static 필드와 메소드를 사용해야함
+
+### 구현 방법
+
+싱글톤 패턴을 구현하기 위해서는 3가지를 지키면 된다
+
+> private 생성자
+> 
+> 
+> static 변수로 객체 생성
+> 
+> 객체의 getter 구현
+> 
+
+1. 기본 Lazy Initializtion
+    
+    ```java
+    public class Singleton {
+        private static Singleton singletonObject;
+    
+        private Singleton() {}
+    
+        public static Singleton getInstance() {
+            if (singletonObject == null) {
+                singletonObject = new Singleton();
+            }
+            return singletonObject;
+        }
+    }
+    
+    ```
+    
+2. Thread safe Lazy initialization
+    
+    1은 멀티쓰레드 환경에서 동기화 문제가 생길수 있는 코드임으로 다음과같은 방법으로 thread-safe하게 만들 수 있다.
+    
+    ```java
+    public class ThreadSafeLazyInitialization {
+    	private static ThreadSafeLazyInitialization instance;
+        
+        private ThreadSafeLazyInitialization() {}
+        
+        public static synchronized ThreadSafeLazyInitialization getInstance() {
+        	if(instance == null)
+            	instance = new ThreadSafeLazyInitialization();
+            return instance;
+        }
+    }
+    ```
+    
+3. Thread safe lazy initialization + Double-checked locking
+    
+    2와 같은 방법은 synchronized 특성상 비교적 큰 성능저하가 발생하므로 다음과 같은 방법을 사용할 수 있음
+    
+    ```java
+    public class ThreadSafeLazyInitialization {
+    	private volatile static ThreadSafeLazyInitialization instance;
+        
+        private ThreadSafeLazyInitialization() {}
+        
+        public static ThreadSafeLazyInitialization getInstance() {
+        	if(instance == null) {
+            	synchronized (ThreadSafeLazyInitialization.class) {
+                	if(instance == null)
+                    	instance = new ThreadSafeLazyInitialization();
+                }
+            }
+            return instance;
+        }
+    }
+    ```
+    
+4. Initialization on demand holder idiom
+    
+    3과 같은 방법은 성능저하를 완화 했으나, Thread A가 인스턴스의 생성을 완료하기 전에 메모리 공간에 할당이 가능하기 때문에 Thread B가 할당된 것을 보고 instance를 사용하려고 하나 생성과정이 모두 끝난 상태가 아니기 때문에 오작동을 할 수 있다.
+    
+    그래서 JVM의 클래스 초기화 과정에서 보장되는 특성을 이용해 싱글턴 초기화 문제의 책임을 JVM에게 떠넘기는 방법을 사용할 수 있다.
+    
+    ```java
+    public class Something {
+    	private SomeThing() {}
+        
+        private static class LazyHolder {
+        	public static final Something INSTANCE = new Something();
+        }
+        
+        public static Something getInstance() {
+        	return LazyHolder.INSTANCE;
+        }
+    }
+    ```
