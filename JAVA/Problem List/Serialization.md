@@ -53,3 +53,59 @@ byte로 변환된 Data를 원래대로 Object나 Data로 변환하는 기술
 
 - 직렬화 대상 객체와 동일한 serialVersionUID가 필요함
    - SUID 없이 사용하면 클래스 구조가 변경되거나 타입이 바뀌면 오류가 발생
+
+## 우지현
+
+### Serialization (직렬화)
+
+![직렬화](https://i0.wp.com/techvidvan.com/tutorials/wp-content/uploads/sites/2/2020/05/Serialization-and-Deserialization-in-Java.jpg?w=802&ssl=1)
+
+- 자바 시스템 내부에서 사용되는 객체 또는 데이터를 외부의 시스템에서도 사용할 수 있도록 바이트(byte) 형태로 데이터를 변환하는 기술
+- JVM의 메모리에 상주(힙 또는 스택)되어 있는 객체 데이터를 바이트 형태로 변환하는 기술
+
+각 PC의 OS마다 서로 다른 가상 메모리 주소 공간을 가지기 때문에, Reference Type의 데이터들은 인스턴스를 전달할 수 없다. 이런 문제를 해결하기 위해선 주소값이 아닌 Byte 형태로 직렬화된 객체 데이터를 전달해야 한다.
+
+직렬화된 데이터들은 모두 Primitive Type(기본형)이 되고, 이는 파일 저장이나 네트워크 전송 시 파싱이 가능한 유의미한 데이터가 된다. 따라서, 전송 및 저장이 가능한 데이터로 만들어 주는 것이 바로 `직렬화`라고 말할 수 있다.
+
+#### 직렬화 조건 및 방법
+
+자바에서는 간단히 `java.io.Serializable` 인터페이스 구현으로 직렬화/역직렬화가 가능하며, `java.io.ObjectOutputStream`을 사용하여 직렬화를 진행한다.
+
+- 직렬화 대상 : 인터페이스를 상속 받은 객체, Primitive Type의 데이터
+  - Primitive Type이 아닌 Reference Type처럼 주소값을 지닌 객체들은 바이트로 변환하기 위해 Serializable 인터페이스를 구현해야 한다.
+  - 직렬화하는 과정에서 제외하고 싶은 경우에는 `transient` 키워드를 사용할 수 있다.
+
+#### 직렬화가 사용되는 곳
+
+- Servlet Session
+  - 세션을 서블릿 메모리 위에서 운용한다면 직렬화를 필요로 하지 않지만, 파일로 저장하거나 세션 클러스터링, DB를 저장하는 옵션 등을 선택하게 되면 세션 자체가 직렬화되어 저장되어 전달된다.
+- Cache
+  - Ehcache, Redis, Memcached 라이브러리 시스템에서 많이 사용
+- Java RMI (Remote Method Invocation)
+  - 원격 시스템 간의 메시지 교환을 위해서 자바에서 지원하는 기술
+
+### Deserialization (역직렬화)
+
+- byte로 변환된 데이터를 원래대로 객체 또는 데이터로 변환하는 기술
+- 직렬화된 바이트 형태의 데이터를 객체로 변환해서 JVM으로 상주시키는 형태
+
+#### 역직렬화 조건 및 방법
+
+- 직렬화 대상이 된 객체의 클래스가 class path에 존재해야 하며 import 되어 있어야 한다.
+
+- 중요한 점은 직렬화와 역직렬화를 진행하는 시스템이 서로 다를 수 있다는 것을 반드시 고려해야 한다.
+
+- 자바 직렬화 대상 객체는 동일한 `serialVersionUID`를 가지고 있어야 한다.
+
+  - `serialVersionUID`는 선언하지 않아도 자동으로 해시값이 할당된다.
+
+  - 하지만 `serialVersionUID`는 개발자가 직접 관리해야 한다.
+
+    - 기존의 클래스 멤버 변수가 변경되면 `serialVersionUID`가 달라지는데, 역직렬화 시 달라진 넘버로 Exception이 발생할 수 있다.
+
+    - 따라서 직접 관리해야 클래스의 변수가 변경되어도 직렬화에 문제가 발생하지 않는다.
+
+      > `serialVersionUID`을 관리하더라도, 멤버 변수의 타입이 다르거나, 제거 혹은 변수명을 바꾸게 되면 Exception은 발생하지 않지만 데이터가 누락될 수 있다.
+
+- `java.io.ObjectInputStream`을 사용하여 역직렬화를 진행한다.
+
