@@ -227,3 +227,116 @@
         }
     }
     ```
+    
+    ## 김민수
+
+### Singleton Pattern?
+
+객체의 인스턴스가 오직 1개만 생성되는 패턴이다. 프로그램 전역에서 인스턴스가 하나만 존재한다.
+
+### 사용 이유
+
+- 고정된 메모리 영역을 할당받고 인스턴스를 하나만 사용하기 때문에 메모리 낭비를 막을 수 있다.
+- static 인스턴스이기 때문에 다른 클래스의 인스턴스들이 접근하여 사용할 수 있다.
+
+### 문제점
+
+- 멀티 스레딩 환경에서 발생할 수 있는 동시성 문제를 해결해야 한다.
+- 싱글톤 인스턴스는 자원을 공유하고 있기 때문에 테스트가 어렵다. 매번 초기화 시켜야 한다.
+- 자식 클래스를 만들수 없다.
+- 싱글톤 인스턴스가 너무 많은 일을 하거나 많은 데이터를 공유할 경우 **개방 폐쇄 원칙**을 위배하게 된다.
+
+### 구현방법
+
+#### 이른 초기화
+
+``` java
+public class Singleton {
+    // Eager Initialization
+    private static Singleton uniqueInstance = new Singleton();
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+      return uniqueInstance; 
+    } 
+}
+```
+
+이른 초기화 방식은, static 키워드의 특징을 이용해 클래스 로더가 초기화하는 시점에서 정적바인딩을 통해 해당 인스턴스를 메모리에 등록한다.
+
+#### Lazy Initialization with synchronized
+
+``` java
+public class Singleton {
+    private static Singleton uniqueInstance;
+
+    private Singleton() {}
+
+    // Lazy Initailization
+    public static synchronzied Singleton getInstance() {
+      if(uniqueInstance == null) {
+         uniqueInstance = new Singleton();
+      }
+      return uniqueInstance;
+    }
+}
+```
+
+synchronized 키워드를 이용해 초기화 메서드를 Thread-safe를 보장한다. 그러나 해당 초기화 메서드는 인스턴스가 생성되었든, 안되었든 synchronized 블럭이 실행된다. 따라서 synchronized 키워드에 의한 성능저하를 피할 수 없다.
+
+#### Lazy Initialization. Double Checking Locking
+
+``` java
+public class Singleton {
+    private volatile static Singleton uniqueInstance;
+
+    private Sigleton() {}
+
+    // Lazy Initialization. DCL
+    public Singleton getInstance() {
+      if(uniqueInstance == null) {
+         synchronized(Singleton.class) {
+            if(uniqueInstance == null) {
+               uniqueInstance = new Singleton(); 
+            }
+         }
+      }
+      return uniqueInstance;
+    }
+}
+```
+
+
+
+위 동기화 블럭 방식을 개선한 DCL(Doubl Checking Locking) 방식으로, 인스턴스가 생성되지 않은 경우에만 동기화 블럭을 실행하게끔 구현한다.
+
+> volatile
+>
+> volatile 변수를 사용하지 않는 멀티 스레드 어플리케이션에서는 작업(Task)를 수행하는 동안 변수 값을 cpu cache에 저장한다. 만약 멀티 스레드 환경에서 스레드가 변수 값을 읽어올 때 각각의 cpu cache에 저장된 값이 다르기 때문에 변수 값 **불일치** 문제가 발생한다. 이때, volatile 키워드가 문제를 해결할 수 있다.
+
+#### Lazy Initialization. Lazy Holder
+
+``` java
+public class Singleton {
+
+    private Singleton() {}
+
+    /**
+     * static member class
+     * 내부클래스에서 static변수를 선언해야하는 경우 static 내부 클래스를 선언해야만 한다.
+     * static 멤버, 특히 static 메서드에서 사용될 목적으로 선언
+     */
+    private static class InnerInstanceClazz() {
+        // 클래스 로딩 시점에서 생성
+        private static final Singleton uniqueInstance = new Singleton();
+    }
+
+    public static Singleton getInstance() {
+        return InnerInstanceClazz.instance;
+    }
+    
+}
+```
+
+Lazy Holder 방식은 가장 많이 사용되는 싱글턴 구현방식이다. volatile, synchronized 키워드 없이 동시성 문제를 해결하기 때문에 성능이 뛰어나다. 싱글턴 클래스에는 InnerInstanceClazz의 변수가 없기 때문에 getInstance의 메서드가 호출될 때, 초기화가 일어난다. 즉 동적 바인딩의 특징을 이용하여 Thread safe하면서 성능이 뛰어나다.
