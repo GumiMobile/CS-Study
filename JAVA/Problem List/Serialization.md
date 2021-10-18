@@ -151,3 +151,31 @@ byte로 변환된 Data를 원래대로 Object나 Data로 변환하는 기술
 #### serialVersionUID
 
 직렬화의 대상이 되는 객체는 동일한 serialVersionUID를 가지고 있어야한다. 이를 선언하지 않아도 해시값이 생성되어 할당되지만 개발자가 직접 관리하는 것을 권장한다.
+
+## 윤기재
+
+### 직렬화(Serialize)란?
+- 자바 시스템 내부에서 사용되는 Object 또는 Data를 외부의 자바 시스템에서도 사용할 수 있도록 byte 형태로 데이터를 변환하는 기술.
+
+- JVM(Java Virtual Machine 이하 JVM)의 메모리에 상주(힙 또는 스택)되어 있는 객	체 데이터를 바이트 형태로 변환하는 기술
+
+### 역직렬화(Deserialization)
+- 바이트로 변환된 데이터를 다시 객체로 변환하는 기술
+- 직렬화 대상인된 객체의 클래스가 path에 존재해야하고 import 되어있어야함
+- 직렬화 대상 객체와 동일한 serialVersionUID가 필요함
+
+### 직렬화 조건 및 방법
+- 자바에서는 간단히 java.io.Serializable 인터페이스 구현으로 직렬화/역직렬화가 가능하며, java.io.ObjectOutputStream을 사용하여 직렬화를 진행한다.
+
+> 직렬화 대상 : 인터페이스를 상속 받은 객체, Primitive Type의 데이터
+Primitive Type이 아닌 Reference Type처럼 주소값을 지닌 객체들은 바이트로 변환하기 위해 Serializable 인터페이스를 구현해야 한다.
+
+###  직렬화가 사용되는 곳
+#### Servlet Session
+- 세션을 서블릿 메모리 위에서 운용한다면 직렬화를 필요로 하지 않지만, 파일로 저장하거나 세션 클러스터링, DB를 저장하는 옵션 등을 선택하게 되면 세션 자체가 직렬화되어 저장되어 전달된다.
+
+#### Cache
+- Ehcache, Redis, Memcached 라이브러리 시스템에서 많이 사용
+
+#### Java RMI (Remote Method Invocation)
+- 원격 시스템 간의 메시지 교환을 위해서 자바에서 지원하는 기술
