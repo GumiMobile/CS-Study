@@ -824,7 +824,9 @@ OS가 스케줄링의 알고리즘에 따라 적당한 프로세스에게 CPU를
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#operating-system)
 
 <br />
+
 ## 가상메모리
+
 ## 페이지 교체 알고리즘
 
 ### 페이지 교체
