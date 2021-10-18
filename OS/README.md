@@ -823,6 +823,71 @@ OS가 스케줄링의 알고리즘에 따라 적당한 프로세스에게 CPU를
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#operating-system)
 
+<br />
+## 가상메모리
+## 페이지 교체 알고리즘
+
+### 페이지 교체
+요구 페이징에서 언급된대로 프로그램 실행 시에 모든 항목이 물리 메모리에 올라오지 않기 때문에, 
+프로세스의 동작에 필요한 페이지를 요청하는 과정에서 page fault (페이지 부재)가 발생하게 되면, 
+원하는 페이지를 보조저장장치에서 가져오게 된다. 하지만 만약 물리 메모리가 모두 사용중인 상황이라면, 
+페이지 교체가 이뤄져야 한다. (또는, 운영체제가 프로세스를 강제로 종료하는 방법이 있다.)
+
+
+### FIFO
+
+![FIFO](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FVQCGK%2FbtquJuqRkyS%2FLb3NgwHkBve08YhZpLkq31%2Fimg.png)
+
+가장 간단한 페이지 교체 알고리즘으로 FIFO(first-in-first-out)의 흐름을 가진다.
+먼저 물리 메모리에 들어온 페이지 순서대로 페이지 교체 시점에 먼저 나가게 된다.
+
+- 장점
+  - 이해하기 쉽고, 프로그래밍하기도 쉽다.
+
+- 단점
+  - 오래된 페이지가 항상 불필요하지 않은 정보를 포함하지 않을 수 있다. (초기 변수 등)
+  - 처음부터 활발하게 사용되는 페이지를 교체해서 페이지 부재율을 높이는 부작용을 초래할 수 있다.
+  - Belady의 모순 : 페이지를 저장할 수 있는 페이지의 프레임 개수를 늘려도 되려 페이지 부재가 더 많이 발생하는 모순이 존재한다.
+
+
+### LRU (Least Recently Used)
+
+![최적](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FSvRs7%2FbtquHbeJLQX%2FWXmK7xdGUbIxl43t0JG6Qk%2Fimg.png)
+
+- 최적 알고리즘의 근사 알고리즘
+- 대체적으로 FIFO 알고리즘보다 우수하고 OPT 알고리즘보다는 그렇지 못한 모습을 보인다.
+- 가장 오랫동안 사용되지 않은 페이지를 선택하여 교체한다.
+- 막대한 오버헤드 발생
+
+
+### LFU (Least Frequently Used)
+
+
+- 참조 횟수가 가장 적은 페이지를 교체하는 방법
+- 가장 최근에 옮겨진 페이지가 교체될 가능성이 높음
+- 초기에 많이 사용된후 더이상 사용되지 않는 페이지는 교체가능성 낮음
+
+
+### NUR (Not Used Recently)
+- LRU와 비슷, 최근에 사용하지 않은 페이지 교체
+- LRU에서 나타나는 오버헤드를 줄일 수 있다.
+- 최근의 사용여부를 확인 하기 위해 각페이지마다 두개의 비트 사용
+
+
+### 최적 페이지 교체 (Optimal Page Replacement)
+
+<img src="https://user-images.githubusercontent.com/80962918/136782651-cad45252-c7af-40e2-9538-6543784ff949.png" style width = "700"/>
+
+미래에 사용되는 page를 미리 알고 있다고 가정할 때 구현 가능하다. 가장 먼 미래에 참조되는 페이지를 교체한다.
+
+- 장점
+  - 알고리즘 중 가장 낮은 페이지 부재율을 보장한다.
+- 단점
+  - 구현의 어려움이 있다. 모든 프로세스의 메모리 참조의 계획을 미리 파악할 방법이 없기 때문이다.
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#operating-system)
+<br />
+
 ## 메모리의 구조
 <img src="https://i.imgur.com/fbzJjII.png" width="600" height="400">
 
