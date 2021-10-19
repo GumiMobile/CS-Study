@@ -2,7 +2,7 @@
 
 - [데이터베이스](#데이터베이스)
 - [Index](#index)
-  - [인덱스란? 인덱스의 자료구조](#인덱스란? 인덱스의-자료구조)
+  - [인덱스란? 인덱스의 자료구조](#인덱스란?-인덱스의-자료구조)
   - [Primary Index vs Secondary Index](#primary-index-vs-secondary-index)
   - [Composite Index](#composite-index-결합-인덱스)
 
