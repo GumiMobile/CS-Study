@@ -68,7 +68,7 @@ Hash의 탐색 시간복잡도는 O(1)이지만, 특정 데이터 하나를 탐�
 
 #### B+Tree
 
-B-Tree의 확장 개념으로, B-Tree의 경우, 브랜치 노드에 key와 data를 담을 수 있다. 하니잠 B+Tree는 브랜치 노드에 key만 담아두고 리프 노드에 key와 data를 저장한다. 리프 노드끼리 Linked list로 연결되어 있다.
+B-Tree의 확장 개념으로, B-Tree의 경우, 브랜치 노드에 key와 data를 담을 수 있다. 하지만 B+Tree는 브랜치 노드에 key만 담아두고 리프 노드에 key와 data를 저장한다. 리프 노드끼리 Linked list로 연결되어 있다.
 
 ![img](https://blog.kakaocdn.net/dn/bRiL19/btqBTMSBCWF/J3nKw2qympUVxGThnVdLK0/img.png)
 
