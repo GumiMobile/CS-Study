@@ -217,3 +217,68 @@ JVM이 OS 위에서 실행되면서 할당받는 메모리 영역이다. 5가지
   >
   > - IR은 최적화와 인터프리팅 등 추가 처리를 위해 도움이 되도록 설계되었다.
   > - 정보 손실 없이 소스 코드를 표현 가능하며, 특정 소스, 언어와 무관하게 코드를 나타낼 수 있다.
+
+
+## 이수형
+
+### JVM
+
+자바 가상머신으로 자바 바이트 코드를 실행할 수 있는 주체<br/>
+Class Loader, Excution Engine, GC, Runtime Data Area로 나뉜다
+
+- 스택기반의 가상 머신
+- GC 사용
+- 자바를 OS에 구애받지않고 실행시킬 수 있는 주체
+- 모든 기본 타입의 정의를 명확히 함으로써 플랫폼 독립성 보장
+
+#### 실행과정
+
+1. 자바 컴파일러가 소스코드를 읽어들여 .class파일로 변환시킨다
+2. class loader를 통해서 class 파일을 JVM으로 로딩한다
+3. 로딩된 class파일을 Execution engine을 통해 해석한다
+4. 해석된 바이트코드를 Runtime Data Areas에 배치되어 수행된다.
+
+
+
+#### class loader
+
+클래스로더는 class파일을 읽어서 바이트 코드를 Methode Aread에 저장한다.<br/>
+런타임 시에 클래스를 처음으로 참조할 때 해당 클래스를 로드하고 링크한다.
+
+### Runtime Data Area
+
+- Method area
+   - 클래스정보를 처음 메모리에 올릴때 초기화대는 대상을 저장
+   - 모든 클래스 정보와 static 변수를 저장한다
+   > 멤버면수, 데이터 타입, 리턴타입, 파라미터 같은 메소드정보
+   > Type 정보, constant Pool, final class 변수
+
+- Heap area
+   - 모든 객체를 저장하는 가상 메모리 공간
+   - new 연산자로 생성된 객체와 배열 저장
+   - Method area에 로드된 클래스만 생성 가능
+   - GC가 참조되지 않는 메모리를 확인하고 제거
+
+- JVM Stack area
+   - 프로그램 실행과정에서 임시로 할당되었다가 메소드가 종료되면 소멸
+   - 각종형태의 변수, 임시데이터, 메소드를 저장
+
+- PC Registers
+   - 쓰레드가 어떤 부분을 명령으로 실행 해야할지에 대한 기록
+   - 현재 수행중인 JVM 명령의 주소를 가짐
+
+- Native Method Stacks
+   - 기계어로 컴파일된 자바 프로그램을 실행시키는 영역
+   - 커널이 스택을 잡아 독자적으로 실행시킨다.
+   - 보통 C/C++을 수행하기 위한 Stack
+
+Method, Heap area는 모든 쓰레드에서 공유하고 Stack, PC Register, Native Method Stack area는 각 쓰레드별로 생성됨
+
+#### Excution Engine
+
+Class Loader에 의해 메모리에 적재된 바이트 코드들을 기계어로 변경해 명령어 단위로 실행
+- 인터프리터 방식
+   - 명령어를 하나하나 실행
+- Just-In-Time(JIT) 방식
+   - 적절한 시간에 전체 바이트 코드를 네이티브 코드로 변경해서 Excution Engine이 컴파일된 코드를 실행
+   - 성능이 높다
