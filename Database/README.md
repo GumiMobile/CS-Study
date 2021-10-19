@@ -121,8 +121,8 @@ B-Tree의 확장 개념으로, B-Tree의 경우, 브랜치 노드에 key와 data
 | 풀 스캔     | 모든 노드 탐색                      | 리프 노드에서 선형탐색                   |
 | 키 중복     | 없음                                | 있음 (리프 노드에 모든 데이터 저장)      |
 | 검색        | Best case는 루트 노드에서 검색 가능 | 무조건 리프 노드까지 탐색                |
-[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#database)
 
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#database)
 
 ### Primary Index vs Secondary Index
 
