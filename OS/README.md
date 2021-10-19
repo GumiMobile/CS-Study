@@ -30,7 +30,7 @@
   * [힙(heap) 영역](#힙heap-영역)
   * [스택과 힙의 주소 할당 방향](#스택과-힙의-주소-할당-방향)
   * [오버플로우](#오버플로우)
-* [캐시의 지역성](#캐시의-역성)
+* [캐시의 지역성](#캐시의-지역성-locality-caching-line)
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
