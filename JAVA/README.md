@@ -245,6 +245,8 @@ Weak Generational Hypothesis는 신규로 생성한 객체의 대부분은 금�
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#java)
 <br>
 
+<br />
+
 ## Serialization (직렬화)
 
 ```text
@@ -339,6 +341,8 @@ Byte로 변환된 데이터를 원래대로 객체 또는 데이터로 변환하
 - 직렬화, 역직렬화를 진행하는 시스템이 서로 다를 수 있다는 점을 고려해야 한다.
 - Java 직렬화 대상 객체는 동일한 `serialVersionUID`를 가지고 있어야 한다.
 - `java.io.ObjectInputStream`을 사용하여 역직렬화를 진행한다.
+
+<br />
 
 ### SerialVersionUID
 
