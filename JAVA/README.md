@@ -10,7 +10,7 @@
 
   - [Deserialization (역직렬화)](#deserialization-역직렬화)
   - [SerialVersionUID](#serialversionuid)
-
+- [JVM 작동방식 및 Java의 메모리 영역](#JVM-작동방식-및-Java의-메모리-영역)
   <br><br>
 
 ## 객체 지향 프로그래밍이란 무엇인가?
@@ -350,3 +350,173 @@ Byte로 변환된 데이터를 원래대로 객체 또는 데이터로 변환하
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#java)
 
+<br>
+
+## JVM 작동방식 및 Java의 메모리 영역
+
+### JVM (Java Virtual Machine)
+
+- 스택 기반의 가상머신
+- 자바 애플리케이션을 클래스 로더를 통해 읽어들여 자바 API와 함께 실행시킨다.
+- Java와 OS 사이에서 중개자 역할을 수행하여 **Java가 OS에 구애 받지 않고 실행**할 수 있게 해준다.
+- 모든 기본 타입의 정의를 명확히 함으로써 플랫폼 독립성 보장
+- 메모리 관리, Garbage Collection 수행
+- 자바 프로그램을 실행시킨다 == JVM을 실행시키고 그 위에서 자바 프로그램을 실행시킨다
+
+#### Java 프로그램 실행 과정
+![자바 프로그램 실행 단계](https://t1.daumcdn.net/cfile/tistory/99960C505C37390616)
+
+1. 프로그램이 실행되면 JVM은 OS로부터 이 프로그램이 필요로 하는 **메모리를 할당**받는다.
+    
+    JVM은 이 메모리를 용도에 따라 여러 영역으로 나누어 관리한다.
+    
+2. **자바 컴파일러**(javac)가 자바 소스코드(.java)를 읽어들여 자바 바이트코드(.class)로 변환시킨다.
+3. 컴파일 된 바이트코드(.class)는 JVM의 클래스 로더에게 전달된다.
+4. **클래스 로더**는 동적로딩을 통해 필요한 클래스들을 로딩 및 링크하여 런타임 데이터 영역, 즉 JVM의 메모리에 올린다.
+5. 실행 엔진은 JVM 메모리에 올라온 바이트 코드들을 명령어 단위로 하나씩 가져와서 해석한다.
+6. 해석된 바이트코드는 Runtime Data Area에 배치되어 실질적인 수행이 이루어지게 된다.
+
+이러한 실행 과정 속에서 JVM은 필요에 따라 `Thread Synchrnoization`과 `GC` 같은 관리작업을 수행한다.
+
+### JVM의 구성 및 동작원리
+
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F990BF73B5B73A02817" style width="400"/>
+
+#### 클래스 로더
+
+- 자바 바이트코드(.class)파일을 읽어서 바이트 코드를 `Method Area`에 저장한다.
+- 런타임 시 **클래스를 처음으로 참조할 때** 해당 클래스를 로드하고 링크한다.
+
+[클래스 로더의 특징](https://github.com/GumiMobile/CS-Study/blob/main/JAVA/Problem%20List/JVM%20%EC%9E%91%EB%8F%99%EB%B0%A9%EC%8B%9D%20%EB%B0%8F%20Java%EC%9D%98%20%EB%A9%94%EB%AA%A8%EB%A6%AC%20%EC%98%81%EC%97%AD.md#%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%A1%9C%EB%8D%94)
+
+---
+
+#### 런타임 데이터 영역
+
+- JVM이 OS 위에서 실행되면서 할당받는 메모리 영역
+- 자바 애플리케이션을 실행할 때 사용되는 데이터들을 적재하는 영역
+- 5가지 영역으로 나눌 수 있다.
+
+<img src="[https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F99B467465B73D15111](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F99B467465B73D15111)" style width="400"/>
+
+위 그림에서 보라색 영역은 스레드마다 생성되고, 힙, 메서드 영역은 스레드가 공유해서 사용한다.
+
+##### PC Register (Program Counter Register)
+
+- Thread가 시작될 때 생성되며 생성될 때마다 생성되는 공간으로 스레드마다 하나씩 존재
+- Thread가 어떤 부분을 어떤 명령으로 실행해야할지에 대한 기록을 하는 부분
+- 현재 수행 중인 JVM 명령의 주소를 가지고 있다.
+
+##### JVM Stack
+
+- 프로그램 실행 과정에서 임시로 할당되었다가 메소드를 빠져나가면 바로 소멸되는 특성의 데이터를 저장하기 위한 영역
+    - 각종 형태의 변수나 임시 데이터, 스레드나 메소드의 정보 저장 
+    (호출된 메소드의 매개변수, 지역변수, 리턴값, 연산 시 생기는 값 등)
+- Stack Frame이라는 구조체를 저장하는 스택이다. 예외 발생 시, printStackTrace() 메서드로 보여주는 Stack Trace의 라인들이 스택 프레임을 표현한다.
+    - 메소드 호출 시마다 각각의 스택 프레임(그 메소드만을 위한 공간)이 생성된다.
+    - 메소드 수행이 끝나면 프레임별로 삭제
+
+##### Native Method Stack
+
+- 자바 프로그램이 컴파일되어 생성되는 바이트코드가 아닌 실제 실행할 수 있는 기계어로 작성된 프로그램을 실행시키는 영역
+- Java가 아닌 다른 언어로 작성된 네이티브 코드를 위한 공간
+- Java Native Interface를 통해 바이트코드로 전환하여 저장
+- 일반 프로그램처럼 커널이 스택을 잡아 독자적으로 프로그램을 실행시킨다.
+- JNI(Java Native Interface)를 통해 호출하는 C/C++ 등의 코드를 수행하기 위한 스택으로, 언어에 맞게 생성된다.
+    - 이 부분을 통해 C 코드를 실행시켜 커널에 접근 가능
+
+##### Method Area (= Class Area, Static Area)
+
+- 모든 스레드가 공유하는 영역으로 JVM이 시작될 때 생성된다.
+- GC의 관리 대상에 포함된다.
+- 클래스 정보를 처음 메모리 공간에 올릴 때 초기화되는 대상을 저장하기 위한 메모리 공간
+- 올라가게 되는 메소드의 바이트코드는 프로그램의 흐름을 구성하는 바이트코드
+    - 자바 프로그램은 main 메소드의 호출에서부터 계속된 메소드의 호출로 흐름을 이어가기 때문
+    - 대부분의 인스턴스 생성도 메소드 내에서 명령하고 호출한다.
+    - 사실상 컴파일된 바이트코드의 대부분이 메소드 바이트코드이기 때문에 거의 모든 바이트코드가 올라간다고 봐도 상관없다.
+- 올라가는 정보의 종류
+    - Runtime Constant Pool (별도의 관리 영역)
+        
+        > 런타임 상수 풀(Runtime constant pool)
+        > 
+        > 
+        > JVM 동작에서 가장 핵심적인 역할을 수행하는 곳으로 중요하다. 각 클래스와 인터페이스의 상수 뿐만 아니라, 메서드와 필드에 대한 모든 레퍼런스까지 갖고 있는 테이블로, 어떤 메서드나 필드를 참조할 때, JVM은 런타임 상수 풀을 통해 해당 메서드나 필드의 실제 메모리 주소를 찾는다.
+        > 
+        - 상수 자료형을 저장하여 참조하고 중복을 막는 역할 수행
+    - Field Information
+        - 멤버변수의 이름, 데이터 타입, 접근 제어자에 대한 정보
+    - Method Information
+        - 메소드의 이름, 리턴타입, 매개변수, 접근 제어자에 대한 정보
+    - Type Information
+        - class인지 interface인지 여부 저장/Type 속성, 전체 이름, super class의 전체 이름(interface이거나 object인 경우 제외)
+    - Class Variable
+        - static 키워드로 선언된 변수인 클래스 변수가 저장된다.
+        
+
+##### Heap
+
+아래 그림은 Java 8이전까지의 Heap 메모리 구조이다.
+
+![Heap](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FKA8I0%2Fbtq42yTNQ0q%2F855nAKHEBJP8fFLkPAzjS0%2Fimg.png)
+
+- 인스턴스, 객체를 저장하는 가상 메모리 공간으로 GC의 대상이다.
+- JVM 성능 이슈에서 가장 많이 언급되는 공간이다. 힙 구성, GC 방법은 JVM 벤더들의 소관이다.
+- 객체를 저장하는 가상 메모리 공간
+- Method Area가 클래스 데이터를 위한 공간이라면 Heap은 객체를 위한 공간
+- new 연산자로 생성된 객체와 배열 저장
+- 물론 class area 영역에 올라온 클래스들만 객체로 생성 가능
+- Heap은 세 부분으로 나눌 수 있다.
+    - Permanent Generation
+        - 생성된 객체들의 정보의 주소값이 저장된 공간
+        - Class Loader에 의해 load되는 클래스, 메소드 등에 대한 메타 정보가 저장되는 영역이고 JVM에 의해 사용된다.
+        - Reflection을 사용하여 동적으로 클래스가 로딩되는 경우에 사용된다.
+        - 내부적으로 Reflection 기능을 자주 사용하는 Spring Framework를 이용할 경우 이 영역에 대한 고려가 필요하다.
+    - New/Young Generation
+        - `Eden` : 객체들이 최초로 생성되는 공간
+        - `Survivor 1 / 2` : Eden에서 참조되는 객체들이 저장되는 공간
+        - `Eden` 영역에 객체가 가득 차게 되면 첫번째 GC(minor GC) 발생
+        - `Eden` 영역에 있는 값들을 `Survivor 1` 또는 `Survivor 2` 영역에 복사하고 해당 영역을 제외한 나머지 영역의 객체 삭제
+        - `Survivor 1`과 `Survivor 2` 둘 중 하나는 항상 공간이 비워진 채로 유지된다.
+    - Old Generation
+        - Young 영역에서 일정 시간 참조되고 있는, 살아남은 객체들이 저장되는 공간
+        - 보통 Young 영역보다 크게 할당하며, 이러한 이유로 Old 영역의 GC는 Young 영역보다 적게 발생한다.
+        - Old 영역에서는 2차 GC인 Major GC(Full GC)가 일어나게 되며, GC를 진행하는 Thread를 제외하고 이외의 모든 Thread를 멈춘 상태로 GC가 진행된다 (`Stop-the-world`)
+        
+
+#### 실행 엔진
+
+클래스 로더를 통해 런타임 데이터 영역에 배치된 바이트 코드를 명령어 단위로 읽어 실행한다. 바이트 코드의 각 명령어는 1바이트 크기의 Operation Code와 추가 피연산자로 이뤄져 있다. Operation Code를 기계가 실행할 수 있는 형태로 변환하는데 2가지 방법이 있다.
+
+- 인터프리터
+    
+    바이트 코드 명령어를 하나씩 읽고 해석하여 실행한다. 명령어 하나의 해석은 빠르나 전체 실행 속도는 느리다. JVM안에서 바이트 코드는 일반적으로 인터프리터 형태로 실행된다.
+    
+- JIT 컴파일러 (Just In time Compiler)
+    
+    인터프리터의 단점을 보완하는 기술로, 바이트 코드 전체를 컴파일하여 네이티브 코드로 변경한다. 변경 후, 인터프리팅 하지 않고 네이티브 코드로 직접 실행한다. 변환된 네이티브 코드는 캐시에 보관하기 때문에 실행속도는 빠르지만 변환 과정이  인터프리팅 하는 것보다 오래 걸린다. 따라서 사용 횟수 기준을 넘은 메서드만 JIT 컴파일러를 통해 변환한다. 변환과정은 IR(Intermediate Representaion)을 거친 후, 최적화를 수행하고 네이티브 코드로 변환된다.
+    
+    > Intermediate Representaion
+    > 
+    > - 소스 코드를 표현하기 위해 컴파일러 또는 가상 시스템에서 내부적으로 사용하는 데이터 구조 또는 코드이다.
+    > - IR은 최적화와 인터프리팅 등 추가 처리를 위해 도움이 되도록 설계되었다.
+    > - 정보 손실 없이 소스 코드를 표현 가능하며, 특정 소스, 언어와 무관하게 코드를 나타낼 수 있다.
+
+#### Garbage Collector
+
+Garbage Collector(GC)는 Heap 메모리 영역에 생성(적재)된 객체들 중에 참조되지 않는 객체들을 탐색 후 제거하는 역할을 한다.
+
+GC가 역할을 하는 시간은 정확히 언제인지를 알 수 없다. (참조가 없어지자마자 해제되는 것을 보장하지 않음)
+
+또 다른 특징은 GC가 수행되는 동안 GC를 수행하는 쓰레드가 아닌 다른 모든 쓰레드가 일시정지된다.
+
+특히 Full GC가 일어나서 수 초간 모든 쓰레드가 정지한다면 장애로 이어지는 치명적인 문제가 생길 수 있는 것이다. (GC와 관련된 내용은 아래 Heap영역 메모리를 설명할 때 더 자세히 알아본다.)
+
+### (참고) 메모리 누수 현상
+
+컴퓨터 프로그램이 필요하지 않은 메모리를 계속 점유하고 있는 현상.
+메모리 동적 할당 시 Heap에 할당되는데, 사용자가 해제하지 않아 Heap메모리 공간을 계속 차지하면 나중에 메모리가 부족하여 시스템이 다운될 수 있다.
+
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#java)
+
+<br>
