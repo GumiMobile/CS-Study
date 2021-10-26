@@ -1170,7 +1170,7 @@ OS가 스케줄링의 알고리즘에 따라 적당한 프로세스에게 CPU를
 
 - 자원 요청에 대한 부가적인 정보를 이용해서 교착상태의 가능성이 없는 경우에만 자원을 할당한다.
 - 시스템 state가 원래 state로 돌아올 수 있는 경우에만 자원을 할당한다.
-- [은행원 알고리즘](https://github.com/GumiMobile/CS-Study/blob/main/OS/Problem-List/교착상태.md#은행원-알고리즘)
+- [은행원 알고리즘](https://github.com/GumiMobile/CS-Study/blob/main/OS/Problem%20List/교착상태.md#은행원-알고리즘)
 
 **교착상태 탐지 및 회복**
 
