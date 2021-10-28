@@ -101,7 +101,7 @@ nonNullable = null   // 컴파일 에러
 ```
 
 ### nullable 타입을 non-nullable 타입으로 변경하기
-코틀린에서는 NPE가 발생하지 않을 것 같지만 자바의 라이브러리를 쓰는 경우 NPE가 발생할 수 있다. 자바는 non-nullable 타입이 없기 때문에 자바 라이브러리를 사용하면 nullable 타입으로 리턴된다.
+코틀린에서는 자바의 라이브러리를 쓰는 경우 NPE가 발생할 수 있다. 자바는 non-nullable 타입이 없기 때문에 자바 라이브러리를 사용하면 nullable 타입으로 리턴된다.
 
 코틀린에서 자바 라이브러리의 함수의 리턴 값을 non-nullable인 String으로 변환하려 할 때 아래 코드처럼 대입하면 컴파일 에러가 발생한다. String?타입을 String타입에 할당하려고 했기 때문이다.
 
@@ -109,7 +109,7 @@ nonNullable = null   // 컴파일 에러
 var nonNullString1: String = getString()     // 컴파일 에러
 ```
 
-반면 아래 코드는 !! 연산자를 사용했기 때문에 컴파일이 된다. !!연산자는 객체가 null이 아닌 것을 보장합니다. 만약 null이라면 NPE를 발생시킵니다. 따라서 !!연산자는 null이 아닌 것을 보장할 수 있는 객체에만 사용해야 한다.
+반면 아래 코드는 !! 연산자를 사용했기 때문에 컴파일이 된다. !!연산자는 객체가 null이 아닌 것을 보장하고 만약 null이라면 NPE를 발생시킨다. 따라서 !!연산자는 null이 아닌 것을 보장할 수 있는 객체에만 사용해야 한다.
 
 ```kotlin
 var nonNullString2: String = getString()!!   // 컴파일 성공
@@ -130,4 +130,41 @@ val a: String? = null
 println(a?.length)
 ```
 
-### 안전하게 nullable 프로퍼티 할당
+### 안전하게 nullable 프로퍼티 할당하기
+
+어떤 프로퍼티를 다른 프로퍼티에 할당할 때, 객체가 null인 경우 default 값을 할당하고 싶을 수 있다. 이를 위해 자바에서는 삼항연산자를 사용하지만 코틀린은 삼항연산자를 지원하지 않는다. 따라서 삼항연산자를 대체하기 위해 다음의 방법을 사용한다.
+
+1. if-else
+자바와는 다르게 코틀린은 한줄로 if-else를 쓸 수 있다. 
+
+```kotlin
+val l = if (b != null) b.length else -1
+```
+
+2. 엘비스 연산자(Elvis Operation)
+엘비스 연산자는 `?:`를 말한다. 삼항연산자와 비슷한데 ?: 왼쪽의 객체가 null이 아니면 이 객체를 리턴하고 null이라면 ?:의 오른쪽 객체를 리턴한다. 다음은 위의 if-else 예제를 엘비스 연산자를 사용하여 구현한 코드이다.
+
+```kotlin
+val l = b?.length ?: -1
+```
+
+3. Safe Cast
+코틀린에서 형변환 할 때 Safe Cast를 이용하면 안전히다. 아래 코드에서 문자열이지만 Any타입인 string을 as?를 이용하여 String과 Int로 형변환을 시도하면, String은 성공하지만 Int는 타입이 맞지 않기 때문에 null을 리턴한다.
+
+```kotlin
+val string: Any = "AnyString"
+val safeString: String? = string as? String
+val safeInt: Int? = string as? Int
+println(safeString) // AnyString
+println(safeInt)	// null
+```
+
+4. Collection의 Null 객체를 모두 제거
+Collection에 있는 Null 객체를 미리 제거할 수 있는 함수도 제공한다. 다음은 List에 있는 null 객체를 filterNotNull 메소드를 이용하여 삭제하는 코드이다.
+
+```
+val nullableList: List<Int?> = listOf(1, 2, null, 4)
+val intList: List<Int> = nullableList.filterNotNull()
+println(intList)	// [1, 2, 4]
+```
+
