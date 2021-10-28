@@ -80,3 +80,54 @@ val nullableList: List<Int?> = listOf(1, 2, null, 4)
 val intList: List<Int> = nullableList.filterNotNull() // {1, 2, 4}
 ```
 
+## 김현수
+
+### Nullable과 Non-Nullable 프로퍼티
+
+자바의 경우 primitive type을 제외한 객체들은 항상 null이 될 수 있다. 코틀린은 자바와 다르게 Nullable과 Non-nullable 타입으로 프로퍼티를 선언할 수 있다. Non-nullable 타입으로 선언하면 객체가 null이 아닌 것을 보장하기 때문에 null check 등의 코드를 작성할 필요가 없다.
+
+타입을 선언할 때 ?를 붙이면 null을 할당할 수 있는 프로퍼티이고, ?가 붙지 않으면 null이 허용되지 않는 프로퍼티를 의미한다.
+
+```kotlin
+var nullable: String? = "nullable"
+var nonNullable: String = "non-Nullable"
+```
+
+nullable 프로퍼티는 null을 할당할 수 있지만, nonNullable에 null을 할당하려고 하면 컴파일 에러가 발생한다.
+
+```kotlin
+nullable = null      // 컴파일 성공
+nonNullable = null   // 컴파일 에러
+```
+
+### nullable 타입을 non-nullable 타입으로 변경하기
+코틀린에서는 NPE가 발생하지 않을 것 같지만 자바의 라이브러리를 쓰는 경우 NPE가 발생할 수 있다. 자바는 non-nullable 타입이 없기 때문에 자바 라이브러리를 사용하면 nullable 타입으로 리턴된다.
+
+코틀린에서 자바 라이브러리의 함수의 리턴 값을 non-nullable인 String으로 변환하려 할 때 아래 코드처럼 대입하면 컴파일 에러가 발생한다. String?타입을 String타입에 할당하려고 했기 때문이다.
+
+```kotlin
+var nonNullString1: String = getString()     // 컴파일 에러
+```
+
+반면 아래 코드는 !! 연산자를 사용했기 때문에 컴파일이 된다. !!연산자는 객체가 null이 아닌 것을 보장합니다. 만약 null이라면 NPE를 발생시킵니다. 따라서 !!연산자는 null이 아닌 것을 보장할 수 있는 객체에만 사용해야 한다.
+
+```kotlin
+var nonNullString2: String = getString()!!   // 컴파일 성공
+```
+
+### 안전하게 nullable 프로퍼티 접근하기
+
+1. 조건문으로 nullable 접근
+
+가장 쉬운 방법은 `if-else`를 이용하는 것. 단점은 if-else 루프가 반복되는 경우 가독성을 해칠 수 있다.
+	
+2. Safe call `?.` 연산자로 nullable 접근
+
+Safe call은 객체를 접근할 때 ?.로 접근하는 방법을 말한다. 아래 코드에서 a?.length를 수행할 때 a가 null이라면 length를 호출하지 않고 null을 리턴하므로 NPE가 발생하지 않는다.
+
+```kotlin
+val a: String? = null
+println(a?.length)
+```
+
+### 안전하게 nullable 프로퍼티 할당
