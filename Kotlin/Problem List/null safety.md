@@ -162,7 +162,7 @@ println(safeInt)	// null
 4. Collection의 Null 객체를 모두 제거
 Collection에 있는 Null 객체를 미리 제거할 수 있는 함수도 제공한다. 다음은 List에 있는 null 객체를 filterNotNull 메소드를 이용하여 삭제하는 코드이다.
 
-```
+```kotlin
 val nullableList: List<Int?> = listOf(1, 2, null, 4)
 val intList: List<Int> = nullableList.filterNotNull()
 println(intList)	// [1, 2, 4]
