@@ -1,6 +1,7 @@
 # Android
 
 * [액티비티, 생명주기](#액티비티-생명주기)
+* [액티비티 vs 프래그먼트](#액티비티와-vs-프래그먼트)
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
@@ -36,7 +37,7 @@ PC에서 모바일로 전환되며 화면의 크기가 작아졌다. 이에 따�
 	- 주로 view를 만들거나 view resource bind , data to list 등을 onCreate()에서 담당한다.
 	- `savedInstanceState`매개변수를 수신하는데, 이는 액티비티의 이전 저장 상태가 포함된 Bundle 객체이다. 만약 처음 생성된 경우 null이다.
 	- 다음 메소드 : onStart()
-   
+  
 - onRestart()
    - Activity가 onStop()이 호출된 이후에 재시작 되는 경우 호출되는 메소드
    - OnStop()부터 액티비티 상태를 복원
@@ -88,6 +89,7 @@ PC에서 모바일로 전환되며 화면의 크기가 작아졌다. 이에 따�
 	- onDestroy() 메서드는 이전의 콜백에서 아직 해제되지 않은 모든 액티비티 리소스를 해제해야 한다. (Memory Leak(메모리 누수)의 위험이 있음) 
 	- 다음 메소드 : 없음
 	
+
 **onStop(), onDestory()는 호출되지 않을 수도 있음**
 
 #### 상태에 따른 프로세스 종료 가능성
@@ -110,3 +112,43 @@ PC에서 모바일로 전환되며 화면의 크기가 작아졌다. 이에 따�
 이와 같은 순서로 각각의 액티비티의 수명주기가 전환되므로 개발 시, 유의하며 컨트롤 할수 있어야한다.
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
+
+<br />
+
+<br />
+
+## Activity vs Fragment
+
+### Activity
+
+- 액티비티는 앱을 구성하는 요소로, 앱의 진입점 역할을 하며 사용자와 상호작용할 수 있는 화면을 가진다.
+- 액티비티는 가장 바닥에 존재하는 틀 같은 것이다.
+- 액티비티 없이는 View도 프래그먼트도 존재할 수 없다.
+- 액티비티는 독립적으로 활용할 수 있다.
+- 프래그먼트를 사용하려면 FragmentActivity를 상속받아야 한다.
+- Manifest에 등록되어 있어야 한다.
+- Activity간 통신을 위해 Intent 객체를 활용한다.
+
+### Fragment
+
+- 액티비티와 View의 개념을 합쳐놓은 것으로, 프래그먼트를 사용하면 액티비티를 변경하지 않고도 쉽게 View를 변경할 수 있다.
+- 프래그먼트는 화면 안에 들어가는 레이아웃이 중복되지 않도록 한 번만 정의하고 **재사용**이 가능하도록 만든 것이다.
+- 프래그먼트는 독립적으로 존재할 수 없고 항상 액티비티 또는 다른 프래그먼트 위에 올라가서 동작한다.
+- Manifest에 정의될 필요가 없다.
+- 프래그먼트 또한 자신의 생명주기를 가지고 있으나, 호스트 액티비티의 생명주기에 영향을 받는다.
+- 프래그먼트는 View가 아니기 때문에 findViewById() 메서드를 즉각 호출하는 것이 불가능하다.
+  - getSupportFragmentManager()를 호출해서 프래그먼트 매니저 객체를 불러와서 findViewById()를 사용한다.
+- ViewModel 혹은 Fragment Result API를 통해 통신한다.
+
+| 공통점                                                       | 차이점                                                       |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 작업 방식이 비슷하다. (매니저 사용) <br>Activity를 관리하기 위해서 시스템은 액티비티 매니저를 이용한다. Fragment도 프래그먼트 매니저로 관리한다. | Activity는 데이터를 전달하기 위해 Intent객체를 사용한다.<br> Fragment는 Activity와 통신하기 위해 관련 메서드를 이용하지 Intent를 사용하지 않는다. (fragment는 시스템이 관여하지 않기 때문이다.) |
+| 생명주기 방식이 비슷하다. <br> Fragment의 생명주기는 Activity의 메서드에 5가지가 추가되었다. | Fragment는 View가 아니기 때문에 findViewById()를 즉각 호출하는 것이 불가능하다. |
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FJYuvN%2FbtqECMbGjnd%2FStnAqpuI0XTmfHonPOttNK%2Fimg.png)
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
+
+<br />
+
+<br />
