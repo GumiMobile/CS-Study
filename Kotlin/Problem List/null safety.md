@@ -168,3 +168,94 @@ val intList: List<Int> = nullableList.filterNotNull()
 println(intList)	// [1, 2, 4]
 ```
 
+## 김민수
+
+### Null safety, Kotlin
+
+자바의 경우 모든 레퍼런스 타입에 null 대입이 가능하다. 따라서 런타임 시에 `NulllPointerException` 이 발생할 가능성이 높다. 하지만 코틀린의 경우, nullable 타입인지 ?로 명시해주어야 하며, 이를 통해 null이 할당되는 것을 컴파일 타임에서 미리 방지할 수 있다. 자바의 경우 `@Nonnul` 어노테이션 또는 `java.util.Optional`을 사용하면 null체크를 할 수 있다.
+
+```kotlin
+val str: String? = null // 에러 없음
+val str: String = null // 에러 발생
+```
+
+
+
+### Safe call
+
+#### ?. Safe call operator
+
+nullable 타입의 경우 safe call operator ?. 을 이용하여 null을 컨트롤 할 수 있다.
+
+``` kotlin
+val a = "kotlin"
+val b: String? = null
+println(a?.length) // 6, ?.필요없음
+println(b?.length) // null
+
+bob?.department?.head?.name // bob, department, head 중 하나라도 null이면 null 반환
+```
+
+위 코드에서 b?.length에 접근할 때, ?. 왼쪽의 값이 null이면 null을 반환한다. b?.length의 타입은 Int?가 된다.
+
+#### .let() 표준 확장함수를 이용한 null 무시
+
+``` kotlin
+val list: List<String?> = listOf("kotlin", null, "java")
+for(item in list) {
+    item?.let(println(it)) // null을 무시하고 kotlin java 출력
+}
+```
+
+
+
+### ?: Elvis operator
+
+``` kotlin
+val l: Int = if(b != null) b.length else -1
+val l = b?.length ?: -1 // 위 코드를 Elvis 연산자를 이용하여 간단하게 표현 가능
+```
+
+?: 왼쪽의 값이 null 이라면 ?: 오른쪽 값을 할당한다. 위 코드에서 b가 null이라면 l = -1이 된다. 또한 ?: 이후에 return 문 혹은 throw를 통해 Exception을 던질 수 도 있다.
+
+``` kotlin
+fun foo(node: Node): String? {
+	val l = b?.length ?: return null
+    val name = node.getName() ?: throw IllegalArgumentException("")
+}
+```
+
+
+
+### !! operator
+
+nullable 타입을 non-null로 강제 변환시키는 연산자이다. 이떄 null이 할당되면 NPE가 발생할 수 있어 신중하게 사용해야 한다.
+
+``` kotlin
+val b: String? = null
+val length = b!!.length // NPE 발생
+```
+
+
+
+### Safe cast
+
+자바에서 잘못된 class casting을 할 경우, 런타임에서 `ClassCastException`이 발생한다. 코틀린은 캐스팅 시 타입이 맞지 않으면 null을 반환하는 as? 를 지원한다.
+
+``` kotlin
+val b = "kotlin"
+val aInt: Int? = b as? Int // aInt = null
+```
+
+b는 "kotlin"이므로 Int로 캐스팅 할 수 없다. 하지만 as?로 인해 `ClassCastException` 발생을 회피하고 aInt에 null을 할당한다.
+
+
+
+### Collections 에서 null filter
+
+nullable 요소를 갖는 Collection에서 `filterNotNull()`을 이용해 null 요소를 필터링 할 수 있다.
+
+``` kotlin
+val nullableList: List<Int?> = listOf(1, 2, null, 4)
+println(nullableList.filterNotNull()) // [1, 2, 4]
+```
