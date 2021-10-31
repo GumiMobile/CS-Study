@@ -99,7 +99,7 @@ suspend fun getUserFromServer() = withContext(Dispatchers.IO) {
   - 안드로이드 메인 스레드에서 runBlocking 사용시, 5초 이상 작업하면 ANR 발생
 
 ## 김현수
-	
+
 ### 코루틴이란?
 - 코루틴의 코는 'co(함께, 동시에)'라는 의미를 가지고 있다. 즉, 동시성 프로그래밍 개념을 코틀린에 도입한 것이 코루틴이다.
 - 코루틴은 코루틴이 시작된 스레드를 중단하지 않으면서 비동기적으로 실행되는 코드이다.
@@ -124,3 +124,91 @@ suspend fun getUserFromServer() = withContext(Dispatchers.IO) {
 - Launch, Async
 	- launch와 async는 CoroutineScope의 확장함수이며, 넘겨 받은 코드 블록으로 코루틴을 만들고 실행해주는 코루틴 빌더이다.
 	- launch는 Job객체를, async는 Deferred 객체를 반환하며, 이 객체를 사용해서 수행 결과를 받거나, 작업이 끝나기를 대기하거나, 취소하는 등의 제어가 가능하다.
+
+## 우지현
+
+### 코루틴 (Coroutine)
+
+- 하나의 스레드 내에서 여러 개의 코루틴이 실행되는 개념
+
+- 비동기 프로그래밍에 권장되는 동시 실행 설계 패턴
+
+- 단일 스레드 내에서 여러 개의 코루틴을 실행할 수 있기 때문에 많은 양의 동시 작업을 처리할 수 있고 메모리가 절약된다.
+
+  - 기존 스레드는 Context-switching이 발생하기 때문에 많은 양의 스레드를 갖기 어렵다.
+
+  - 하지만 코루틴은 스레드가 아닌 루틴을 일시 중단(suspend)하는 방식이기 때문에 context-switching 비용이 들지 않는다.
+
+    > context-switching : CPU가 스레드를 점유하면서 실행, 종료를 반복하며 메모리 소모
+
+- 지정된 작업 범위 내에서 실행되기 때문에 메모리 누수를 방지할 수 있다.
+
+### 코루틴 스코프 (Coroutine Scope)
+
+코루틴이 실행되는 범위로, 코루틴을 실행하고 싶은 LifeCycle에 따라 원하는 Scope를 생성하여 코루틴이 실행될 작업 범위를 지정할 수 있다.
+
+- CoroutineScope
+  - 사용자 정의 Scope
+- GlobalScope
+  - 앱이 실행될 때부터 종료될 때까지 실행된다.
+- viewModelScope
+  - ViewModel 대상
+  - ViewModel이 제거되면 코루틴 작업이 자동으로 취소된다.
+- lifecycleScope 
+  - Lifecycle 객체 대상 (Activity, Fragment, Service, ... )
+  - Lifecycle이 끝날 때 코루틴 작업이 자동으로 취소된다.
+- liveData
+  - LiveData 대상
+  - LiveData가 활성화되면 실행을 시작하고 비활성화되면 자동으로 취소된다.
+
+### 코루틴 컨텍스트 (Coroutine Context)
+
+코루틴 작업을 어떤 스레드에서 실행할 것인지에 대한 동작을 정의하고 제어하는 요소.
+
+- Job
+
+  - 코루틴을 고유하게 식별하고 코루틴을 제어한다.
+
+- Dispatchers
+
+  - 코루틴을 어떤 스레드에서 실행할 것인지에 대한 동작을 지정한다.
+
+  |       Thread        | 설명                                                         |
+  | :-----------------: | ------------------------------------------------------------ |
+  |  Dispatchers.Main   | 안드로이드의 메인 스레드로, UI 작업을 위해 사용해야 한다.<br />예를 들어, UI를 구성하거나 LiveData를 업데이트할 때 사용된다. |
+  |   Dispatchers.IO    | 네트워크, 디스크 I/O 실행에 최적화되어 있다.<br />예를 들어, Retrofit으로 네트워크 통신을 하거나, File이나 Room 데이터베이스에서 데이터를 읽고 쓸 때 사용된다. |
+  | Dispatchers.Default | CPU 사용량이 많은 무거운 작업 처리에 최적화되어 있다.<br />예를 들어, 데이터를 가공하거나 복잡한 연산, JSON 파싱을 할 때 주로 사용된다. |
+
+### 코루틴 빌더 (Coroutine Builder)
+
+위에서 설정한 CoroutineScope와 CoroutineContext를 통해 코루틴을 실행시켜주는 함수.
+
+- launch
+  - Job 객체이며, 결과값을 반환하지 않는다.
+  - 실행 후 결과값이 필요없는 모든 작업은 launch를 사용하여 실행할 수 있다.
+- async
+  - Deferred 객체이며, 결과값을 반환한다.
+  - await() 함수를 사용하여 코루틴 작업의 최종 결과값을 반환한다.
+- withContext
+  - async와 동일하게 결과값을 반환하며, async와의 차이점은 await()를 호출할 필요가 없다는 것이다.
+  - async{ }.await()와 동일하다고 보면 된다.
+  - 코루틴 내부나 suspend 함수 안에서 구현이 가능하며, 콜백 없이 코드의 스레드 풀을 제어할 수 있기 때문에 네트워크 요청이나 DB 조회 같은 작업에 주로 사용한다.
+
+### suspend function
+
+- 코루틴 안에서만 실행할 수 있는 코루틴 전용 메소드.
+- suspend 메소드는 일반적인 곳에서 호출할 수 없으며, 반드시 코루틴 안에서만 호출이 가능하다.
+  - 코루틴의 실행이 일시중단(suspend)되거나 다시 재개(resume)될 수 있기 떄문에, 컴파일러에게 이 메소드는 코루틴 안에서 실행할 메소드임을 정의하기 위해 메소드명 앞에 `suspend`를 붙여줘야 한다.
+
+### 코루틴을 사용할 때 순서!!
+
+Context로 Scope를 만들고, Builder를 이용하여 코루틴을 실행한다!
+
+1. 어떤 스레드에서 실행할 것인지 Dispatchers를 정하고 
+   (Dispatchers.Main, Dispatchers.IO, Dispatchers.Default)
+2. 코루틴이 실행될 Scope를 정하고
+   (CoroutineScope, viewModelScope, livecycleScope, ...)
+3. launch 또는 async로 코루틴을 실행시킨다.
+
+
+
