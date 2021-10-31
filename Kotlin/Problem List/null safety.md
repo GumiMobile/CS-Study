@@ -259,3 +259,105 @@ nullable 요소를 갖는 Collection에서 `filterNotNull()`을 이용해 null �
 val nullableList: List<Int?> = listOf(1, 2, null, 4)
 println(nullableList.filterNotNull()) // [1, 2, 4]
 ```
+
+
+
+## 우지현
+
+### Nullable types and Non-Null Types
+
+코틀린의 타입 시스템은 `Bilion Dollar Mistake`라고도 알려진 null 참조 코드의 위험성을 없애기 위한 것이다. 
+
+Java를 포함한 많은 프로그래밍 언어에서 가장 일반적인 함정 중 하나는 null 참조 멤버에 접근하면 null 참조 예외(null reference exception)가 발생한다는 것이다. Java에서는 이것을 `NullPointerException` 또는 `NPE`라고 한다.
+
+코틀린 타입 시스템은 코드에서 `NullPointerException`을 제거하기 위한 것이다. 코틀린 타입은 기본적으로 Non-Null 타입이고 Nullable type은 타입 뒤에 ?가 붙는다.
+
+#### 코틀린에서 `NPE`가 발생하는 원인
+
+- `throw NullPointerException`을 명시적으로 호출
+- `!!` 연산자 사용
+- 초기화와 관련하여 아래와 같은 특성으로 인한 데이터 불일치가 발생할 때
+  - 생성자에서 `this`를 초기화하지 않고도 사용할 수 있으며, 다른 곳으로 전달되어 사용할 수 있다. (`leaking this`)
+  - 수퍼 클래스 생성자는 파생 클래스의 구현에서 초기화되지 않은 상태를 사용하는 open member 호출.
+- 자바 상호작용
+  - 플랫폼 유형의 null 참조에서 멤버에 접근하려고 시도
+  - 올바르지 않은 nullability로 자바 상호작용에 사용되는 제네릭 타입
+  - 외부의 자바 코드로 인한 기타 문제들
+
+### 조건문으로 null 확인
+
+```kotlin
+val l = if (b != null) b.length else -1
+```
+
+명시적으로 b가 null인지를 체크하여 null일 때와 null이 아닐 때를 구분해서 다룬다.
+
+### Safe Calls `?.`
+
+```kotlin
+val a = "Kotlin"
+val b: String? = null
+println(b?.length)
+println(a?.length) // Unnecessary safe call
+```
+
+b가 null이 아니면 b.length를 리턴하고, 그렇지 않으면 null을 반환한다.
+
+safe call은 chain에서 유용하다. 아래와 같은 경우 프로퍼티가 null인 것이 있따면 이 체인은 null을 리턴한다.
+
+```kotlin
+bob?.department?.head?.name
+```
+
+null이 아닌 값에 대해서만 특정 연산을 수행하려면 아래와 같이 안전한 호출 연산자인 `let`을 사용하면 된다.
+
+```kotlin
+val listWithNulls: List<String?> = listOf("Kotlin", null)
+for (item in listWithNulls) {
+    item?.let { println(it) } // prints Kotlin and ignores null
+}
+```
+
+### 엘비스 연산자 (Elvis Operator) `?:`
+
+`?:`는 결과값이 null이 아니면 연산자 왼쪽의 값을 반환하고, 값이 null이면 오른쪽의 값을 반환한다. 오른쪽 표현식은 왼쪽의 값이 null인 경우에만 계산된다.
+
+```kotlin
+val l = b?.length ?: -1
+```
+
+코틀린에서는 `throw`와 `return`이 표현식이므로 엘비스 연산자의 오른쪽에 사용할 수 있다.
+
+```kotlin
+fun foo(node: Node): String? {
+    val parent = node.getParent() ?: return null
+    val name = node.getName() ?: throw IllegalArgumentException("name expected")
+    // ...
+}
+```
+
+### `!!` 연산자
+
+non-null을 선언하는 연산자인 `!!`는 모든 값을 null이 아닌 타입으로 변환하고, 값이 null인 경우에는 예외를 throw한다. NPE를 원하는 경우 NPE를 발생시킬 수 있지만 명시적으로 요청해야 한다.
+
+```kotlin
+val l = b!!.length
+```
+
+### 안전한 캐스팅 (Safe Casts)
+
+객체가 target 타입이 아닌 경우 규칙적인 타입 캐스팅으로 인해 `ClassCastException`이 발생할 수 있다. 이때는 null을 리턴하는 safe cast를 사용하면 된다.
+
+```kotlin
+val aInt : Int? = a as? Int
+```
+
+### 널이 가능한 타입 컬렉션
+
+null을 입력할 수 있는 타입의 컬렉션이 있을 때, null이 아닌 요소를 필터링하고 싶으면 `filterNotNull`을 사용하면 된다.
+
+```kotlin
+val nullableList: List<Int?> = listOf(1, 2, null, 4)
+val intList: List<Int> = nullableList.filterNotNull()
+```
+
