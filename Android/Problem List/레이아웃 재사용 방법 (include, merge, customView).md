@@ -146,3 +146,23 @@ activity_main.xml
 ```
 
 xml에서 커스텀뷰의 클래스패스를 태그로 사용하면 custom view를 배치할 수 있다.
+
+## 김현수
+
+### 레이아웃 재사용
+- UI가 특정 레이아웃 구성을 여러 위치에서 반복할 때 재사용 가능한 효율적인 레이아웃 구성을 생성하여 적절한 UI 레이아웃에 포함할 수 있다.
+
+- 전체 레이아웃을 효율적으로 재사용하려면 <include/> 및 <merge/> 태그를 사용하여 현재 레이아웃에 다른 레이아웃을 삽입할 수 있다.
+
+### include
+
+1. 재사용할 xml파일 작성 (example.xml)
+2. 작성한 xml파일을 새로운 xml 파일에 추가
+
+```xml
+<include
+        android:id="@+id/include1"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        layout="@layout/example"/>
+```
