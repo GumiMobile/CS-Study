@@ -36,7 +36,7 @@ reuse_item2.xml
     android:textAppearance="?android:attr/textAppearanceMedium"/>
 ```
 
-위젯 여러 개라면 반드시 `ViewGroup`으로 감싸줘야한다. 또한 xml의 최상위 요소는 `xmlns:android="http://schemas.android.com/apk/res/android"` 네임스페이스를 지정해야 한다.
+위젯이 여러 개라면 반드시 `ViewGroup`으로 감싸줘야한다. 또한 xml의 최상위 요소는 `xmlns:android="http://schemas.android.com/apk/res/android"` 네임스페이스를 지정해야 한다.
 
 > tools:showIn 속성에 정의된 xml을 열었을 때, include된 재사용 레이아웃을 보여주는 속성이다. 컴파일 시에 제거된다.
 
