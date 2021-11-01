@@ -1,7 +1,7 @@
 # Android
 
 * [액티비티, 생명주기](#액티비티-생명주기)
-* [액티비티 vs 프래그먼트](#액티비티와-vs-프래그먼트)
+* [액티비티 vs 프래그먼트](#activity-vs-fragment)
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
