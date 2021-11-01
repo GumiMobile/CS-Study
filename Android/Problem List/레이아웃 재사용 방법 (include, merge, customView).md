@@ -156,6 +156,8 @@ xml에서 커스텀뷰의 클래스패스를 태그로 사용하면 custom view�
 
 ### include
 
+한 레이아웃 파일의 내용을 다른 레이아웃에 삽입할 때 사용된다.
+
 1. 재사용할 xml파일 작성 (example.xml)
 2. 작성한 xml파일을 새로운 xml 파일에 추가
 
@@ -166,3 +168,67 @@ xml에서 커스텀뷰의 클래스패스를 태그로 사용하면 custom view�
         android:layout_height="100dp"
         layout="@layout/example"/>
 ```
+
+### merge
+merge 태그가 포함된 레이아웃이 다른 레이아웃에 추가될 때 merge 노드가 사라지고 자식뷰들만 새 부모 레이아웃에 직접 추가된다.
+단일 루트노드를 생성하기 위한 불필요한 중첩을 제거한다.
+
+include와 merge를 결합하여 깊게 중첩된 레이아웃 계층 구조를 만들지 않고 유연, 재사용 가능한 레이아웃을 정의하고 생성할 수 있다.
+
+```xml
+<!-- add1.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+	
+    <TextView
+        android:text="add1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</merge>
+
+<!-- add2.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:text="add2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</merge>
+
+<!-- activity_main.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <include
+        android:id="@+id/add1"
+        layout="@layout/add1"/>
+
+    <include
+        android:id="@+id/add2"
+        layout="@layout/add2"/>
+
+</LinearLayout>
+```
+		
+		
+### CustomView
+1. CustomView의 클래스를 만든다.
+2. attrs.xml 설정
+	- custom하게 만들어줄 attribute를 설정한다.
+	- res/values 밑에 attrs.xml파일을 만들고 아래와 같은 형식으로 정의한다.
+	
+	```xml
+	<declare-styleable name="LoginButton">
+        <attr name="bg" format="reference|integer" />
+        <attr name="symbol" format="reference|integer" />
+        <attr name="text" format="reference|string" />
+        <attr name="textColor" format="reference|integer" />
+	</declare-styleable>
+	```
+3. CustomView에서 attrs를 읽어오고 오버라이딩 메서드(onMeasure, onDraw 등)를 구현한다.
