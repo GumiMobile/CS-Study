@@ -257,7 +257,6 @@ include와 merge를 결합하여 깊게 중첩된 레이아웃 계층 구조를 
                       android:layout_height="wrap_content"
                       android:src="@drawable/gafricalogo" />
        </FrameLayout>
-       
    ```
 
 2. 다른 레이아웃 xml 파일에 해당 레이아웃을 `<include>` 태그로 작성
@@ -280,7 +279,6 @@ include와 merge를 결합하여 깊게 중첩된 레이아웃 계층 구조를 
            ...
    
        </LinearLayout>
-       
    ```
 
 포함된 레이아웃의 루트 뷰에 사용되는 모든 레이아웃 매개변수 (`android:layout_*` 속성)를 <include/> 태그에 지정하여 재정의할 수도 있다. 그렇지만 <include> 태그를 사용하여 레이아웃 속성을 재정의하려면 다른 레이아웃 속성이 적용되도록 `android:layout_height` 및 `android:layout_width`를 모두 재정의해야 한다.
@@ -290,7 +288,6 @@ include와 merge를 결합하여 깊게 중첩된 레이아웃 계층 구조를 
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              layout="@layout/title"/>
-   
 ```
 
 <include> 태그를 사용해서 레이아웃을 재사용할 경우, titlebar.xml의 ImageView만 들어가는 것이 아니라 ImageView를 감싸고 있는 FrameLayout까지 모두 들어가서 layout의 깊이가 깊어진다는 단점이 있다.
@@ -313,8 +310,29 @@ include와 merge를 결합하여 깊게 중첩된 레이아웃 계층 구조를 
             android:text="@string/delete"/>
 
     </merge>
-    
 ```
 
 이제 이 레이아웃을 다른 레이아웃에 <include> 태그로 포함하면 시스템에서 <merge> 요소를 무시하고 <include> 태그 대신 두 개의 버튼을 직접 레이아웃에 배치한다.
+
+### Custom View
+
+1. CustomView의 기본으로 쓰일 레이아웃 xml 파일을 생성한다.
+
+2. attr.xml 파일에 custom하게 만들어줄 attribute를 설정해준다.
+
+   ```xml
+       <resources>
+          <declare-styleable name="PieChart">
+              <attr name="showText" format="boolean" />
+              <attr name="labelPosition" format="enum">
+                  <enum name="left" value="0"/>
+                  <enum name="right" value="1"/>
+              </attr>
+          </declare-styleable>
+       </resources>
+   ```
+
+3. CustomView를 코드적으로 구현하기 위한  클래스를 작성한다.
+
+4. 다른 레이아웃에 해당 뷰를 추가한다.
 
