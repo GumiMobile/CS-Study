@@ -151,4 +151,47 @@ PC에서 모바일로 전환되며 화면의 크기가 작아졌다. 이에 따�
 
 <br />
 
-<br />
+## 프래그먼트, 생명주기, FragmentManager
+### 프래그먼트
+
+프래그먼트는 `FragmentActivity` 내의 사용자 인터페이스 중 하나이다. 하나의 액티비티에서 여러 개의 프래그먼트를 사용할 수 있으며, 프래그먼트는 여러 액티비티에서 재사용될 수 있다. 프래그먼트는 자신의 수명주기를 갖고 있으며 항상 **액티비티에 종속되어 동작**한다. 따라서 프래그먼트는 부모 액티비티의 수명주기에 영향을 받는다. 프래그먼트는 `FragmentActivity`의 `getSupportFragmentManager()`로 리턴받은 프래그먼트매니저를 통해 관리된다.
+
+- 프래그먼트는 같은 앱에서 서로 다른 크기의 화면을 갖는 기기에서 유연한 UI를 제공하기위해 만들어 졌다.
+
+- 프래그먼트는 다른 액티비티에서 사용될 수 있으므로 프래그먼트가 다른 프래그먼트를 직접 조작하는 것을 지양해야 한다.
+- API 28부터는 Jetpack 라이브러리의 프래그먼트를 사용한다.
+
+### 프래그먼트 생명주기
+
+![Fragment Life Cycle](https://developer.android.com/images/guide/fragments/fragment-view-lifecycle.png)
+
+|      콜백 메소드      | 설명                                                         |
+| :-------------------: | ------------------------------------------------------------ |
+|      onCreate()       | FragmentManager에 add 되었을 때 호출된다.<br />onCreate() 이전에 onAttach()가 먼저 호출된다.<br />아직 FragmentView가 생성되지 않았기 때문에 Fragment의 View와 관련된 작업을 하기에는 적절하지 않다. |
+|    onCreateView()     | Fragment의 View를 생성한다.<br />onCreateView()의 반환값으로 정상적인 FragmentView 객체를 제공했을 때만 Fragement View의 LifeCycle이 생성된다.<br /> |
+|    onViewCreated()    | View 생성이 완료되었을 때 호출된다.<br />View의 초기값을 설정해주거나 LiveData 옵저빙, RecyclerView 또는 ViewPager2에 사용될 Adapter 세팅 등을 해주는 것이 적절하다. |
+| onViewStateRestored() | 저장해둔 모둔 state 값이 Fragment의 View 계층구조에 복원됐을 때 호출된다.<br />체크박스 위젯이 현재 체크되어 있는지 등 각 View의 상태값을 체크할 수 있다. |
+|       onStart()       | Fragment가 사용자에게 보여지기 직전에 호출된다.              |
+|      onResume()       | Fragment가 사용자와 상호작용할 수 있을 때 호출된다.          |
+|       onPause()       | 화면이 일부 가려졌을 때 호출된다.                            |
+|       onStop()        | Fragment가 화면에서 사라졌을 때 호출된다.<br />API 28 버전을 기점으로 onSaveInstanceState() 메소드와 onStop() 메소드의 호출 순서가 달라졌다.<br />API 28 버전부터 onStop() 메소드가 onSaveInstanceState() 메소드보다 먼저 호출됨으로써 onStop()이 FragmentTransaction을 안전하게 수행할 수 있는 마지막 지점이 되었다. |
+| onSaveInstanceState() | Fragment의 상태를 저장하는 메소드                            |
+|    onDestroyView()    | Fragment의 View가 사라질 때 호출된다.<br />가비지 컬렉터에 의해 수거될 수 있도록 Fragment View에 대한 모든 참조가 제거되어야 한다. |
+|      onDestroy()      | Fragment가 제거될 때 호출된다.                               |
+
+### 프래그먼트 매니저
+
+액티비티와 프래그먼트, 혹은 프래그먼트와 그 내부 프래그먼트 사이에서 서로 간의 상호작용을 이어주는 역할을 한다. 
+
+- 프래그먼트들을 add, remove, replace 하는 트랜잭션
+- 트랜잭션으로 인한 백스택 관리
+- 각 하위 프래그먼트의 구성요소에 접근
+
+#### 접근 방법
+
+- FragmentActivity는 getSupportFragmentManager()를 호출하여 프래그먼트 매니저를 받을 수 있다.
+
+- 프래그먼트에서 자신을 호스트한 매니저는 getParentFragmentManager()로 접근 가능하다.
+- 프래그먼트에서 자식 프래그먼트를 관리하는 매니저는 getChildFragmentManager()로 접근 가능하다.
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
