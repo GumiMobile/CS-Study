@@ -19,3 +19,15 @@
 - Message Queue는 Thread가 다른 Thread나 혹은 자기 자신으로부터 전달받은 메세지를 기본적으로 FIFO 형식으로 보관하는 Queue이다.
 - Looper는 Message Queue에서 Message나 Runnable 객체를 차례로 꺼내 Handler가 처리하도록 전달한다.
 - Handler는 Looper로부터 받은 Message/Runnable을 실행, 처리하거나 다른 Thread로부터 Message를 받아서 Message Queue에 넣는 역할을 하는 Thread 간의 통신 장치이다.
+
+## 김현수
+
+### Looper와 핸들러
+안드로이드 시스템은 기본적으로 하나의 Main Thread(=UI Thread)만을 가지고 있고 보통 이 스레드 안에서 작업을 하는데, UI 관련 작업은 반드시 Main Thread에서 처리를 해야하고 네트워크 작업이나 데이터베이스 작업 등 시간이 오래 걸릴 수 있는 작업은 Main Thread가 아닌 별도의 스레드에서 해야한다.
+
+따라서 다운로드나 업로드와 같이 네트워크 작업은 별도의 스레드에서 하고 해당 스레드에서 작업한 결과를 UI에 보여줄때는 Main Thread에 표시를 해야하는 경우가 발생한다. 이러한 멀티 스레드 환경에서 스레드간 통신을 도와주는 도구가 핸들러와 루퍼(=Handler & Looper)이다.
+
+### 핸들러(Handler)
+
+- 안드로이드에서 사용할 수 있는 대표적인 스레드 통신 방법 중 하나가 Hadler를 통해 Message를 전달하는 것이다.
+- Handler를 생성하면 호출한 스레드의 Message Queue와 Looper에 자동으로 연결된다.
