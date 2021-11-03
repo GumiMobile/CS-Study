@@ -215,8 +215,8 @@ include와 merge를 결합하여 깊게 중첩된 레이아웃 계층 구조를 
 
 </LinearLayout>
 ```
-		
-		
+
+
 ### CustomView
 1. CustomView의 클래스를 만든다.
 2. attrs.xml 설정
@@ -232,3 +232,89 @@ include와 merge를 결합하여 깊게 중첩된 레이아웃 계층 구조를 
 	</declare-styleable>
 	```
 3. CustomView에서 attrs를 읽어오고 오버라이딩 메서드(onMeasure, onDraw 등)를 구현한다.
+
+## 우지현
+
+### 레이아웃 재사용
+
+- 안드로이드에서는 다양한 위젯을 통해 재사용 가능한 작은 상호작용 요소를 제공하지만, 특수 레이아웃이 필요한 큰 구성요소를 재사용해야 할 수도 있다.
+- 그럴 때는 `<include />` 및 `<merge />` 태그를 사용하여 다른 레이아웃을 현재 레이아웃 내에 삽입하면 된다.
+- 레이아웃을 재사용하면 재사용 가능한 복잡한 레이아웃을 만들 수 있으므로 특히 유용하다.
+
+### `<include>` 태그
+
+1. 재사용해야 할 레이아웃을 새로운 xml 파일에 정의 (titlebar.xml)
+
+   ```xml
+       <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+           xmlns:tools="http://schemas.android.com/tools"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@color/titlebar_bg"
+           tools:showIn="@layout/activity_main" >
+   
+           <ImageView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:src="@drawable/gafricalogo" />
+       </FrameLayout>
+       
+   ```
+
+2. 다른 레이아웃 xml 파일에 해당 레이아웃을 `<include>` 태그로 작성
+
+   ```xml
+       <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+           android:orientation="vertical"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:background="@color/app_bg"
+           android:gravity="center_horizontal">
+   
+           <include layout="@layout/titlebar"/>
+   
+           <TextView android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:text="@string/hello"
+                     android:padding="10dp" />
+   
+           ...
+   
+       </LinearLayout>
+       
+   ```
+
+포함된 레이아웃의 루트 뷰에 사용되는 모든 레이아웃 매개변수 (`android:layout_*` 속성)를 <include/> 태그에 지정하여 재정의할 수도 있다. 그렇지만 <include> 태그를 사용하여 레이아웃 속성을 재정의하려면 다른 레이아웃 속성이 적용되도록 `android:layout_height` 및 `android:layout_width`를 모두 재정의해야 한다.
+
+```xml
+    <include android:id="@+id/news_title"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             layout="@layout/title"/>
+   
+```
+
+<include> 태그를 사용해서 레이아웃을 재사용할 경우, titlebar.xml의 ImageView만 들어가는 것이 아니라 ImageView를 감싸고 있는 FrameLayout까지 모두 들어가서 layout의 깊이가 깊어진다는 단점이 있다.
+
+### `<merge>` 태그
+
+<merge> 태그는 재사용될 레이아웃을 다른 화면에 포함시킬 때 필요 없는 레이아웃을 제거할 수 있도록 도와준다. <include> 태그를 사용하여 레이아웃을 재사용할 경우, 레이아웃의 깊이가 깊어진다는 단점이 있었다. 이러한 점을 해결하기 위해서는 <merge> 태그를 사용하면 된다.
+
+```xml
+    <merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add"/>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/delete"/>
+
+    </merge>
+    
+```
+
+이제 이 레이아웃을 다른 레이아웃에 <include> 태그로 포함하면 시스템에서 <merge> 요소를 무시하고 <include> 태그 대신 두 개의 버튼을 직접 레이아웃에 배치한다.
+
