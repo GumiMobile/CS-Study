@@ -4,6 +4,7 @@
 * [액티비티 vs 프래그먼트](#activity-vs-fragment)
 * [프래그먼트, 생명주기, FragmentManager](#프래그먼트-생명주기-fragmentmanager)
 * [Intent](#intent)
+* [액티비티, 프래그먼트의 데이터 공유 방법](#액티비티-프래그먼트의-데이터-공유-방법)
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
@@ -285,5 +286,92 @@ startActivity(Intent(Intent.ACTION_SEND, uri))
     <br>
     
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
+
+<br>
+
+
+## 액티비티, 프래그먼트의 데이터 공유 방법
+
+### Activity - Activity 
+
+1) 이동할 액티비티 클래스를 담고 있는 Intent 객체 생성
+2) Intent객체.putXXXExtra(name, value)
+3) startActivity(Intent객체)
+
+### Activity - Fragment
+
+** **Bundle을 사용한다.** **
+
+(1) Fragment1에서 Fragment2로 데이터 가지고 이동하기
+```kotlin
+var fragment2 = Fragment2()
+var bundle = Bundle()
+bundle.putString("key1", "value1")
+bundle.putString("key2", "value2")
+fragment2.arguments = bundle //fragment의 arguments에 데이터를 담은 bundle을 넘겨줌
+
+activity?.supportFragmentManager!!.beginTransaction()
+                        .replace(R.id.view_main, fragment2)
+                        .commit()
+```
+
+(2) Fragment2에서 데이터 받기
+```kotlin
+var bundle:Bundle = getArgument()
+
+if(bundle != null) {
+	var str = bundle.getString("key")
+}
+var str2 = arguments?.getString("key2")
+
+```
+
+### Fragment - Fragment/Activty
+
+프래그먼트는 재사용을 염두해 둔 컴포넌트이다. 따라서 프래그먼트를 독립적으로 유지하려면, 다른 프래그먼트 혹은 액티비티와 직접적으로 통신해선 안된다
+하나의 activity아래에 있는 fragment들이 통신한다면, 공유된 ViewModel이나 연결된 Activity를 통해서 통신한다.
+
+
+ViewModel을 사용해야 하는 경우
+
+- 영속적인 데이터를 공유할 때
+
+Fragment Result Api를 사용하는 경우
+
+- 일회성 데이터를 주고 받을 때
+
+### ViewModel
+
+> 뷰모델은 액티비티, 프래그먼트 등 수명주기를 갖는 컴포넌트의 UI 관련 데이터를 저장하고 관리한다. 기기 회전을 했을 경우, 액티비티, 프래그먼트는 destroy되고 다시 create 된다. 이때 각 컴포넌트가 갖고있는 화면의 데이터는 초기화 된다. Bundle을 이용하여 저장할 수 있지만 번들의 저장용량 권장 사항이 50kb이며 메인 스레드가 번들을 처리하기 때문에 반응성이 떨어진다. 이런 문제점을 해결하기 위해 뷰모델을 사용한다.
+
+뷰모델은 여러 프래그먼트 혹은 액티비티와 데이터를 공유해야 할 때, 가장 적합한 방법이다.
+두 프래그먼트는 activity를 통해 ViewModel을 공유할 수 있다. 프래그먼트가 ViewModel내 데이터를 업데이트할 수 있다. 그러면 observe하고 있던 다른 프래그먼트로 새로운 상태가 푸시되고, 푸시를 받은 프래그먼트에서 LiveData로 데이터를 받아와서 작업을 수행할 수 있다.
+
+- 호스트 액티비티와 데이터 공유
+- 프래그먼트 간 데이터 공유
+- 부모, 자식 프래그먼트 간 데이터 공유
+- 뷰모델은 액티비티,프래그먼트,context,View에 대한 참조를 저장하면 안됨
+
+프래그먼트는 기본적으로 액티비티에 의존적인 요소이다. 이때, 뷰모델의 소유자를 액티비티에 지정하고, 호출된 프래그먼트에 `activityViewModels()`라는 대리자를 통해 뷰모델에 접근할 수 있다. 
+
+자식 프래그먼트에서는 `requireParentFragment()`를 이용하여 부모 프래그먼트의 뷰모델에 접근 가능하다.
+
+### Fragment Result API
+
+> 프래그먼트 매니저가 상속받은 인터페이스 `FragmentResultOwner`를 통해 결과 값을 받을 수 있다. 결과를 받고 싶은 액티비티 혹은 프래그먼트의 매니저의 메서드 `setFragmentResultListener`의 인자 리스너를 통해 결과를 받을 수 있다. 자식 프래그먼트의 결과를 받고 싶다면 childFragmentManager를 통해 받을 수 있다.
+
+- 호스트 액티비티에서 결과 수신
+
+- 프래그먼트 간 결과 전달
+
+  <img src="https://developer.android.com/images/guide/fragments/fragment-a-to-b.png" style width="500"/>
+
+  
+
+- 부모, 자식 프래그먼트 간 결과 전달
+
+  <img src="https://developer.android.com/images/guide/fragments/pass-parent-child.png" style width="500"/>
+  
+  [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
 
 <br>
