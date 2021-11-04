@@ -45,3 +45,27 @@
 2. 핸들러는 받은 Message를 Message Queue에 차례대로 넣는다.
 3. Looper가 Message Queue로부터 하나씩 Message를 뽑아서 핸들러로 전달한다.
 4. Looper로부터 전달받은 메시지는 handleMessage()를 통해서 작업한다.
+
+<br>
+
+## 이유진
+안드로이드에서 스레드간 통신을 도와주는 도구
+
+### 핸들러 (Handler)
+Handler를 생성하면 호출한 스레드의 Message Queue와 Looper에 자동으로 연결된다.
+#### 핸들러를 통한 스레드간 통신
+![](https://miro.medium.com/max/1000/1*cPvR6xzW8oSMhcUCaJNZ4w.png)
+1. 핸들러에 있는 sendMessage()를 통해 Message(작업)를 전달한다.
+2. 핸들러는 Message Queue에 Message를 차례로 넣는다.
+3. Looper가 Message Queue로부터 하나씩 Message를 꺼내서 Handler로 전달한다.
+4. Looper로부터 전달받은 메시지는 handleMessage()를 통해서 작업하게 된다.
+
+> `sendMessage(msg: Message): boolean` : 메시지 큐에 message를 만들어서 전달한다.  
+> `handleMessage(msg: Message)` : 루퍼를 통해 메시지 큐에서 꺼낸 message나 runnable 처리한다.
+
+#### Message
+스레드 통신에서 핸들러에 데이터를 보내기 위한 클래스
+
+### 루퍼 (Looper)
+무한히 실행되는 메시지 루프를 통해 큐에 메시지가 들어오는지 감시한다. 메시지가 들어오면 처리할 핸들러를 찾아서 `handleMessage()`를 호출한다. 루퍼는 스레드당 하나씩만 가질 수 있다. 메시지큐가 비어있으면 아무 행동도 하지 않는다.
+
