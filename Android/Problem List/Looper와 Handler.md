@@ -4,7 +4,7 @@
 
 ### Looper와 Handler의 필요성
 
-![메인 스레드와 서브 스레드 동기화 문제](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FxDe3n%2FbtqEO0ARSld%2Fw9rGCevC0JaX7zFpZ6xMa1%2Fimg.png)
+<img src=https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FxDe3n%2FbtqEO0ARSld%2Fw9rGCevC0JaX7zFpZ6xMa1%2Fimg.png" alt="메인 스레드와 서브 스레드 동기화 문제" width="500" height="400"/>
 
 - Handler와 Looper는 안드로이드 내에서 Thread 백그라운드 처리에 사용된다.
 - 위의 그림과 같이 메인 쓰레드와 서브 쓰레드에서 textView의 setText 메서드 사용시 동기화 문제가 발생하게 된다.
