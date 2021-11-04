@@ -336,3 +336,104 @@ include와 merge를 결합하여 깊게 중첩된 레이아웃 계층 구조를 
 
 4. 다른 레이아웃에 해당 뷰를 추가한다.
 
+<br>
+	
+## 이유진
+### 다른 레이아웃을 현재 레이아웃 내에 삽입하는 방법
+`<include/>` 및 `<merge/>`태그를 사용하여 다른 레이아웃을 현재 레이아웃 내에 삽입하면 된다.
+
+#### <include> 태그 사용
+복잡한 레이아웃을 여러 파일로 나눌 수 있고, 재사용이 가능하다.
+```xml
+<!-- reuse_item.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:id="@+id/container"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical" >
+
+    <TextView
+      android:id="@+id/textView"
+      android:text="text view" />
+
+    <ImageView 
+      android:id="@+id/imageView"
+      android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:src="@drawable/gafricalogo" />
+
+</LinearLayout >
+```
+
+```xml
+<!--main_activity.xml-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/main_container"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical" >
+
+            <include layout="@layout/container"/>
+
+</LinearLayout>
+```
+포함된 레이아웃의 루트 뷰에 사용되는 모든 레이아웃 매개변수(`android:layout_*`속성)를 `<include/>`태그에 지정하여 재정의 할 수 있다. 단, 다른 레이아웃 속성이 적용되도록 `android:layout_height`와 `android:layout_width`를 모두 재정의해줘야 한다.
+```xml
+<include android:id="@+id/news_title"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     layout="@layout/title"/>
+```
+
+reuse_item에 뷰가 하나일 때는 문제가 안 생기지만, 두 개 이상인 경우엔 레이아웃으로 감싸주게 되므로 레이아웃의 중복이 생길 수 있다. (위 예시에선 vertical LinearLayout이 중복됨) 이는 뷰 계층을 깊게해서 부하를 가중시킨다.
+```xml
+<LinearLayout>
+   <TextView> <!-- include를 사용하지 않은 기존 뷰 -->
+   <LinearLayout>
+        <TextView>
+        <ImageView>
+   </LinearLayout>
+</LinearLayout>
+```
+
+#### <merge> 태그 사용
+<merge> tag는 <include>태그에서 발생하는 중복 문제를 처리하는 최상위 요소를 제공하는 더미 태그이다. <merge>를 사용하면, include되는 순간 merge태그가 사라지고 내용물만 바로 붙여진다.
+
+merge를 사용해서 reuse_item.xml 을 다음과 같이 고칠 수 있다.
+```xml
+<!-- reuse_item.xml -->
+<merge>
+
+    <TextView
+      android:id="@+id/textView"
+      android:text="text view" />
+
+    <ImageView 
+      android:id="@+id/imageView"
+      android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:src="@drawable/gafricalogo" />
+
+</merge>
+```
+이렇게 하면 다음과 같이 렌더링된다. (레이아웃 중복 해결)
+```xml
+<LinearLayout>
+    <TextView> <!-- include를 사용하지 않은 기존 뷰 -->
+    <TextView>
+    <ImageView>
+</LinearLayout>
+```
+단, merge는 뷰 그룹을 생성하지 않아서 include와 달리 **id사용이 제한적이다**. `merge`태그가 사라지면서 include할 때 id도 날아간다. 이에따라 붙여주는 include마다 구분이 사라져서 각 merge의 내부 뷰 역시 같은 id로 둘 수 없게 된다. 즉, `reuse_item.xml`의 내부 위젯에 접근할 수 없다. 따라서, merge는 한 xml에서 두 번 사용하지 않는 게 좋다.  
+
+merge태그는 여러 activity에서 똑같이 생긴 긴 분량의 태그가 한 번 씩 사용될 때 사용하면 효과적이다.
+
+### CustomView
+요구사항에 맞는 view를 직접 만을 때 사용한다.
+
+#### 커스텀뷰를 만드는 기본적인 원리
+1. 기존에 존재하는 View클래스를 상속한다.
+2. onDraw(), onMeasure(), onKeyDown()과 같이 시작하는 키워드가 'on'인 슈퍼 클래스 메서드를 오버라이드한다.
+3. 새로 만든 커스텀 뷰를 사용한다. xml 레이아웃 등에 사용한다.
+
