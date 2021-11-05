@@ -5,6 +5,7 @@
 * [액티비티 vs 프래그먼트](#activity-vs-fragment)
 * [Intent](#intent)
 * [액티비티, 프래그먼트의 데이터 공유 방법](#액티비티-프래그먼트의-데이터-공유-방법)
+* [Looper와 Handler](#looper와-handler)
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
@@ -376,7 +377,7 @@ Fragment Result Api를 사용하는 경우
 
 <br>
 
-# Looper와 Handler
+## Looper와 Handler
 
 ### Looper와 핸들러
 안드로이드 시스템은 기본적으로 하나의 Main Thread(=UI Thread)만을 가지고 있고 보통 이 스레드 안에서 작업을 하는데, UI 관련 작업은 반드시 Main Thread에서 처리를 해야하고 네트워크 작업이나 데이터베이스 작업 등 시간이 오래 걸릴 수 있는 작업은 Main Thread가 아닌 별도의 스레드에서 해야한다.
@@ -407,3 +408,5 @@ Fragment Result Api를 사용하는 경우
 
 #### Message
 스레드 통신에서 핸들러에 데이터를 보내기 위한 클래스
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
