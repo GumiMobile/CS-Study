@@ -375,3 +375,35 @@ Fragment Result Api를 사용하는 경우
   [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
 
 <br>
+
+# Looper와 Handler
+
+### Looper와 핸들러
+안드로이드 시스템은 기본적으로 하나의 Main Thread(=UI Thread)만을 가지고 있고 보통 이 스레드 안에서 작업을 하는데, UI 관련 작업은 반드시 Main Thread에서 처리를 해야하고 네트워크 작업이나 데이터베이스 작업 등 시간이 오래 걸릴 수 있는 작업은 Main Thread가 아닌 별도의 스레드에서 해야한다.
+
+따라서 다운로드나 업로드와 같이 네트워크 작업은 별도의 스레드에서 하고 해당 스레드에서 작업한 결과를 UI에 보여줄때는 Main Thread에 표시를 해야하는 경우가 발생한다. 이러한 멀티 스레드 환경에서 스레드간 통신을 도와주는 도구가 핸들러와 루퍼(=Handler & Looper)이다.
+
+### 핸들러(Handler)
+
+- 안드로이드에서 사용할 수 있는 대표적인 스레드 통신 방법 중 하나가 Hadler를 통해 Message를 전달하는 것이다.
+- Handler를 생성하면 호출한 스레드의 Message Queue와 Looper에 자동으로 연결된다.
+
+### 루퍼(Looper)
+- 루퍼는 스레드당 하나씩만 가질 수 있다.
+- Message Queue가 비어 있는 동안 아무 행동도 하지 않고, 메시지가 들어오면 해당 메시지를 꺼내 적절한 Handler로 전달한다.
+- 새로 생성한 스레드는 루퍼를 가지지 않고 Looper.prepare() 메서드를 호출해야 Looper가 생성된다.
+- 루퍼는 무한히 실행되는 메시지 루프를 통해 큐에 메시지가 들어오는지 감시하며 들어온 메시지를 처리할 핸들러를 찾아서 handleMessage()를 호출한다.
+
+### 핸들러와 루퍼를 통한 스레드간 통신
+<img src="https://miro.medium.com/max/1000/1*cPvR6xzW8oSMhcUCaJNZ4w.png" width="600px">
+
+1. 핸들러에 있는 sendMessage()를 통해서 Message(=작업)를 전달한다.
+2. 핸들러는 받은 Message를 Message Queue에 차례대로 넣는다.
+3. Looper가 Message Queue로부터 하나씩 Message를 뽑아서 핸들러로 전달한다.
+4. Looper로부터 전달받은 메시지는 handleMessage()를 통해서 작업한다.
+
+> `sendMessage(msg: Message): boolean` : 메시지 큐에 message를 만들어서 전달한다.  
+> `handleMessage(msg: Message)` : 루퍼를 통해 메시지 큐에서 꺼낸 message나 runnable 처리한다.
+
+#### Message
+스레드 통신에서 핸들러에 데이터를 보내기 위한 클래스
