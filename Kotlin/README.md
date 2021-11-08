@@ -14,6 +14,10 @@
 
 > 루틴 (routine) : 컴퓨터 프로그램에서 하나의 정리된 일
 
+<br />
+
+#### 특징
+
 - light-weighted thread 같지만 실제 사용은 쓰레드와 매우 다르다.
 
 - 기존의 복잡한 AsyncTask 또는 다수 쓰레드 관리를 직접 해주지 않아도 되며, 기존 다중 쓰레드보다 훨씬 효율적으로 동작한다.
@@ -68,7 +72,7 @@ suspend fun getUserFromServer() = withContext(Dispatchers.IO) {
 }
 ```
 
-
+<br />
 
 ### Coroutine Scope
 
@@ -156,7 +160,7 @@ suspend fun getUserFromServer() = withContext(Dispatchers.IO) {
   }
   ```
 
-
+<br />
 
 ### Coroutine Context
 
@@ -192,34 +196,29 @@ suspend fun getUserFromServer() = withContext(Dispatchers.IO) {
 
   - Dispatchers.IO + CoroutineName("name...")와 같이 디버깅을 위해 name을 컨텍스트에 결합 가능
 
+<br />
+
 ### Coroutine Builder
 
 위에서 설정한 Coroutine Scope와 Coroutine Context를 통해 코루틴을 실행시켜주는 함수.
 
 - launch : `Job` 반환
-
   - Job 객체이며, 결과값을 반환하지 않는다.
   - cancel(), cancelAndJoin(),  join() 등의 함수로 제어할 수 있다.
   - 실행 후 결과값이 필요없는 모든 작업은 launch를 사용하여 실행할 수 있다.
-
 - async : `Deferred` 반환
-
   - Deferred 객체이며, 결과값을 반환한다.
   - 미래의 계산 결과가 예상되는 비동기 작업에 사용한다.
   - await() 함수를 사용하여 코루틴 작업의 최종 결과값을 반환한다.
-
 - withContext : `T` 반환
-
   - async와 동일하게 결과값을 반환하며, async와의 차이점은 await()를 호출할 필요가 없다는 것이다.
   - async{ }.await()와 동일하다고 보면 된다.
   - 코루틴 내부나 suspend 함수 안에서 구현이 가능하며, 콜백 없이 코드의 스레드 풀을 제어할 수 있기 때문에 네트워크 요청이나 DB 조회 같은 작업에 주로 사용한다.
-
 - runBlocking : `T` 반환
-
   - 새로운 코루틴을 시작하고 내부 코루틴이 완료될 때까지 현재 스레드 block
   - 안드로이드 메인 스레드에서 runBlocking 사용시, 5초 이상 작업하면 ANR 발생
 
-  
+<br />
 
 ### suspend function
 
@@ -228,7 +227,7 @@ suspend fun getUserFromServer() = withContext(Dispatchers.IO) {
   - 코루틴의 실행이 일시중단(suspend)되거나 다시 재개(resume)될 수 있기 떄문에, 컴파일러에게 이 메소드는 코루틴 안에서 실행할 메소드임을 정의하기 위해 메소드명 앞에 `suspend`를 붙여줘야 한다.
 - 코루틴 함수가 실행되는 과정에서 `suspend`키워드를 가진 함수를 만나면, 더 이상 아래 코드를 실행하지 않고 멈추고(suspend) 코루틴 block을 (잠시) 탈출한다. 그리고 할 일을 다 하면 다시 코루틴 block으로 돌아와서 다음 코드를 실행한다.
 
-
+<br />
 
 ### 코루틴을 사용할 때 순서!!
 
