@@ -40,7 +40,7 @@
 
 - 지정된 작업 범위 내에서 실행되기 때문에 메모리 누수를 방지할 수 있다.
 
-```
+```kotlin
 1. 이렇게 코딩하고 싶다..
 val user = getUserFromServer() // 그러나 NetworkOnMainThreadException
 textview.text = user.name
