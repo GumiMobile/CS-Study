@@ -34,3 +34,25 @@ Application Not Responding의 약자로 애플리케이션이 반응하지 않�
      - View.post(Runnable)
    - AsyncTask의 `onProgressUpdate()`를 구현하고 `publishProgress()` 호출
    - IO 스코프에서 장기 작업을 진행하고 Main 스코프에서 UI 작업 실행
+
+## 김현수
+
+### ANR이란?
+ANR은 Application Not Responding의 약자로 '애플리케이션이 응답하지 않는다'는 뜻이다. Main Thread(UI Thread)가 일정 시간 어떤 Task에 잡혀 있으면 발생하게 된다.
+
+### ANR의 발생 원인
+
+- 애플리케이션이 UI 스레드에 어떠한 I/O 명령(빈번한 네트워크 액세스)으로 인해 막힐 때
+- 너무 많은 시간을 정교한 메모리 구조를 구축하는데 들일 때
+-  Android Developers 에서는 아래와 같이 명시한다.
+	```
+	- Input 이벤트(키를 누르거나 화면을 터치하는 등)에 5초안에 반응을 하지 않을 때
+	- BroadcatReceiver 가 10초내로 실행을 끝내지 않을 때
+	```
+
+### ANR 예방 설계
+- 시간이 많이 걸리는 작업은 서브스레드에서 동작하도록 하여 메인스레드의 부하를 줄인다.
+	- 서브스레드에서 시간이 오래걸리는 작업을 수행하고 Handler를 이용하여 작업상태 메시지를 메인스레드에 전달한다.
+	- AyncTask를 이용하여 핸들러 사용없이 작업과 작업에 대한 내용을 실시간으로 UI에 업데이트한다.
+	- RxJava의 스케쥴러를 이용하여 서브스레드에서 작업한다.
+- 사용자에게 프로그레스바 등을 이용해 작업의 진행 과정을 안내해 기다리도록 한다.
