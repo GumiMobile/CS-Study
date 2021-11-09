@@ -56,3 +56,29 @@ ANR은 Application Not Responding의 약자로 '애플리케이션이 응답하�
 	- AyncTask를 이용하여 핸들러 사용없이 작업과 작업에 대한 내용을 실시간으로 UI에 업데이트한다.
 	- RxJava의 스케쥴러를 이용하여 서브스레드에서 작업한다.
 - 사용자에게 프로그레스바 등을 이용해 작업의 진행 과정을 안내해 기다리도록 한다.
+
+## 우지현
+
+### ANR
+
+Activity에서 사용자 이벤트가 발생하고 5초 이내에 처리하지 못할 경우 안드로이드 시스템이 액티비티를 강제 종료하는 것을 Application Not Responding이라고 한다. 주로 오래 걸리는 작업 결과를 이용해 화면 UI를 수정하려고 할 때 발생하며, 특히 네트워크가 안 좋은 환경에서 통신을 수행할 때 자주 발생한다.
+
+### ANR 해결방법
+
+오래 걸릴 가능성이 있는 작업은 Activity에서 처리하지 말고, 별도의 스레드를 만들어서 병렬로 처리하도록 한다. 그렇게 하면 데이터 수신 등의 오래 걸리는 작업은 별도의 스레드에서 돌아가므로 Activity는 사용자 이벤트에 5초 이내에 반응할 수 있게 되어 ANR이 발생하지 않게 된다. 작업이 완료되었다면 UI 수정은 UI 스레드에게 요청해서 처리한다.
+
+#### UI 스레드에 화면 작업 요청하는 방법
+
+- Handler 클래스
+  - Handler 클래스의 post(), sendMessage() 메서드 등을 활용하여 UI스레드에게 화면 작업 요청
+- AsyncTask 클래스 상속
+  - AxynkTask를 상속받는 클래스를 생성하여 아래 메서드를 오버라이딩하고, 해당 클래스의 객체를 생성하여 execute()로 호출하면 된다.
+  - doInBackground()
+    - 백그라운드에서 오래 걸리는 작업을 수행하며 화면 뷰에 접근할 수 없다. 아래의 2가지 방법으로 데이터를 전달한다.
+      - publishProgress(데이터) : onProgressUpdate()에 데이터를 넣어 호출
+      - return 데이터 : onPostExecute()에 데이터를 넣어 호출한다.
+  - onProgressUpdate()
+    - doInBackground() 메서드에서 publishProgress() 호출 시 콜백되는 메서드로 화면 뷰에 접근할 수 있다.
+  - onPostExecute()
+    - doInBackground() 메서드에서 return 시 콜백되는 메서드로 화면 뷰에 접근할 수 있다.
+
