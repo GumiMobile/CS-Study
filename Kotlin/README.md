@@ -240,3 +240,100 @@ Context로 Scope를 만들고, Builder를 이용하여 코루틴을 실행한다
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#폴더명)
 
 </br>
+
+## 고차함수
+
+- 함수를 인자로 받거나 반환하는 함수
+- 코틀린에서는 람다나 함수 참조를 사용해 함수를 값으로 표현 가능
+
+함수 타입을 매개변수로 받는 고차함수의 실행은 아래와 같다.
+
+### 함수 타입
+
+코틀린은 타입 추론이 가능해서 변수 타입을 지정하지 않아도 람다를 변수에 대입할 수 있다.
+
+```kotlin
+val sum = { x: Int, y: Int -> x + y }
+val action = { println(42) }
+```
+
+각 변수에 구체적인 타입 선언을 추가하면 이렇게 된다.
+
+```kotlin
+val sum: (Int, Int) -> Int = { x: Int, y: Int -> x + y }
+val action: () -> Unit = { println(42) }
+```
+
+> **Unit타입** : 의미 있는 값을 반환하지 않는 함수 반환 타입에 쓰는 특별한 타입 타입을 지정할 때, 함수 타입 전체가 널이 될 수 있다면 함수 타입을 괄호로 감싸고 물음표를 붙여야 한다.
+
+```kotlin
+val canReturnNull: (Int, Int) -> Int? = { x, y -> null }
+val funOrNull: ((Int, Int) -> Int)? = null
+```
+
+#### 파라미터 이름과 함수 타입
+
+함수 타입에서 파라미터 명을 지정할 수 있다.
+
+강제적인 것은 아니며, 호출하는 쪽에서 원하는 파라미터 명으로 변경하여 사용할 수 있다.
+
+```kotlin
+fun performRequest(
+        url: String,
+        callback: (code: Int, content: String) -> Unit
+) {
+    /* .. */
+}
+
+fun main() {
+    val url = "http://www.naver.com"
+    performRequest(url) { code, content -> /*..*/ } // api 에서 정의한 파라미터 명을 사용
+    performRequest(url) { code, page -> /*..*/ } // 원하는 이름으로 변경해서 사용 가능
+}
+```
+
+#### 인자로 받은 함수 호출
+
+doTwoThee 함수의 인자로 람다식을 받고 doTwoThree에서 인자 람다식을 호출하여 사용한다.
+
+```kotlin
+fun doTwoThree(predicate: (Int, Int) -> Int) {
+  val result = predicate(2, 3)
+  println(result)
+}
+
+fun main() {
+  doTwoThree {a, b -> a + b}  // 5  fun predicate(a: Int, b: Int): Int {return a + b}
+  doTwoThree {a, b -> a * b}  // 6  fun predicate(a: Int, b: Int): Int {return a * b}
+}
+```
+
+#### 함수에서 함수를 반환
+
+함수 내에서 함수를 반환하는 경우는 적지만 매우 유용하다.
+
+특정 조건에 따라 달라질 수 있는 로직을 함수를 반환하는 함수로 정의하여 해당 함수를 호출하는 구조를 가짐으로써 깔끔한 코드 스타일로 가져갈 수 있다.
+
+higherOrder 함수는 첫 번째 인자로 함수, 두 번째 인자, 세 번째 인자로 각각 a, b라는 Int를 받는다. 그 후, 첫 번째 인자로 받은 함수에 a, b를 넣어 리턴시킨다. 아래 예에선 a * b를 수행하는 함수를 인자로 받았다.
+
+```kotlin
+enum class Delivery { STANDARD,  EXPEDITED }
+
+class Order(val itemCount: Int)
+
+fun getShippingCostCaculator(
+        delivery: Delivery) : (Order) -> Double  // 함수를 반환하는 함수를 선언한다.
+{
+    if (delivery == Delivery.EXPEDITED) {
+        return { order -> 6 + 2.1 * order.itemCount } // 람다 반환
+    }
+    return { order -> 61.2 * order.itemCount } // 람다 반환
+}
+
+fun main() {
+    val calculator = getShippingCostCaculator(Delivery.EXPEDITED) // 반환받은 함수를 변수에 저장한다.
+    println("Shipping costs ${calculator(Order(3))}") // 반환받은 함수를 호출한다.
+}
+```
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#폴더명)
+
