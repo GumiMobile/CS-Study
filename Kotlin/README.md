@@ -1,6 +1,7 @@
 # Kotlin
 
 * [Coroutine](#coroutine)
+* [고차함수](#고차함수)
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
@@ -237,7 +238,7 @@ Context로 Scope를 만들고, Builder를 이용하여 코루틴을 실행한다
 2. 코루틴이 실행될 Scope를 정하고 (CoroutineScope, viewModelScope, livecycleScope, ...)
 3. launch 또는 async로 코루틴을 실행시킨다.
 
-[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#폴더명)
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#kotlin)
 
 </br>
 
@@ -335,5 +336,5 @@ fun main() {
     println("Shipping costs ${calculator(Order(3))}") // 반환받은 함수를 호출한다.
 }
 ```
-[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#폴더명)
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#kotlin)
 
