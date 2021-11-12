@@ -6,6 +6,7 @@
 * [Intent](#intent)
 * [액티비티, 프래그먼트의 데이터 공유 방법](#액티비티-프래그먼트의-데이터-공유-방법)
 * [Looper와 Handler](#looper와-handler)
+* [비동기 처리 방법](#비동기-처리-방법)
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
@@ -408,5 +409,84 @@ Fragment Result Api를 사용하는 경우
 
 #### Message
 스레드 통신에서 핸들러에 데이터를 보내기 위한 클래스
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
+
+<br>
+
+## 비동기 처리 방법
+
+### 안드로이드에서 비동기 처리의 필요성
+안드로이드의 어플리케이션은 UI 스레드라고 하는 메인 스레드가 UI를 관리하고 처리한다. 이 메인 스레드는 유저의 앱 사용성에 직결된 요소이기 때문에 항상 빠르게 처리해주어야 한다. 메인 스레드에서 오래 걸리는 작업을 수행할 경우 사용자는 앱이 멈춰있다고 생각할 것이다. 이런 상황이 발생하지 않도록 시간이 오래 걸리는 작업은 비동기로 처리해준다.
+
+### 비동기 처리 방법
+#### 1. AsyncTask (Android 11 이후 Deprecated)
+
+<img src="https://t1.daumcdn.net/cfile/tistory/2420B240577D4A720F" width=600/>
+
+- 자체 스레드풀이 있어서 따로 관리하지 않아도 자동으로 스레드를 생성하고 작업을 처리하고 종료된다. 
+- Thread, Handler, Message, Runnable 등을 직접 다루지 않아도, 메인 스레드와 별개로 "비동기(Asynchronous) 실행"이 필요한 작업에 사용할 수 있다.
+- AsyncTask들의 작업은 모두 단 하나의 스레드에서 처리되므로 비교적 짧은 task처리에 알맞다. 만약 병렬 처리를 원한다면 `myTask.executeOnExcutor(AsyncTask.THREAD_POOL_EXECUTOR)`로 호출하면 된다.
+- `doInBackground()`를 제외한 나머지 함수들은 메인 스레드에서 실행되므로, UI 컴포넌트 접근이 가능하다.
+	- 하나의 클래스 안에 스레드 동작 부분과 UI 접근 부분을 동시에 정의할 수 있다.
+- `AsyncTask.execute()`로 실행하고 `doInBackground(), onProgressUpdate(), onPostExcuted()` 를 직접 호출하면 안된다.
+
+- AsyncTask <Params, Progress, Result>
+  - Params : doInBackground 파라미터 타입. execute 메소드의 인자 값
+  - Progress : doInBackground 작업 시 진행 단위의 타입. onProgressUpdate 파라미터 타입
+  - Result : doInBackground 리턴값. onPostExecute의 파라미터 타입
+
+#### AsyncTask 동작 과정
+
+- execute() 명령어를 통해 AsyncTask를 실행한다.
+- AsyncTask로 백그라운드 작업을 실행하기 전에 onPreExecuted()가 실행된다.
+  - 이 부분에서는 이미지 로딩 작업이라면 로딩 중 이미지 띄워놓기 등 스레드 작업 이전에 수행할 동작을 구현한다.
+- 새로 만든 스레드에서 백그라운드 작업을 수행한다. 
+  - execute() 메소드를 호출할 때 사용된 파라미터를 전달받는다.
+- doInBackground() : AsyncTask를 시작하면 자동으로 실행되는 코드 부분 (스레드)
+  - 비동기 작업을 수행한다. `Background thread`
+  - 진행 상태를 UI에 업데이트하도록 하려면 publishProgress 메소드를 호출한다.
+- onProgressUpdate() : AsyncTask가 동작하는 중간중간 상태를 업데이트하는 부분 (주로 UI 업데이트에 사용) `UI thread`
+  - publishProgress()가 호출될 때마다 자동으로 호출된다.
+- doInBackground 메소드에서 작업이 끝나면 onPostExecuted()로 결과 파라미터를 리턴하면서 그 리턴값을 통해 스레드 작업이 끝났을 때의 동작을 구현한다.
+- onPostExecute() : AsyncTask가 종료되면 (doInBackground()가 완료되면) 실행되는 부분 `UI thread`
+
+#### 2. RxJava
+
+- Reactive Java에서 따온 이름으로, Reactive Programming을 자바에서 구현하기 위해서 등장한 라이브러리이다.
+
+  > Reactive Programming (반응형 프로그래밍)
+  >
+  > 비동기 데이터 흐름을 중시하는 프로그래밍으로 외부에서 자유롭게 데이터 입출력을 해도 메인 스레드를 방해하지 않는 것을 중시하는 프로그래밍
+
+- `Observable`이 발생하는 이벤트를 이벤트 스트림에 전달하고, `Observer`는 이벤트 스트림을 관찰하다가 원하는 이벤트를 감지하면 이에 따른 동작을 수행하는 방식이다.
+- 비동기 이벤트를 매우 쉽게 처리할 수 있다.
+- 이벤트나 데이터를 쉽게 가공 및 분배할 수 있다.
+
+- 안드로이드에 RxJava를 적용하려면 App단의 build.gradle에 다음을 implementation 해야 한다.
+
+  - 최신 버전 확인 : [RxJava](https://github.com/ReactiveX/RxJava), [RxAndroid](https://github.com/ReactiveX/RxAndroid)
+
+  ```groovy
+  dependencies {
+      implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+      implementation 'io.reactivex.rxjava3:rxjava:3.1.2'
+  }
+  ```
+  
+#### 3. Coroutine
+> [Coroutine은 안드로이드 개발자 문서에서 공식적으로 AsyncTask 대신 사용할 것을 권하고 있다.](https://developer.android.com/reference/android/os/AsyncTask)
+
+- 안드로이드에서는 Kotlin 1.1 부터 Coroutine을 지원하고 있다.
+- 디스패처를 사용하여 코루틴 실행에 사용되는 스레드를 확인한다.
+- 적절한 코루틴 콘텍스트를 통해 코루틴 스코프를 지정하여 알맞은 작업을 비동기적으로 수행할 수 있다.
+- 기본적으로 코루틴 스코프도 액티비티 생명주기를 무시하며 실행된다. 따라서 액티비티 수명주기에 취소해야 할 경우, CoroutineScope.cancel()을 호출해야 한다.
+
+- Coroutine의 사용을 위해서는 App단의 build.gradle에 다음을 implementation 해 주어야 한다.
+
+  ```groovy
+  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
+  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+  ```
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
