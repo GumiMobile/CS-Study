@@ -45,7 +45,7 @@ ex) 음악 재생, 파일 입출력, 네트워크 트랜잭션 처리 등
 
 ### 서비스 생명 주기 (Service LifeCycle)
  
-<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcsvOQo%2FbtqEmwgjKcm%2FGZLLDKs46ed0aVF09wGFv1%2Fimg.png", width="300px"/>
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcsvOQo%2FbtqEmwgjKcm%2FGZLLDKs46ed0aVF09wGFv1%2Fimg.png" width="300px" />
 
 #### onStartCommand
 - 액티비티 같은 앱 컴포넌트가 startService()를 호출하면, 서비스는 실행되며(started), 그 서비스를 실행한 컴포넌트가 종료되어도 할 일을 모두 마칠 때까지 서비스는 종료되지 않는다. 
