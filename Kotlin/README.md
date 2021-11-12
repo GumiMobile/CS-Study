@@ -443,12 +443,10 @@ bob?.department?.head?.name
 // bob, department, head 중 하나라도 null이면 null 반환
 ```
 
-null이 아닐 때만 특정 연산을 수행하려면 `let`을 사용하면 된다.
-```kotlin
-item?.let { println(it) } //  prints Kotlin and ignores null
-```
 
 #### 3. .let() 표준 확장함수를 이용한 null 무시
+
+null이 아닐 때만 특정 연산을 수행하려면 `let`을 사용하면 된다.
 
 ``` kotlin
 val list: List<String?> = listOf("kotlin", null, "java")
