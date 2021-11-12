@@ -2,7 +2,12 @@
 
 * [Coroutine](#coroutine)
 * [고차함수](#고차함수)
-
+* [Null safety, Kotlin](#Null-safety-Kotlin)
+  * [Nullable과 Non-Nullable 프로퍼티](#Nullable과-Non-Nullable-프로퍼티)
+  * [nullable 타입을 non-nullable 타입으로 변경하기](#nullable-타입을-non-nullable-타입으로-변경하기)
+  * [코틀린에서 NPE가 발생하는 경우](#코틀린에서-NPE가-발생하는-경우)
+  * [안전하게 nullable 프로퍼티 접근하는 방법](#안전하게-nullable-프로퍼티-접근하는-방법)
+  * [안전하게 nullable 프로퍼티 할당하기](#안전하게-nullable-프로퍼티-할당하기)
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
 </br>
@@ -335,4 +340,174 @@ fun main() {
 }
 ```
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#kotlin)
+
+<br>
+
+## Null safety, Kotlin
+
+> NPE : NullPointerException (null 참조의 멤버에 액세스할 때 발생하는 null 참조 예외)
+
+### Nullable과 Non-Nullable 프로퍼티
+
+자바의 경우 primitive type을 제외한 객체들은 항상 null이 될 수 있다. 따라서 런타임시에 NPE가 발생할 가능성이 높다.  
+**코틀린은 자바와 다르게 Nullable과 Non-nullable 타입으로 프로퍼티를 선언할 수 있다.** Non-nullable 타입으로 선언하면 객체가 null이 아닌 것을 보장하기 때문에 null check 등의 코드를 작성할 필요가 없고, null이 할당되는 것을 컴파일 타임에서 미리 방지할 수 있다.  
+타입을 선언할 때 ?를 붙이면 null을 할당할 수 있는 프로퍼티이고, ?가 붙지 않으면 null이 허용되지 않는 프로퍼티를 의미한다.
+
+> 자바의 경우 `@Nonnull` 어노테이션 또는 `java.util.Optional`을 사용하면 null체크를 할 수 있다.
+
+
+```kotlin
+val nullable: String? = null // 에러 없음 (nullable)
+val nonNullable: String = null // 에러 발생 (non-nullable)
+```
+nullable 프로퍼티는 null을 할당할 수 있지만, nonNullable에 null을 할당하려고 하면 컴파일 에러가 발생한다.
+
+```kotlin
+nullable = null      // 컴파일 성공
+nonNullable = null   // 컴파일 에러
+```
+
+### nullable 타입을 non-nullable 타입으로 변경하기
+코틀린에서는 자바의 라이브러리를 쓰는 경우 NPE가 발생할 수 있다. 자바는 non-nullable 타입이 없기 때문에 자바 라이브러리를 사용하면 nullable 타입으로 리턴된다.
+
+코틀린에서 자바 라이브러리의 함수의 리턴 값을 non-nullable인 String으로 변환하려 할 때 아래 코드처럼 대입하면 컴파일 에러가 발생한다. String?타입을 String타입에 할당하려고 했기 때문이다.
+
+```kotlin
+var nonNullString1: String = getString()     // 컴파일 에러
+```
+
+반면 아래 코드는 !! 연산자를 사용했기 때문에 컴파일이 된다. !!연산자는 객체가 null이 아닌 것을 보장하고 만약 null이라면 NPE를 발생시킨다. 따라서 !!연산자는 null이 아닌 것을 보장할 수 있는 객체에만 사용해야 한다.
+
+```kotlin
+var nonNullString2: String = getString()!!   // 컴파일 성공
+```
+
+### 코틀린에서 NPE가 발생하는 경우
+- `throw NullPointerException()`을 명시적 호출
+- `!!` 사용법에 따라
+- 초기화에 대해 아래와 같은 특성으로 데이터의 불일치가 발생할 때 :
+  - 생성자에서 `this`를 초기화하지 않고 사용할 수 있고, 다른 곳으로 전달되어 사용할 수 있다. (leaking this)
+  - superclass 생성자가 파생 클래스의 구현에서 초기화되지 않은 상태를 사용하는 open member을 호출함
+- 자바 상호 작용
+  - 플랫폼 유형의 `null`참조에서 멤버에 접근하려고 시도함
+  - generic type과 관련한 null 허용 여부 문제. 예를 들어,  `MutableList<String>`에 `null`을 추가할 때
+  - 외부 java 코드로 인한 기타 문제
+- String은 null을 포함할 수 없다.
+```kotlin
+var a: String = "ab"
+a = null // Compilation error
+```
+
+#### `!!` 연산자
+NPE를 발생시킬 수 있는 방법!  
+`!!`는 **not-null**을 선언하는 연산자다. 즉, 모든 값을 null이 아닌 타입으로 변환하고, null인 경우 예외를 throw한다. (null이 할당되면 NPE가 발생할 수 있다.)
+
+``` kotlin
+val b: String? = null
+val length = b!!.length // NPE 발생
+```
+
+### 안전하게 nullable 프로퍼티 접근하는 방법
+
+#### 1. 조건문
+가장 쉬운 방법은 `if-else`를 이용하는 것. 단점은 if-else 루프가 반복되는 경우 가독성을 해칠 수 있다.
+```kotlin
+val l = if (b != null) b.length else -1
+```
+
+#### 2. Safe Calls `?.`
+
+Safe call은 객체를 접근할 때 ?.로 접근하는 방법을 말한다. 아래 코드에서 `b?.length`를 수행할 때 b가 null이라면 length를 호출하지 않고 null을 리턴하므로 NPE가 발생하지 않는다. 이때, `b?.length`의 표현식은 `Int?`가 된다.
+
+```kotlin
+val a = "Kotlin"
+val b: String? = null
+println(a?.length) // Unnecessary safe call. 6출력
+println(b?.length) // null
+```
+
+체인에서 유용하다.
+```kotlin
+bob?.department?.head?.name
+// bob, department, head 중 하나라도 null이면 null 반환
+```
+
+null이 아닐 때만 특정 연산을 수행하려면 `let`을 사용하면 된다.
+```kotlin
+item?.let { println(it) } //  prints Kotlin and ignores null
+```
+
+#### 3. .let() 표준 확장함수를 이용한 null 무시
+
+``` kotlin
+val list: List<String?> = listOf("kotlin", null, "java")
+for(item in list) {
+    item?.let(println(it)) // null을 무시하고 kotlin java 출력
+}
+```
+
+
+### 안전하게 nullable 프로퍼티 할당하기
+
+어떤 프로퍼티를 다른 프로퍼티에 할당할 때, 객체가 null인 경우 default 값을 할당하고 싶을 수 있다. 이를 위해 자바에서는 삼항연산자를 사용하지만 코틀린은 삼항연산자를 지원하지 않는다. 따라서 삼항연산자를 대체하기 위해 다음의 방법을 사용한다.
+
+#### 1. if-else
+자바와는 다르게 코틀린은 한줄로 if-else를 쓸 수 있다. 
+
+```kotlin
+val l = if (b != null) b.length else -1
+```
+
+#### 2. Elvis 연산자 `?:`
+`?:`의 왼쪽에 있는 식이 null이 아니면 연산자 왼쪽의 값(`b.length`)을 반환하고, null이면 오른쪽 값(`-1`)을 반환한다. 다음은 같은 식을 if문과 elvis연산자를 사용해 구현한 코드이다.
+
+```kotlin
+// if문 사용
+val l: Int = if (b != null) b.length else -1
+
+// elvis 연산자 사용
+val l = b?.length ?: -1
+```
+
+
+코틀린에선 `throw`와 `return`이 표현식이므로 엘비스 연산자의 오른쪽에서도 사용할 수 있다.
+```kotlin
+// return 사용 예
+val parent = node.getParent() ?: return null
+
+// throw 사용 예
+fun foo(node: Node): String? {
+	val l = b?.length ?: return null
+    val name = node.getName() ?: throw IllegalArgumentException("")
+}
+```
+
+
+#### 3. Safe Casts
+코틀린에서 형변환 할 때 Safe Cast를 이용하면 안전히다. cast시 대상 유형이 아닌 경우 `ClassCastException`이 발생한다.   
+`as?`를 이용해 형변환을 시도하면, 실패했을 때 `null`을 리턴한다.
+
+```kotlin
+val string: Any = "AnyString"
+val safeString: String? = string as? String // String으로 형변환 시도 => 성공
+val safeInt: Int? = string as? Int // Int로 형변환 시도 => 실패
+println(safeString) // AnyString (형변환 성공)
+println(safeInt) // null (형변환 실패)
+```
+
+#### 4. Collection의 Null 객체를 모두 제거
+Nullable Collection에서는, Null 객체를 필터링 할 수 있는 함수를 제공한다. 다음은 List에 있는 null 객체를 `filterNotNull()` 메소드를 이용하여 삭제하는 코드이다.
+
+```kotlin
+val nullableList: List<Int?> = listOf(1, 2, null, 4)
+val intList: List<Int> = nullableList.filterNotNull()
+println(intList)	// [1, 2, 4]
+```
+
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#kotlin)
+
+<br>
+
+
 
