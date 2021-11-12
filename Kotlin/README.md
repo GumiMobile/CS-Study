@@ -8,6 +8,8 @@
   * [코틀린에서 NPE가 발생하는 경우](#코틀린에서-NPE가-발생하는-경우)
   * [안전하게 nullable 프로퍼티 접근하는 방법](#안전하게-nullable-프로퍼티-접근하는-방법)
   * [안전하게 nullable 프로퍼티 할당하기](#안전하게-nullable-프로퍼티-할당하기)
+
+
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
 </br>
@@ -367,6 +369,9 @@ nullable = null      // 컴파일 성공
 nonNullable = null   // 컴파일 에러
 ```
 
+
+<br>
+
 ### nullable 타입을 non-nullable 타입으로 변경하기
 코틀린에서는 자바의 라이브러리를 쓰는 경우 NPE가 발생할 수 있다. 자바는 non-nullable 타입이 없기 때문에 자바 라이브러리를 사용하면 nullable 타입으로 리턴된다.
 
@@ -381,6 +386,9 @@ var nonNullString1: String = getString()     // 컴파일 에러
 ```kotlin
 var nonNullString2: String = getString()!!   // 컴파일 성공
 ```
+
+
+<br>
 
 ### 코틀린에서 NPE가 발생하는 경우
 - `throw NullPointerException()`을 명시적 호출
@@ -406,6 +414,9 @@ NPE를 발생시킬 수 있는 방법!
 val b: String? = null
 val length = b!!.length // NPE 발생
 ```
+
+
+<br>
 
 ### 안전하게 nullable 프로퍼티 접근하는 방법
 
@@ -446,6 +457,7 @@ for(item in list) {
 }
 ```
 
+<br>
 
 ### 안전하게 nullable 프로퍼티 할당하기
 
