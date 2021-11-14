@@ -69,3 +69,27 @@ Handler를 생성하면 호출한 스레드의 Message Queue와 Looper에 자동
 ### 루퍼 (Looper)
 무한히 실행되는 메시지 루프를 통해 큐에 메시지가 들어오는지 감시한다. 메시지가 들어오면 처리할 핸들러를 찾아서 `handleMessage()`를 호출한다. 루퍼는 스레드당 하나씩만 가질 수 있다. 메시지큐가 비어있으면 아무 행동도 하지 않는다.
 
+
+## 이수형
+
+### Looper & Handler
+
+안드로이드 시스템은 Main 쓰레드만 가지고 이 쓰레드 안에서 작업을 하는데 시간이 오래 걸리는 작업을 할때는 별도의 쓰레드에서 작업을 하게된다.
+
+ 이때 별도의 쓰레드에서 작업을 하고 결과를 보여줄때는 Main 쓰레드에 표시를 해야하는데 이때 서로 다른 쓰레드 간의 통신을 도와주는 도구가 Handler와 Looper이다.
+
+
+### 동작과정
+
+메인쓰레드는 기본적으로 Looper를 가지며 Looper는 Message Queue라는 선입선출의 Queue를 가진다. 
+
+Message Queue는 Message와 Runnable 타입의 객체가 저장된다.
+
+Looper
+
+1. 주기적으로 Message Queue를 확인하여,
+2. Message나 Runnable 객체가 존재한다면 Handler로 보내 처리를 요청한다.
+
+Handler
+1. Looper가 보낸 Message나 Runnable 객체를 처리하거나,
+ 2. 다른 스레드에서 메인스레드에 처리를 요청한 Message나 Runnable 객체를 메인스레드 Looper의 Message Queue에 넣는다.
