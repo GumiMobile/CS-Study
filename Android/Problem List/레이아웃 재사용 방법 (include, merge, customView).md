@@ -437,3 +437,45 @@ merge태그는 여러 activity에서 똑같이 생긴 긴 분량의 태그가 �
 2. onDraw(), onMeasure(), onKeyDown()과 같이 시작하는 키워드가 'on'인 슈퍼 클래스 메서드를 오버라이드한다.
 3. 새로 만든 커스텀 뷰를 사용한다. xml 레이아웃 등에 사용한다.
 
+## 이수형
+
+### 레이아웃 재사용 방법
+
+### include
+
+레이아웃 하나를 다른 레이아웃에 삽입
+- xml 파일을 통째로 삽입하는것
+``` xml
+  <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/titlebar"/>
+```
+그러나 `<include>` 태그를 사용하여 레이아웃 속성을 재정의하려면 다른 레이아웃 속성이 적용되도록 `android:layout_height` 및 `android:layout_width`를 모두 재정의가 필요함
+
+### Merge
+
+merge를 사용하면 한 레이아웃을 다른 레이아웃에 포함할 때 뷰 계층 구조에서 중복 뷰 그룹을 제거가능
+``` xml
+  <merge  xmlns:android="http://schemas.android.com/apk/res/android"> 
+  
+   <Button  android:layout_width="fill_parent"
+     android:layout_height="wrap_content"  
+     android:text="@string/add"/> 
+     
+      <Button  
+     android:layout_width="fill_parent"  
+     android:layout_height="wrap_content" 
+      android:text="@string/delete"/>  
+      
+     </merge>
+```
+
+### CustomView
+
+실제로 앱을 만들다보면 요구사항에 맞는 기능을 존재하는 뷰들로 만들기 어렵기때문에 직접만들때 CustomView 사용
+
+1.  기존에 존재하는 View 클래스상속하여 커스텀 뷰 클래스를 만든다
+2. xml요소를 통해 View를 제어하기 위해 attrs.xml에 declare-styleable 요소를 추가
+3. onDraw(), onMeasure(), onKeyDown()과 같이 시작하는 키워드가 'on'인 슈퍼 클래스 메서드를 오버라이드한다.
+	    
