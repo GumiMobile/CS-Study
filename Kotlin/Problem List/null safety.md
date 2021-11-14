@@ -361,3 +361,42 @@ val nullableList: List<Int?> = listOf(1, 2, null, 4)
 val intList: List<Int> = nullableList.filterNotNull()
 ```
 
+## 이수형
+
+### Null Safety
+
+코틀린에서는 NullPointerExeption을 제거하기위해 type시스템이있음<br/>
+Nullable Type과 Non-null Type은 ? 로 구분해준다
+
+### Null Check
+
+1. 조건문 사용
+```Kotlin
+val l = if (b != null) b.length else -1
+```
+2. Safe Calls 연산자 ?사용
+```Kotlin
+//b가 null이 아니면 b.length를, null이라면 null반환
+val b: String? = null 
+println(b?.length)
+```
+3.  Elvis 연산자 ?: 사용
+```Kotlin
+val l = b?.length ?: -1
+```
+4. !! 연산자 사용 
+```Kotlin
+//값이 null이면 NPE 발생
+val l = b!!.length
+```
+5. Safe Casts as 사용
+```Kotlin
+//as? 연산자를 사용하면 cast실패한 경우 null을 반환하여 안전하게 수행할 수 있음
+val aInt: Int? = a as? Int
+```
+6. 컬렉션의 Nullable Type
+```Kotlin
+//Nullable 요소 컬렉션이 있고 Null이 아닌 요소를 필터링 하려는 경우 filterNotNull()을 사용할 수 있다.
+val nullableList: List<Int?> = listOf(1, 2, null, 4) 
+val intList: List<Int> = nullableList.filterNotNull()
+```
