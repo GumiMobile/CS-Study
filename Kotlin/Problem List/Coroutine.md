@@ -229,3 +229,26 @@ Context로 Scope를 만들고, Builder를 이용하여 코루틴을 실행한다
   - 쓰레드는 병렬성 프로그래밍이기 때문에 context switching이 발생한다. 
   - 코루티간의 작업 교환은 비용이 적다.
 3. 비동기 처리를 쉽게 도와줌
+
+	
+## 이수형
+
+### Coroutine
+- 진입접을 여러개 허용하는 subroutine
+- 코루틴은 비동기적으로 실행되는 코드를 간소화하기 위해 Android에서 사용할 수 있는 동시 실행 설계 패턴
+- Android에서 코루틴은 기본 스레드를 차단하여 앱이 응답하지 않게 만들 수도 있는 장기 실행 작업을 관리하는 데 도움
+- CoroutineScope와 GlobalScope가 있음
+- Context를 사용해 Scope를 구성하고 Builder로 실행
+
+### Context
+- Dispacher
+   - Main : 메인쓰레드, UI작업을 위해 사용
+   - IO : 네트워크, 디스크I/O작업을위해 사용
+   - Default : CPU를 많이 사용하는 작업에 사용
+- Job
+   - 고유한 코루틴을 제어
+- context는 + 연산자를 이용해 조합가능
+```Kotlin
+val someContext = Dispatcher.IO + aJob + bCoroutine + cExceptionHandelr
+```
+	
