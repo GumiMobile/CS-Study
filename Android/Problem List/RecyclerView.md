@@ -115,7 +115,7 @@ class MyViewHolder(itemView: View): RecyclerView.ViewHolder(view) {
   val textView = itemView.findViewById<TextView>(R.id....) // 뷰홀더에서 데이터와 바인딩될 뷰 객체에 접근하여 멤버로 갖고 있다.
 }
 
-class MyAdapter(): RecyclerView.Adapter<MyViewHolder> {
+class MyAdapter(private var datas: Array<String>): RecyclerView.Adapter<MyViewHolder> {
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder { // 뷰홀더를 생성할 때, 아이템뷰를 inflate하고 뷰홀더의 매개변수로 넣어 리턴한다.
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
         Log.d("tag1" , "onCreateViewHolder")
