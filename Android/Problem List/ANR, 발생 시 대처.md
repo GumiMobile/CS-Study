@@ -106,3 +106,23 @@ Android 앱의 **UI스레드가 오랫동안 차단되면 `ANR(어플리케이�
 - 앱의 초기 설정 단계가 있는 경우 `Splash` 화면을 표기하거나, 기본 화면을 가능한 빨리 렌더링하고 로딩중임을 나타내며 비동기로 화면을 채운다. (=> 네이버 기본앱의 메인화면이 검색창만 있는 것으로 바뀐 이유라 생각한다.)
 - 중요한 것은 어떤 경우든 **앱이 멈추지 않았음을 사용자가 인지할 수 있게 진행 상황을 표시하는 것**이다.
 - 성능 도구(Systrace, Traceview)를 사용하여 앱 응답성의 병목 현상을 확인한다.
+
+
+## 이수형
+
+### ANR(Application Not Responding)
+
+Android 앱의 Main Thread가 너무 오랫동안 차단되면 발생되는 오류<br/>
+단순히 오래걸리는것이 아닌 Main Thread가 일정시간이 상 어떤 Task에 잡혀있을때 발생
+
+- Application이 활성화 되어있을때 입력 이벤트나 BroadcastReceiver에 5초이내에 응답없을때
+
+- 포그라운드에 activity가 없을때 BroadcastReceiver가 10초내에 실행이 완료되지 않을때
+
+### ANR 회피
+
+- Main Thread에서 실행되는메소드가 최소한의 일을 하게 함
+   - 특히 onCreate나 onResume같은 핵심 lifecycle에서는 작은일을 수행
+
+- DB나 네트워크 같은 긴 시간이 소요될수있는 작업은 별도 쓰레드 생생해서 처리
+   - Handler를 사용하여 Main쓰레드와 통신하며 update하는 방법 사용
