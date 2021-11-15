@@ -67,3 +67,79 @@
 > → 이전에는 리스트 모양으로 보여줄 때 리스트뷰를 사용했지만, 리싸이클러뷰가 더 많은 장점을 가지고 있기 때문에 리싸이클러뷰를 권장한다.
 >
 > → 기존의 ListView 는 커스터마이징 하기 힘들다.
+
+## 김민수
+
+### 리사이클러뷰
+
+리사이클러뷰는 기존의 리스트뷰와는 다르게 `ViewHolder` 패턴을 <u>강제</u>한다. 따라서 리스트뷰에서 비용이 큰 `findViewById()` <u>함수 호출을 줄여</u> 성능을 개선한다. 흔히 리스트뷰와 비교하여 리사이클러뷰는 뷰를 재활용하여 성능을 올린다고 하는데, 이미 리스트뷰 어댑터의 `getView()`에서 `convertView`를 인자로 받아 뷰를 다시 inflating 할 필요가 없다.
+
+```kotlin
+// 리스트뷰에서 기본적으로 사용가능한 ArrayAdapter의 getView()
+
+@Override
+    public @NonNull View getView(int position, @Nullable View convertView,
+            @NonNull ViewGroup parent) {
+        return createViewFromResource(mInflater, position, convertView, parent, mResource);
+    }
+
+    private @NonNull View createViewFromResource(@NonNull LayoutInflater inflater, int position,
+            @Nullable View convertView, @NonNull ViewGroup parent, int resource) {
+        final View view;
+        final TextView text;
+
+        if (convertView == null) { // convertView null 체크
+            view = inflater.inflate(resource, parent, false);
+        } else {
+            view = convertView;
+        }
+        // ......
+```
+
+
+
+> findViewById()가 비용이 큰 이유
+>
+> findViewById()는 View.findViewTraversal()를 거쳐 각 뷰의 id 값을 체크하여 리턴한다. 문제는 ViewGroup에서 findViewTraversal()이다. ViewGroup에서는 자신의 하위 뷰들에 대해 각각 findViewById()를 호출한다. 따라서 뷰계층이 깊어진다면, findViewById()는 재귀적으로 호출되어 성능 하락을 일으킨다.
+
+### 뷰홀더 패턴
+
+각 뷰 객체를 뷰홀더에 보관함으로써 findViewById()의 반복 호출을 줄인다. findViewById()로 찾은 뷰 객체와 데이터를 연결하고, 이를 저장한다. 따라서 한번 찾은 뷰 객체는 다시 찾지 않는다. 
+
+리스트뷰 또한 뷰홀더 패턴을 사용할 수 있으며, 이를 통해 성능 개선이 가능하다.
+
+### 리사이클러뷰 어댑터, 뷰홀더
+
+``` kotlin
+class MyViewHolder(itemView: View): RecyclerView.ViewHolder(view) {
+  val textView = itemView.findViewById<TextView>(R.id....) // 뷰홀더에서 데이터와 바인딩될 뷰 객체에 접근하여 멤버로 갖고 있다.
+}
+
+class MyAdapter(): RecyclerView.Adapter<MyViewHolder> {
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder { // 뷰홀더를 생성할 때, 아이템뷰를 inflate하고 뷰홀더의 매개변수로 넣어 리턴한다.
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
+        Log.d("tag1" , "onCreateViewHolder")
+        return MyViewHolder(view)
+    }
+
+    override fun getItemCount(): Int {
+        return datas.size
+    }
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) { // 뷰홀더 생성시 할당한 뷰 객체와 데이터만 연결시킨다.
+        holder.textField.text = datas[position]
+    }
+}
+```
+
+리사이클러뷰를 사용할 때는 리스트뷰와 같이 어댑터를 사용한다.  `RecyclerView.Adapter`를 상속받아 구현하고 `onCreateViewHolder()` `onBindViewHolder()` `getItemCount()`등 3개의 메소드는 반드시 오버라이딩 해야한다. `onCreateViewHolder()` `onBindViewHolder()`함수로 인해 리사이클러뷰는 뷰홀더 패턴을 <u>반드시 사용</u>해야 한다.
+
+### 리사이클러뷰 vs 리스트뷰
+
+|               | 리사이클러뷰                                      | 리스트뷰                                 |
+| ------------- | ------------------------------------------------- | ---------------------------------------- |
+| 뷰홀더        | 강제                                              | 권장                                     |
+| ItemLayout    | 가로, 세로, 그리드                                | 세로                                     |
+| ItemAnimation | O                                                 | X                                        |
+| Adapter       | RecyclerView.Adapter<ViewHolder> 를 상속받아 구현 | 사용가능한 여러 어댑터가 이미 존재함     |
+| Click Event   | 클릭처리 인터페이스를 직접 구현                   | 클릭 이벤트를 바인딩하는 인터페이스 존재 |
