@@ -45,6 +45,8 @@
 - 설계도를 바탕으로 소프트웨어 세계에 구현된 구체적인 실체
 - 클래스에서 정의한 것을 토대로 실제 메모리상에 할당된 것으로 실제 프로그램에서 사용되는 데이터
 
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#java)
+
 <br />
 
 ### 객체 지향 특징
@@ -75,8 +77,13 @@
 - 강한 응집력과 약한 결합력을 통해 소프트웨어의 질을 향상시킨다
 
 #### 단점
+
 - 처리 시간이 비교적 오래 걸린다
 - 프로그램을 설계할 때 많은 고민과 시간을 투자해야 한다
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#java)
+
+<br>
 
 
 ## Garbage Collection
@@ -98,14 +105,17 @@ deallocating memory과정은 가비지 컬렉터에 의해 자동으로 실행�
 
 - Step 1: Marking
 	- 가비지 컬렉터는 메모리에서 live object를 확인 하고, unrechable object가 무엇인지 마킹하는 절차를 진행한다.
-
 - Step 2: Normal Deletion
 	- 가비지 컬렉터는 unrechable object를 삭제한다.
-
 - Step 2a: Deletion with Compacting
 	- 가비지 컬렉터중 일부는 memory를 더욱 효과적으로 쓰기위해  unreachable object를 삭제함과 동시에 압축을 진행하기도 한다.
 
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#java)
+
+<br>
+
 ### Weak Generational Hypothesis
+
 모든 객체를 Mark & Compact하는 방식의 Garbage Collection은 규모가 큰 프로그램에서 심각한 문제가 생길 수 있다. JVM GC 설계자들은 경험적으로 대부분의 객체가 생겨나자마자 쓰레기가 된다는 것을 알고 있었다.
 
 Weak Generational Hypothesis는 신규로 생성한 객체의 대부분은 금방 사용하지 않는 상태가 되고, 오래된 객체에서 신규 객체로의 참조는 매우 적게 존재한다는 가설이다. 이 가설에 기반하여 Java는 Young 영역과 Old 영역으로 메모리를 분할하고, 신규로 생성되는 객체는 Young 영역에 보관하고, 오랫동안 살아남은 객체는 Old 영역에 보관한다.
@@ -117,17 +127,23 @@ Weak Generational Hypothesis는 신규로 생성한 객체의 대부분은 금�
     - Eden영역에서 GC가 한 번 발생한 후 살아남은 객체는 Survivor영역 중 하나로 이동한다. 
     - Minor GC는 Survivor영역도 같이 검사해서 살아남은 객체는 다른 Survivor영역으로 이동시킨다. 기존의 영역은 빈 상태가 된다.
     - 위의 과정을 반복하며 계속 살아남은 객체는 Old영역으로 이동한다.
+    
 2. Old Generation 영역 **`Heap영역`**
     - 대부분 Young영역보다 크게 할당된다.
     - Old영역에서 발생하는 Minor GC는 Young영역보다 GC가 적게 발생하고 시간이 오래 걸린다.
     - Unreachable상태가 되지 않고 Young영역에서 오래 살아남은 객체가 여기로 복사된다.
     - **Minor GC** : Old영역이 가득 차면 Old영역의 모든 객체들을 검사하여 참조되지 않은 객체들을 한꺼번에 삭제한다. 이때, GC를 실행하는 스레드를 제외한 모든 스레드는 작업을 멈추는데 이를 **'stop-the-world'** 라고 한다.
     > 'stop-the-world'시간을 줄이는 것이 GC튜닝!
+    
 3. Metaspace 영역
     - Java8부터 Permanent영역이 Metaspace 영역으로 변경되었다.
     - Metaspace 영역은 Native메모리 영역으로, JVM이 아닌 OS에 의해 관리되도록 변경되었다. (주로 메타데이터)
     - **Static Object만** **`Heap영역`** 으로 옮겨졌고져서 최대한 GC의 대상이 될 수 있게 하였다.
     > 참조 [JDK 8에서 Perm 영역은 왜 삭제됐을까](https://johngrib.github.io/wiki/java8-why-permgen-removed/)
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#java)
+
+<br>
 
 #### Generational Garbage Collection 과정
 
@@ -164,7 +180,6 @@ Weak Generational Hypothesis는 신규로 생성한 객체의 대부분은 금�
 8. Promotion 작업이 게속해서 반복되면서 Old Generation이 가득 차게 되면 Major GC가 발생하게 된다. 그렇게 Old Generation이 clear 되고 공간이 compact 된다.
 
    ![8](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FJEPsg%2Fbtq2h3AnBTz%2FeGo8NBLU31DqAQTxmycKg1%2Fimg.png)
-
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#java)
 
@@ -377,6 +392,10 @@ Byte로 변환된 데이터를 원래대로 객체 또는 데이터로 변환하
 
 이러한 실행 과정 속에서 JVM은 필요에 따라 `Thread Synchrnoization`과 `GC` 같은 관리작업을 수행한다.
 
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#java)
+
+<br>
+
 ### JVM의 구성 및 동작원리
 
 <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F990BF73B5B73A02817" style width="400"/>
@@ -569,6 +588,8 @@ GC가 역할을 하는 시간은 정확히 언제인지를 알 수 없다. (참�
 - 본래 추상 메소드만 가지고 있으므로 인터페이스를 구현하는 클래스에서는 모든 메소드를 오버라이딩 해야 했다. 하지만 구현부를 가질 수 있는 디폴트 메소드가 추가되어 꼭 구현해야만 하는 메소드를 선택하여 추상 메소드로 선언할 수 있다.
 - 디폴트 메소드는 구현 클래스에서 오버라이딩 불가능하다.
 - 일반 메소드 또는 멤버 변수를 구성원으로 가질 수 없다.
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#java)
 
 <br />
 
