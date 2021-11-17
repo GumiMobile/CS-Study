@@ -143,3 +143,58 @@ class MyAdapter(private var datas: Array<String>): RecyclerView.Adapter<MyViewHo
 | ItemAnimation | O                                                 | X                                        |
 | Adapter       | RecyclerView.Adapter<ViewHolder> 를 상속받아 구현 | 사용가능한 여러 어댑터가 이미 존재함     |
 | Click Event   | 클릭처리 인터페이스를 직접 구현                   | 클릭 이벤트를 바인딩하는 인터페이스 존재 |
+
+	
+## 이수형
+
+### 리사이클러뷰
+
+기존의 ListView의 커스터마이징이 힘들었고 성능의 문제도 있어서 롤리팝버전 때 새로 추가됨
+
+LayoutManager와 ViewHolder 패턴의 의무적인 사용, Item에 대한 뷰의 변형이나 애니메이션할 수 있는 개념이 추가
+
+### 주요 클래스
+
+#### Adatper
+
+데이터와 아이템에 대한 View를 생성<br/>
+다음의 3가지 인터페이스를 구현해야 한다.
+
+- onCreateViewHolder() : 뷰 홀더를 생성하고 뷰를 붙여주는 부분
+- onBindViewHolder() : 재활용 되는 뷰가 호출하여 실행되는 메소드, 뷰 홀더를 전달하고 어댑터는 position의 데이터를 결합시킨다.
+- getItemCount() : 데이터의 개수 반환
+
+getItemCount() -> onCreateViewHolder() -> onBindViewHolder() 순으로 호출
+
+#### ViewHolder
+
+UI를 수정할때마다 부르는 findViewById를 한번만 호출함으로써 무거운 연산을 줄여주어 앱의 성능을 올리도록 강제
+
+#### LayoutManager
+
+리싸이클러뷰는 다양한 타입의 리스트를 지원하고 커스텀이 가능하다
+
+- LinearLayoutManager
+   - Vertical(가로) / Horizontal(세로) 형태로 아이템을 배치한다.
+
+- GridLayoutManager
+   - 한 줄에 1개 이상의 이미지를 표시할 수 있지만 아이템의 크기는 줄의 첫 번째 아이템의 크기에 따라서 달라질 수 있다.
+
+- StaggeredGridLayoutManager
+   - 그리드 형태의 아이템에 크기를 다양하게 적용할 수 있다.
+
+- Custom LayoutManager
+   - 3개의 레이아웃 매니저를 상속받아 구현할 수 있다.
+
+#### Click Detection
+
+리사이클러 뷰 자체에는 Click에 대한 이벤트 처리를 자체적으로 할수 없어서 onClickListener를 사용한다
+
+
+###리스트뷰와의 차이
+
+- ViewHodler 패턴이 강제된다
+- 모든 LayoutManager를 지원한다
+- 데이터를 제공하기 위한 Custom Adapter구현이 필요하다
+- Click에 대한 처리를 리스너를 사용해 구현해야한다
+	
