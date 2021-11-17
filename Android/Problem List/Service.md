@@ -11,7 +11,7 @@ Activity가 사용자에게 직접 보이는 화면이라면 Service는 뒤에�
 ex) 음악 재생, 파일 입출력, 네트워크 트랜잭션 처리 등
 
 ### 서비스의 3가지 유형
- 
+
 1) 백그라운드
 
     백그라운드는 이름 그대로 사용자에게 직접 보이지 않는 작업을 수행한다.
@@ -44,7 +44,7 @@ ex) 음악 재생, 파일 입출력, 네트워크 트랜잭션 처리 등
 ```
 
 ### 서비스 생명 주기 (Service LifeCycle)
- 
+
 <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcsvOQo%2FbtqEmwgjKcm%2FGZLLDKs46ed0aVF09wGFv1%2Fimg.png" width="300px" />
 
 #### onStartCommand
@@ -152,4 +152,87 @@ bindService로 서비스를 생성하면 바인딩 주기가 끝나면 소멸
    - 서비스와 서비스를 호출하는 앱이 bindService()를 호출하여 서버-클라이언트 형태로 상호작용
    - 여러 프로세스에서 같은 서비스에 바인딩하여 작업 가능
 
+## 우지현
 
+### Service (서비스)
+
+- 백그라운드에서 오래 실행되는 작업을 수행할 수 있는 어플리케이션 컴포넌트
+- UI를 제공하지 않는다.
+- 또 다른 어플리케이션 컴포넌트가 서비스를 실행할 수 있으며, 사용자가 또 다른 어플리케이션으로 전환하더라도 백그라운드에서 계속해서 실행된다.
+- 컴포넌트를 서비스에 바인드하여 서비스와 상호작용할 수 있으며, IPC도 수행할 수 있다.
+- 서비스는 앱에서 오직 1개의 인스턴스만을 생성할 수 있다.
+- 다른 앱에서도 사용 가능하지만 manifest에서 비공개로 선언하여 외부 앱으로부터 차단할 수 있다.
+- 자신의 호스팅 프로세스의 메인 스레드에서 실행되므로 서비스가 CPU를 많이 사용하는 작업을 수행하거나 CPU를 차단하는 작업을 수행할 경우, 서비스 내에 새 스레드를 생성하여 따로 작업을 진행시켜 ANR을 방지해야 한다.
+
+### Service 유형
+
+#### Foreground Service
+
+- 사용자에게 알림을 줄 수 있는 기능을 수행한다.
+  - 예를 들면, 오디오 앱은 오디오 트랙을 플레이하기 위해 포그라운드 서비스를 사용한다.
+- 포그라운드 서비스는 반드시 Notification을 표시해야 하며 사용자가 앱과 인터랙션이 발생하지 않아도 계속해서 작동한다.
+
+#### Background Service
+
+- 사용자에게 직접적으로 알려지지 않는 기능을 수행한다.
+- 앱이 스토리지와 관련된 기능을 수행하는 서비스를 사용한다면, 보통 백그라운드 서비스이다.
+- 앱이 API 레벨 26 이상인 경우, 앱 자체가 포그라운드에 있지 않을 때 시스템이 백그라운드 서비스 실행에 제한을 건다.
+  - 이러한 경우, 앱은 scheduled job을 대체재로 사용해야 한다.
+
+#### Bind Service
+
+-  앱 컴포넌트가 bindService()를 호출하여 해당 서비스에 바인드되면 서비스는 바인드되었다고 한다.
+- 바인드된 서비스는 클라이언트-서버 인터페이스를 제공하여 컴포넌트가 서비스와 상호작용하도록 해주며, 결과를 가져올 수도 있고, 이와 같은 작업을 여러 프로세스에 걸쳐 IPC로 수행할 수도 있다.
+- 바인드된 서비스는 앱 컴포넌트가 해당 서비스에 바인드되어 있을 때만 실행된다.
+- 여러 개의 컴포넌트가 서비스에 한꺼번에 바인드 될 수 있으나, 바인드된 모든 컴포넌트가 바인드를 해제하면 해당 서비스는 소멸된다.
+
+### Manifest
+
+```xml
+<manifest ...>
+	...
+	<application ... >
+		<service android:name=".ExampleService" />
+		...
+	</application>
+</manifest>
+```
+
+[<service>](https://developer.android.com/guide/topics/manifest/service-element.html)
+
+- 앱의 보안을 보장하려면 서비스를 시작하거나 바인드할 때 항상 명시적 인텐트를 사용하고 인텐트 필터는 선언하지 않도록 한다.
+- 유저가 돌아가고 있는 서비스를 인지하지 못하거나 신뢰하지 못하면 서비스를 중지시킬 수도 있기 때문에 description attribute를 적어주는 것이 좋다.
+
+### 수명주기
+
+> 서비스는 Started Service, Bound Service 두 가지 방식으로 작동 가능하다. 서비스가 started 할 수도 있고 (나아가 무기한으로 실행) bound될 수도 있다는 것이다. 이는 두 가지 콜백 메서드 onStartCommand(), onBind() 구현에 달려있다.
+
+<img src="https://developer.android.com/images/service_lifecycle.png" alt="Service LifeCycle" width="400" />
+
+- 액티비티와는 달리 서비스 수명 주기 콜백은 반드시 슈퍼 클래스를 구현할 필요가 없다.
+- Started Service와 Bound Service는 서로 결합해서 사용할 수도 있다.
+  - 대표적인 예로 음악 재생 시 액티비티를 종료해도 음악이 나와야하는 경우는 Started Service, 홈 화면에서 음악 재생 액티비티로 가면 현재 듣고 있는 음악에 대한 정보가 나와야 하는데 이 경우는 Bound Service이다.
+  - 또 네트워크로 파일을 다운로드 받고 있을 때 액티비티를 종료해도 다운로드는 계속되어야 하므로 Started Service이고 다시 액티비티로 돌아왔을 대 다운로드 진행 상황을 보여줘야 하는 부분은 Bound Service이다.
+
+### Service 생성
+
+#### Started Service
+
+- 다른 컴포넌트가 startServie()를 호출하여 시작해서 그 결과로 서비스의 onStartCommand()가 호출되는 경우
+- 서비스가 시작되면 이를 시작한 컴포넌트와는 독립적인 자신만의 수명주기를 가지며 해당 서비스는 백그라운드에서 무기한으로 실행될 수 있다.
+- 작업이 완료되면 stopSelf()를 호출하여 스스로 알아서 중단하는 것이 정상이며 다른 컴포넌트가 stopService()를 호출하여 중단시킬 수도 있다.
+- 다른 컴포넌트가 인텐트를 통해 필요한 데이터를 담아 서비스를 시작하면 전달된 인텐트를 onStartCommand() 메서드에서 수신한다.
+- 가장 처음 startService()를 호출하면 onCreate(), onStartCommand()가 호출되고 그 이후로는 onStartCommand()만 호출된다.
+
+#### Bound Service
+
+바인딩하는 메서드는 다음과 같다.
+
+```java
+public abstract boolean bindService(Intent service, ServiceConnection conn, int flags)
+```
+
+- service는 대상 서비스, conn은 서비스와 연결되거나 끊겼을 때의 콜백, flags는 보통 BIND_AUTO_CREATE가 들어가는데, startService()를 통해 서비스를 실행하지 않았다면 넣어줘야 한다.
+- BIND_AUTO_CREATE 옵션을 주고 stopService() 호출 시 서비스는 종료되지 않는다.
+- unbindService()를 바운드된 곳마다 호출해야 한다.
+- 바인딩을 제공하는 서비스를 생성할 때는 클라이언트가 서비스와 상호작용하는 데 사용할 수 있는 프로그래밍 인터페이스를 제공하는 IBinder를 제공해야 한다.
