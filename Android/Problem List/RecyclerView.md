@@ -60,7 +60,7 @@
 |Adapter|데이터 제공을 위해 직접 구현|다양한 소스에 대한 어댑터 존재|
 |Decoration|많은 구분선 설정|	쉽게 구분 가능|
 |Click Event|개별 터치 이벤트 관리O, 클릭 처리 기능 X|클릭 이벤트에 바인딩하기 위한 인터페이스 존재|
- 
+
 
 > **보통 안드로이드 스튜디오 3.1 부터는 리사이클러뷰를 사용한다.**
 >
@@ -144,7 +144,7 @@ class MyAdapter(private var datas: Array<String>): RecyclerView.Adapter<MyViewHo
 | Adapter       | RecyclerView.Adapter<ViewHolder> 를 상속받아 구현 | 사용가능한 여러 어댑터가 이미 존재함     |
 | Click Event   | 클릭처리 인터페이스를 직접 구현                   | 클릭 이벤트를 바인딩하는 인터페이스 존재 |
 
-	
+
 ## 이수형
 
 ### 리사이클러뷰
@@ -197,4 +197,82 @@ UI를 수정할때마다 부르는 findViewById를 한번만 호출함으로써 
 - 모든 LayoutManager를 지원한다
 - 데이터를 제공하기 위한 Custom Adapter구현이 필요하다
 - Click에 대한 처리를 리스너를 사용해 구현해야한다
-	
+
+## 우지현
+
+### RecyclerView
+
+<img src="https://wooooooak.github.io/public/img/android/recycler1.png" alt="RecyclerView의 재사용성" width="500" />
+
+- 기존의 ListView는 커스터마이징하기 힘들었고, 구조적인 문제로 성능상의 문제도 있었다.
+- RecyclerView는 ListView의 문제를 해결하기 위해 개발자에게 더 다양한 형태로 커스터마이징 할 수 있도록 제공되었다.
+- RecyclerView와 ListView의 가장 큰 차이점은 LayoutManager와 ViewHolder 패턴의 의무적인 사용, Item에 대한 뷰의 변형이나 애니메이션 개념이 추가된 것이다.
+- RecyclerView는 재사용이 가능한 뷰이다. 
+  - 사용자가 아래로 스크롤한다고 가정했을 때, 맨 위에 존재해서 이제 곧 사라질 뷰 객체를 삭제하지 않고 아래쪽에 새로 나타날 뷰 위치로 이동시킨다.
+  - 즉, 뷰 객체 자체를 재사용하는 것인데, 중요한 점은 뷰 객체를 재사용할 뿐이지 뷰 객체가 담고 있는 데이터는 새로 갱신된다.
+
+### 주요 클래스
+
+#### Adapter
+
+RecyclerView는 universal한 adapter를 사용하여 데이터 소스를 처리한다. 이것은 RecyclerView의 유연성을 보여준다. 다음의 3가지 인터페이스를 구현해야 한다.
+
+- onCreateViewHolder(ViewGroup parent, int viewType) 
+  - 뷰 홀더를 생성하고 뷰를 붙여주는 부분
+  - 새롭게 싱성될 때만 호출된다.
+- onBindViewHolder(CustomViewHolder holder, int position) 
+  - 재사용되는 뷰가 호출하여 실행되는 메소드
+  - 뷰 홀더를 전달하고 어댑터는 position의 데이터를 결합시킨다.
+- getItemCount()
+  - 데이터의 개수 반환
+
+getItemCount() -> onCreateViewHolder() -> onBindViewHolder() 순으로 호출된다.
+
+#### ViewHolder
+
+리스트뷰에서는 뷰홀더 패턴을 권장했다. UI를 수정할 때마다 부르는 findViewById()를 뷰홀더 패턴을 이용해 한 번만 호출함으로써 리스트뷰의 지연을 초래하는 무거운 연산을 줄여주었다. 이 문제를 리사이클러뷰에서는 뷰홀더 패턴을 항상 사용하도록 강제함으로써 해결했다.
+
+하지만 실제로 앱의 퍼포먼스를 향상시켜주지만 최신의 디바이스에서 뷰홀더 패턴을 사용하지 않은 리스트뷰나 리사이클러뷰의 성능 차이는 미세하다.
+
+단지 차이점은 리사이클러뷰는 뷰홀더 패턴이 강제된다는 것이다. 이전의 리스트뷰는 선택적이었지만 성능 차이가 너무 컸기 때문에 변화된 것으로 생각된다. 간과하기 쉬운 점은 뷰홀더 패턴을 사용한 리스트뷰와 리사이클러뷰의 성능은 같다는 것이다.
+
+#### LayoutManager
+
+- LinearLayoutManager
+  - Vertical(세로) / Horizontal(가로) 형태로 아이템 배치
+- GridLayoutManager
+  - 한 줄에 1개 이상의 이미지를 표시할 수 있지만 아이템의 크기는 줄의 첫 번째 아이템의 크기에 따라서 달라질 수 있다. (고정시에는 모두 고정)
+- StaggeredGridLayoutManager
+  - 그리드 형태의 아이템에 크기를 다양하게 적용할 수 있다.
+- Custom LayoutManager
+  - 3개의 레이아웃 매니저를 상속받아 구현할 수 있다.
+
+#### ItemDecoration
+
+RecyclerView.ItemDecoration 클래스를 통해 divider를 원하는 아이템에 추가할 수 있게 되었다. 조금 복잡하지만 동적인 데코레이팅이 가능해졌다.
+
+#### ItemAnimation
+
+RecyclerView.ItemAnimator 클래스를 통해 애니메이션을 핸들링할 수 있게 되었다. 이 클래스를 통해서 아이템의 삽입, 삭제, 이동에 대한 커스터마이징이 가능하고, 또한 DefaultItemAnimator가 제공되므로 커스터마이징 없이 사용할 수도 있다.
+
+notifyItemChanged(), notifyItemInserted(), notifyItemRemoved()를 통해 특정 아이템에 대한 애니메이션을 발생시킬 수 있다.
+
+#### Click Detection
+
+RecyclerView.OnItemTouchListener는 리사이클러뷰의 터치 이벤트를 감지한다. 좀 복잡하지만 개발자에게 터치 이벤트를 인터셉트하는 제어권한을 주게 되었다. 
+
+안드로이드 공식 문서에서는 터치 이벤트를 인터셉트함으로써 리사이클러뷰에게 전달하기 전에 조작하여 유용하게 사용될 수 있다고 한다. 리스트뷰에서 아이템 클릭 시 콜백 받을 수 있는 리스너는 리사이클러뷰에 존재하지 않는다. 즉, 리사이클러뷰에는 클릭 이벤트에 대한 처리를 자체적으로 할 수 없기 때문에 onClickListener를 사용한다.
+
+#### DiffUtil
+
+### RecyclerView vs ListView
+
+|                 | <center>RecyclerView</center>                                | <center>ListView</center>                                    |
+| :-------------: | ------------------------------------------------------------ | ------------------------------------------------------------ |
+|   ViewHolder    | ViewHolder 패턴을 이용한다.                                  | ViewHolder 패턴을 이용할 필요가 없다.                        |
+|   Item Layout   | 가로, 세로, 그리드 모두 지원한다.                            | 세로 방향만 지원한다.                                        |
+| Item Animation  | 아이템 애니메이션을 처리하는 클래스가 있다.                  | 아이템이 추가/제거될 때에 적용할 수 있는 애니메이션이 없다.  |
+|     Adapter     | 데이터를 제공하기 위한 사용자 정의 구현이 필요하다.          | 배열/DB 결과에 대한 ArrayAdapter/CursorAdapter와 같은 다양한 소스에 대한 어댑터가 존재한다. |
+|   Decoration    | RecyclerView.ItemDecoration 객체를 사용하여 더 많은 구분선을 설정할 수 있다. | android:divider 속성을 이용하여 리스트에 있는 아이템들을 쉽게 구분할 수 있다. |
+| Click Detection | 개별 터치 이벤트를 관리하지만 클릭 처리 기능이 내장되어 있지 않다. | 목록의 개별 항목에 대한 클릭 이벤트에 바인딩하기 위한 AdapterView.OnItemClickListener 인터페이스가 있다. |
+
