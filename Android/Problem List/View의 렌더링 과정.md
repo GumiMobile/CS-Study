@@ -225,3 +225,34 @@ Window > Surface > Canvas > View
    - 완료되면 Surface가 잠기고 방금 그린 Buffer가 포그라운드 상태로 바뀌고 Surface Flinger에 의해서 화면에 합성됨
   
 
+## 이유진
+> View는 드로잉 및 이벤트처리를 담당하는 사용자 UI 구성요소의 기본 클래스다.  
+이를 상속받아 구현된 textView, button과 같은 view를 위젯 또는 컴포넌트라 한다.
+
+
+### View Lifecycle
+
+안드로이드 앱에서 View 의 생명주기는 다음과 같고, 크게 `측정(Measure)→레이아웃(Layout)→그리기(Draw)` 단계를 거쳐 화면에 나타난다.
+
+![생명주기](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdP6mgw%2FbtqzM0FlWAw%2FLt5uQxmTdum0VZRSbj19hK%2Fimg.png)
+
+1. onMeasure()
+- view의 크기를 확인하기 위해 호출된다.
+- view의 크기를 측정하여 너비와 높이를 결정한다. (⇒ `measure()` 에 의해서 실행된다.)
+- `child view` 에 대한 측정을 바탕으로 자신의 사이즈를 결정한다.
+- 측정된 너비와 높이를 저장하기 위해 `setMeasureDimension()` 을 호출해야 한다. (호출X ⇒ 예외발생)
+
+2. onLayout()
+- view를 측정하여 화면에 배치 한 후에 호출된다.
+- Root노드에서 시작해서 Leaf노드까지 반복적으로 호출된다.
+
+3. onDraw()
+- view가 화면에 콘텐츠를 그릴 준비가 되었을 때 호출된다.
+- view를 그리는 단계이다.
+- Canvas를 이용하여 2D그래픽을 그린다. (3D 적용X)
+
+### Rasterization (래스터화)
+
+문자열, 버튼, 도형과 같은 객체들(view)을 픽셀로 변환시키고, 화면에 텍스쳐로 나타내는 과정
+
+비용이 큰 작업이므로, GPU가 래스터화 가속을 위해 사용된다. 따라서, CPU는 도형이나 텍스쳐의 래스터화를 GPU에 위임하여 처리하고, 그 결과가 화면에 표시된다.
