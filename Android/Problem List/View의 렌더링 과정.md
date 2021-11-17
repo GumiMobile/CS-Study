@@ -223,7 +223,7 @@ Window > Surface > Canvas > View
    - Window 내부의 대화식 UI요소
    - Window가 다시 뭔가를 그려야 할때마다 Surface가, Surface가 사용될수 없을땐 Traversal이 사용할수있는 Canvas를 리턴하여 UI를 그림
    - 완료되면 Surface가 잠기고 방금 그린 Buffer가 포그라운드 상태로 바뀌고 Surface Flinger에 의해서 화면에 합성됨
-  
+
 
 ## 이유진
 > View는 드로잉 및 이벤트처리를 담당하는 사용자 UI 구성요소의 기본 클래스다.  
@@ -256,3 +256,77 @@ Window > Surface > Canvas > View
 문자열, 버튼, 도형과 같은 객체들(view)을 픽셀로 변환시키고, 화면에 텍스쳐로 나타내는 과정
 
 비용이 큰 작업이므로, GPU가 래스터화 가속을 위해 사용된다. 따라서, CPU는 도형이나 텍스쳐의 래스터화를 GPU에 위임하여 처리하고, 그 결과가 화면에 표시된다.
+
+## 우지현
+
+### 안드로이드 화면 구성
+
+안드로이드의 화면은 아래와 같은 단위로 구성된다. 화면을 구성하는 최소 단위는 View이며 최대 단위는 Window이다.
+
+```
+Window > Surface > Canvas > View
+```
+
+#### Window
+
+- 화면 구성의 가장 상위 요소로 무언가를 그릴 수 있는 화면상의 사각 영역
+- 하나의 화면 안에는 여러 개의 Window가 존재할 수 있고, 각각의 Window는 용도에 따라 고유한 타입을 가진다.
+- WindowManager에 의해 관리된다.
+- 어플리케이션은 WindowManager와 상호작용하여 Window를 만들 수 있다.
+  - WindowManager는 각각의 Window에 Surface를 만들어 어플리케이션에 전달하고, 어플리케이션은 이를 통해 화면을 렌더링한다.
+- Window는 터치 이벤트, 키 이벤트 등 사용자 이벤트를 받아서 처리할 수 있다.
+
+#### Surface
+
+- 화면에 합성되는 픽셀을 보유한 객체
+- 화면에 보여지는 모든 윈도우(스테이터스 바, 다이얼로그, 액티비티 등)는 자신만의 Surface를 가지고 있으며, Surface Flinger가 각 Surface의 픽셀들을 Z-order에 따라 합성하여 실제 화면에 렌더링하는 역할을 맡고 있다.
+- Surface는 렌더링 시에 더블 버퍼링 방식을 이용하기 위해 일반적으로 두 개의 버퍼를 가지고 있다.
+
+#### Canvas
+
+- 모든 드로잉 메서드를 포함하고 있는 클래스
+- 각종 도형, 선 등을 그리기 위한 모든 로직이 Canvas 내에 포함되어 있다.
+- Canvas는 Bitmap 또는 OpenGL 컨테이너 위에 그려진다.
+
+#### View
+
+- Window 내에 존재하는 인터랙티브한 UI 요소 (Button, TextView 등)
+
+### 화면이 그려지는 방식
+
+#### Surface가 잠겨있는 상태
+
+Surface의 Canvas를 가져와 그리기에 사용한다. 계층 구조에 따라 View로 Canvas를 전달(onDraw)하여 각 View에 해당하는 UI를 그려나간다.
+
+#### Canvas 잠금 해제 및 Post
+
+모든 View가 버퍼에 그려지면 Surface가 잠금 해제되면서 현재 버퍼와 포그라운드 버퍼가 스왑되고 Surface Flinger에 의해 화면에 합성된다.
+
+### View가 렌더링되는 과정
+
+View는 포커스를 얻으면 레이아웃을 그리도록 요청한다. 이때, 레이아웃의 루트 노드를 제공해야 한다. 그리기는 루트 노드로부터 자식 노드 방향으로 트리를 따라 전위 순회 방식으로 그려진다. 레이아웃을 그리는 과정을 아래와 같다.
+
+```
+measure() -> onMeasure() -> layout() -> onLayout() -> draw() -> onDraw()
+```
+
+#### measure, onMeasure
+
+View의 크기를 측정하기 위해 호출된다. 측정 과정에서 부모와 자식 View 간의 크기 정보를 정의하기 위해 아래 두 가지의 클래스를 사용한다.
+
+1. ViewGroup.LayoutParams
+2. 자식 View가 어떻게 측정될지를 요청하는데 사용된다.
+   ViewGroup의 하위 클래스에 따라 다른 속성의 LayoutParams가 존재할 수 있다. (ex. LinearLayout.LayoutParams)
+3. ViewGroup.MeasureSpec
+   - UNSPECIFIED: 자식 View가 원하는 대로 크기를 결정
+   - EXACTLY: 부모 View가 자식 View의 크기를 결정
+   - AT_MOST: 지정된 크기까지 자식 View가 원하는 대로 크기를 결정
+4. 부모 View가 자식 View에게 요구사항을 전달하는데 사용된다.
+
+#### layout, onLayout
+
+View의 크기와 위치를 할당하기 위해 호출된다.
+
+#### draw, onDraw
+
+실제로 View를 그리는 단계이다. 전달받은 Canvas 객체와 Paint 객체를 이용하여 필요한 모양과 색을 그린다.
