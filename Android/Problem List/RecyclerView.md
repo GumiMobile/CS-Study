@@ -191,7 +191,7 @@ UI를 수정할때마다 부르는 findViewById를 한번만 호출함으로써 
 리사이클러 뷰 자체에는 Click에 대한 이벤트 처리를 자체적으로 할수 없어서 onClickListener를 사용한다
 
 
-###리스트뷰와의 차이
+### 리스트뷰와의 차이
 
 - ViewHodler 패턴이 강제된다
 - 모든 LayoutManager를 지원한다
