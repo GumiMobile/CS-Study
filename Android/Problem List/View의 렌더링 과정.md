@@ -165,3 +165,63 @@ View가 Window에서 연결되거나 분리될 때의 단계이다. 이에 대�
 
 - invalidate(): 뷰의 변화가 생겨 다시 그려야할 때 호출한다.
 - requestLayout(): 뷰를 처음부터 그려야 할 때 (ex: 뷰가 레이아웃을 벗어남) 호출한다.
+
+
+## 이수형
+
+### 뷰가 렌더링되는 과정
+
+measure() -> onMeasure() -> layout() -> onLayout() -> draw() -> onDraw()의 순서로 그려진다
+
+#### measure, onMeasure
+
+View의 크기를 측정하기 위해 호출된다. 측정 과정에서 부모와 자식 View 간의 크기 정보를 정의하기 위해 아래 사용
+
+1. ViewGroup.LayoutParams
+2. 자식 View가 어떻게 측정될지를 요청하는데 사용된다.
+   - ViewGroup의 하위 클래스에 따라 다른 속성의 LayoutParams가 존재할 수 있다. (ex. LinearLayout.LayoutParams)
+3. ViewGroup.MeasureSpec
+   - UNSPECIFIED: 자식 View가 원하는 대로 크기를 결정
+   - EXACTLY: 부모 View가 자식 View의 크기를 결정
+   - AT_MOST: 지정된 크기까지 자식 View가 원하는 대로 크기를 결정
+4. 부모 View가 자식 View에게 요구사항을 전달하는데 사용된다.
+
+#### layout, onLayout
+
+View의 크기와 위치를 할당하기 위해 호출된다.
+
+#### draw, onDraw
+
+실제로 View를 그리는 단계이다. 전달받은 Canvas 객체와 Paint 객체를 이용하여 필요한 모양과 색을 그린다.
+
+### 화면구성 단위
+Window > Surface > Canvas > View 
+
+1. Window
+   - 하나의 Surface를 가지고 있고 Window Manager를 통해 Window가 만들어짐
+   - Window Manager가 각각의 표면에 component를 그리기위해 Surface를 만듦
+   - 일반적으로 Activity가 Window를 가짐
+
+2. Surface
+   - 화면에 합성되는 픽셀을 보유한 객체
+   - Surface Flinger가 여러 소스로부터 그래픽 데이터 버퍼를 받고, 그것들을 합성해서 Display로 보냄
+   - Surface는 이중버터 렌더링을 위해 1개이상(보통 2개)의 버퍼를 가짐
+
+> 이중 버퍼 렌더링
+>
+> 스크린의 출력될 화면 데이터를 프레임 버퍼(Frame Buffer)라고 하는데, 렌더링을 하면 그 결과가
+> 프레임 버퍼에 저장됨. 근데 하나의 버퍼만 가진다면, 이미지가 다 그려지지 않아도 화면 주사율 때문에
+>  렌더링을 해야할때 다 그려지지 않은 프레임 버퍼가 렌더링이 되어서 그려져야 할 이미지가 나타났다
+> 사라졌다 하면서 깜빡이는 현상(Flicker)가 발생할 수 있으므로
+> 이를 해결하기 위해서 프레임 버퍼에 바로 렌더링 하지 않고, 다른 버퍼를 만들어서 그 버퍼에 렌더링을
+> 완료하고 다음 프레임 버퍼로 옮기는 방식을 사용하여 위와 같은 현상을 해결할 수 있음
+
+3. Canvas
+   - 실제 UI를 그리기 위한 공간으로 비트맵이 그려지는 공간
+
+4. View
+   - Window 내부의 대화식 UI요소
+   - Window가 다시 뭔가를 그려야 할때마다 Surface가, Surface가 사용될수 없을땐 Traversal이 사용할수있는 Canvas를 리턴하여 UI를 그림
+   - 완료되면 Surface가 잠기고 방금 그린 Buffer가 포그라운드 상태로 바뀌고 Surface Flinger에 의해서 화면에 합성됨
+  
+
