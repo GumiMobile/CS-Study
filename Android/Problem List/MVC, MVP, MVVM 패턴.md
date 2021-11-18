@@ -383,3 +383,60 @@
 #### 단점
 
 - 뷰모델 설계가 어렵다.
+
+
+## 이유진
+
+**화면에 보여주는 로직과 데이터가 처리되는 로직을 분리**시킴으로써 코드의 재활용성을 높이고 불필요한 중복을 막기 위해 다음의 디자인 패턴을 사용한다. `model`과 `view`을 구성하는 방법과 의존성을 제어하는 방법에 차이가 있다.
+
+> why? 로직을 분리시키지 않으면 규모가 커졌을 때 코드가 엉켜서 가독성이 떨어지고 파악하기 어려워진다.
+> 
+
+### MVC 패턴
+
+![https://magi82.github.io/images/2017-2-24-android-mvc-mvp-mvvm/mvc.png](https://magi82.github.io/images/2017-2-24-android-mvc-mvp-mvvm/mvc.png)
+
+- MVP와 MVVM이 MVC에서 나온 개발방법론이기 때문에 가장 기본 방식이다.
+- Controller : 사용자의 입력을 받고 처리하는 부분
+    - Model을 통해 가져온 데이터를 View에게 전달한다.
+    - Model에게 직접 영향을 줄 수 있다.
+    - 다수의 View를 선택할 수 있다.
+    - 안드로이드에서는 주로 activity나 fragment로 표현된다.
+- Model : 프로그램에서 실제 데이터 및 조작 로직을 처리하는 부분
+    - controller & View 와 직접적인 관련은 전혀 없고, 간접적으로 전달한다.
+    - 독립적인 존재
+- View : 사용자에게 제공되는 UI 부분
+    - controller에게 영향을 줄 수 없다.
+- View와 Model은 서로 영향을 주지 않는다!! (observer를 이용하면 간접적으로 가능)
+- 사용자의 입력은 Controller로 들어온다. 이를 통해 Model을 업데이트하고 불러온 다음 View를 선택해서 화면에 보여준다.
+- ⇒ 규모가 커질수록 Controller도 커진다.
+- ⇒ view와 controller가 강한 결합을 갖는다. (안드의 경우 어쩌면 뷰의 확장) view를 변경하면 controller에서도 변경해야한다.
+
+### MVP 패턴
+
+![https://magi82.github.io/images/2017-2-24-android-mvc-mvp-mvvm/mvp.png](https://magi82.github.io/images/2017-2-24-android-mvc-mvp-mvvm/mvp.png)
+
+- 사용자 입력을 view를 통해 받는다.
+- presenter가 사용자가 요청한 정보를 model로부터 가져와 view로 전달한다.
+- view와 presenter는 서로를 참조하고, presenter는 model을 조작할 수 있다. (MVC와 비슷)
+- view와 Model은 서로에게 영향을 줄 수 없다. 오로지 presenter을 통해서 전달한다.
+- view와 model이 영향을 주지 않는 것은 성공했지만, view-presenter이 강한 결합을 가지게 되고, view마다 presenter가 존재한다.
+- ⇒ 코드가 길어진다. (view마다 presenter가 있어서)
+- ⇒ 시간이 지날수록 presenter에 추가 로직이 모인다. 거대하고 다루기 어려운데 분리하기도 어려워진다.
+
+### MVVM 패턴
+
+![https://magi82.github.io/images/2017-2-24-android-mvc-mvp-mvvm/mvvm.png](https://magi82.github.io/images/2017-2-24-android-mvc-mvp-mvvm/mvvm.png)
+
+- 사용자는 view를 통해 입력하고, view의 값을 바탕으로 viewModel의 값이 변경된다.
+- viewModel : view를 표현하기 위해 만들어진 view를 위한 model
+    - view에 영향을 주지 않는다.
+    - model의 데이터를 수정한다.
+    - Controller와 비슷한 역할
+    - 특정 view에 맞춰진 model로 view는 viewModel만 고려한다.
+    - 원리) view에 입력이 들어오면 command패턴(명령)을 통해 viewModel에 명령을 내리고, `DataBinding`덕에 viewModel 값이 변화하면 바로 View의 정보가 바뀐다. (자동갱신)
+- view
+    - model에 영향을 주지 않는다.
+    - viewModel의 데이터를 변경한다.
+- dataBinding과 명령을 통해 의존성을 해결한다.
+- ⇒ view가 변수와 표현식 모두에 바인딩 가능해서 시간이 갈수록 관계없는 로직을 xml에 추가하게 될 수도 있다. 따라서 viewBinding 표현식에서 계산하지 말고 항상 부모 모델에서 값을 가져오는 게 좋다.
