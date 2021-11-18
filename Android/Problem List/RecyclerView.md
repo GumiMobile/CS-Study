@@ -276,3 +276,42 @@ RecyclerView.OnItemTouchListener는 리사이클러뷰의 터치 이벤트를 �
 |   Decoration    | RecyclerView.ItemDecoration 객체를 사용하여 더 많은 구분선을 설정할 수 있다. | android:divider 속성을 이용하여 리스트에 있는 아이템들을 쉽게 구분할 수 있다. |
 | Click Detection | 개별 터치 이벤트를 관리하지만 클릭 처리 기능이 내장되어 있지 않다. | 목록의 개별 항목에 대한 클릭 이벤트에 바인딩하기 위한 AdapterView.OnItemClickListener 인터페이스가 있다. |
 
+
+## 이유진
+### recyclerView
+
+`Android Jetpack` 의 구성요소로, 대량의 데이터 셋을 효율적으로 표시할 수 있다.
+
+RecyclerView 라이브러리가 필요할 때 요소를 동적으로 생성한다. 항목이 화면에서 벗어났을 때, 뷰를 제거하는 대신 새 항목을 표시할 때 재사용한다. 이는 앱 응답성을 개선하고 전력소모를 감소시키므로 성능이 향상된다.
+
+- 데이터에 해당하는 뷰가 포함된 `ViewGroup` 이다.
+- `ViewHolder` 객체 : 목록의 각 개별 요소 정의 (ViewHolder를 view의 데이터에 바인딩 해야 함)
+- view를 요청한 다음 adapter에서 메서드를 호출하여 `view`를 `view의 데이터`에 바인딩한다.
+- `LayoutManager` : 목록의 요소들을 정렬한다. 3가지 레이아웃 관리자가 제공되고, 직접 정의할 수도 있다.
+    - `StaggeredGridLayoutManager` : GridLayoutManager와 비슷한데, 행과 열의 크기가 달라도 된다.
+
+### 어댑터 & 뷰 홀더
+
+- `ViewHolder` : 목록의 각 요소의 레이아웃을 포함하는 `View` 의 wrapper
+- `Adapter` : 필요에 따라 `ViewHolder` 객체를 만들고, 데이터를 바인딩한다.
+    - 바인딩 : view를 데이터에 연결하는 프로세스
+
+#### 참고
+
+- `onCreateViewHolder` 는 viewHolder를 새로 만들 때 마다 호출된다. `viewType`에 따라 viewHolder를 설정할 수 있다.
+
+```kotlin
+public abstract VH onCreateViewHolder (ViewGroup parent, int viewType)
+```
+
+- `viewType` 은 `getItemViewType()` 을 오버라이딩하여 구할 수 있다.
+
+#### 장점
+
+- `ListView` 는 스크롤 할 때마다 view가 계속 생성되게 된다. 이는 메모리와 성능에 좋지 않다. `RecyclerView` 는 `viewHolder` 를 이용하여 생성된 view를 재사용하므로 성능에 이점이 있다.
+
+#### 단점
+
+- adapter, viewholder를 구현해야 한다.
+- 클릭 처리를 따로 구현해야한다.
+    - dataBinding을 이용하면 조금은 간단해진다.
