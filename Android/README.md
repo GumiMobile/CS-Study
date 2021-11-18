@@ -7,6 +7,7 @@
 * [액티비티, 프래그먼트의 데이터 공유 방법](#액티비티-프래그먼트의-데이터-공유-방법)
 * [Looper와 Handler](#looper와-handler)
 * [비동기 처리 방법](#비동기-처리-방법)
+* [ANR, 발생 시 대처](#ANR)
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
@@ -488,5 +489,33 @@ Fragment Result Api를 사용하는 경우
   implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
   implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
   ```
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
+
+## ANR
+
+Application Not Responding의 약자로 애플리케이션이 반응하지 않을 때 발생한다. 앱의 메인 스레드(UI 스레드)가 일정시간 어떤 작업에 묶여 있으면 사용자의 입력처리를 할 수 없고 사용자는 앱이 응답하지 않는 경험을 한다.
+
+### 발생 원인
+
+- 앱이 입력 이벤트 또는 BroadcastReceiver에 5초 이내로 응답하지 않는 경우
+  - 가장 나중에 입력된 이벤트 기준으로 5초 이내에 응답하지 않으면 발생
+  - 예를들어, `12시 00분 5초`에 A이벤트 발생, `12시 00분 8초`에 B이벤트가 발생했고 아무 응답이 없다면, `12시 00분 10초`가 아닌 `12시 00분 13초`에 ANR이 발생
+    프로그램이 응답하지 않을 때, 입력을 한 번 더 하면 그제서야 '응답없음 대화상자'가 뜨는 이유임
+- 포그라운드에 활동이 없을 때 BroadcastReceiver가 10초 내에 실행을 완료하지 못한 경우
+
+### ANR 회피 및 대처 방법
+
+1. 장시간 작업이 필요한 경우, 메인 스레드 외 다른 스레드에서 비동기 처리를 해야한다.
+   - 워커 스레드 생성
+   - AsyncTask 사용
+   - Coroutine 사용
+2. 사용자에게 작업의 진행 과정을 안내하여(프로그레스 바, 로딩 ui) 기다리게 한다.
+   - 워커 스레드에서 메인 스레드로 진행과정 UI 작업 전달
+     - 메인 스레드의 핸들러로 Runnable 전달
+     - Activity.runOnUiThread(Runnable)
+     - View.post(Runnable)
+   - 진행과정 안내를 위해 AsyncTask의 `onProgressUpdate()`를 구현하고 `publishProgress()` 호출
+   - IO 스코프에서 장기 작업을 진행하고 Main 스코프에서 UI 작업 실행
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
