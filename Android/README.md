@@ -9,6 +9,7 @@
 * [비동기 처리 방법](#비동기-처리-방법)
 * [ANR, 발생 시 대처](#ANR)
 * [메인 스레드와 워커 스레드](#메인-스레드와-워커-스레드)
+* [Bundle, Context](#Bundle)
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
@@ -611,4 +612,4 @@ fun onClick(v: View) {
 - BroadcastReceiver : 자기자신이 context자체는 아니다. 리시버가 브로드캐스트를 처리할 때마다 새로운 context가 생성된다.
 - ContentProvider : 자기자신이 context는 아니다. getContext()를 통해 context를 가져올 수 있다.
 
-
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
