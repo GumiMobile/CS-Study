@@ -573,3 +573,42 @@ fun onClick(v: View) {
 <br>
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
+
+
+## Bundel, Context
+
+### Bundle
+
+- Bundle이란 Map형태로 구현된 데이터의 묶음(Bundle)이다.
+- Map형태라 key 값이 String이며, value값에는 Int, String과 같은 간단한 타입부터 Serializable, Parcelable 같은 복잡한 타입이 들어올 수 있다.
+
+#### 역할
+- Android에서는 activity간에 데이터를 주고 받을 때 Bundle클래스를 사용하여 전송한다.
+- Activity가 중단될 때 `savedInstanceState`메서드를 호출하여 임시로 데이털르 저장하고, Activity 생성시 `Bundle savedInstanceState`객체를 가지고 다시 생성한다.
+	
+### Context
+
+- 애플리케이션 환경에 대한 글로벌 정보를 갖는 추상클래스이며 실제 구현은 `Android 시스템`에 의해 제공된다.
+- 리소스, 데이터베이스, preferences 등에 대한 접근을 제공하며, 액티비티 실행, 브로드캐스트, 인텐트 수신 등과 같은 애플리케이션 수준 작업에 사용된다.
+- Context를 잘못 사용하면 앱이 비정상 종료되거나 메모리 누수가 발생하기도 한다.
+- Context는 크게 Application Context와 Activity Context 두 종류로 나뉜다.
+
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FWVBRX%2FbtqWxfzYqKQ%2FIzwkE5gnxovo8rKrv7z02K%2Fimg.jpg" width="600"/>
+
+#### Application Context
+- 싱글턴 인스턴스이며, 액티비티에서 getApplicationContext()를 통해 접근 가능
+- 애플리케이션 라이프사이클에 묶여있으며, 현재 컨택스트가 종료된 이후에도 컨택스트가 필요한 작업이나 액티비티 스코프를 벗어난 컨택스트가 필요한 작업에 적합하다.
+
+#### Activity Context
+- Activity Context는 activity 내에서 유효한 컨택스트이다. 
+- 액티비티 라이프사이클과 연결되어 있다. 
+- 액티비티와 함께 소멸해야 하는 경우에 사용한다.
+	- 예를 들어, 액티비티와 라이프사이클이 같은 오브젝트를 생성해야 할 때 액티비티 컨택스트를 사용할 수 있다.
+
+
+##### 그 외
+- Service : 실행시 고유한 context를 가짐
+- BroadcastReceiver : 자기자신이 context자체는 아니다. 리시버가 브로드캐스트를 처리할 때마다 새로운 context가 생성된다.
+- ContentProvider : 자기자신이 context는 아니다. getContext()를 통해 context를 가져올 수 있다.
+
+
