@@ -613,3 +613,43 @@ fun onClick(v: View) {
 - ContentProvider : 자기자신이 context는 아니다. getContext()를 통해 context를 가져올 수 있다.
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
+
+
+## MVC, MVP, MVVM 패턴
+
+### 디자인 패턴
+
+- 프로그램의 로직이 복잡해짐에 따라 컴포넌트 간의 의존도가 높아지고 유지보수가 힘들어짐
+- **화면에 보여주는 로직과 데이터가 처리되는 로직을 분리**시킴으로써 코드의 재활용성을 높이고 불필요한 중복을 막기 위해 디자인 패턴을 사용한다
+- MVC, MVVM, MVP는 비즈니스 로직과 사용자 인터페이스, 데이터를 나눠 설계
+
+  > 비즈니스 로직
+  >
+  > 데이터와 사용자 인터페이스 사이에서 일어나는 정보 교환을 담당하는 역할. 즉 사용자의 요청에 따른 데이터 입력, 수정, 조회 등을 처리하는 루틴
+  
+### MVC ( Model - View - Controller )
+
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F7IE8f%2FbtqBRvw9sFF%2FAGLRdsOLuvNZ9okmGOlkx1%2Fimg.png" alt="MVC" width="300"/>
+
+
+> MVP와 MVVM이 MVC에서 나온 개발방법론이기 때문에 가장 기본 방식이다.
+
+- Model
+	- 프로그램에서 실제 데이터 및 조작 로직을 처리하는 부분
+	- 데이터와 비즈니스 로직을 포함하는 개념
+	- controller & View 와 직접적인 관련은 전혀 없고, 간접적으로 전달한다.
+	- View 또는 Controller에 묶이지 않은 독립적인 존재. 재사용이 가능하다
+
+- View
+	- 사용자에게 보여지는 UI 부분 (모델에서 처리한 데이터 및 결과를 반환받아 화면 구성)
+	- 비즈니스 로직은 포함되지 않는다.
+	- App 및 UI와의 상호작용에서 controller와 통신함
+	- 유저가 어떤 Action을 해도 View는 알수없음
+	
+- Controller
+	- 사용자의 요청을 해석하고 처리하여 결과를 반환하는 부분
+	- 모델과 뷰를 느슨하게 연결하여 프로그램의 데이터 흐름을 관장
+	- Model을 통해 가져온 데이터를 View에게 전달한다.
+	- Model에게 직접 영향을 줄 수 있다.
+	- 다수의 View를 선택할 수 있다.
+	- 안드로이드에서는 주로 activity나 fragment로 표현된다.
