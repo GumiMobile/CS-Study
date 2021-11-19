@@ -440,3 +440,60 @@
     - viewModel의 데이터를 변경한다.
 - dataBinding과 명령을 통해 의존성을 해결한다.
 - ⇒ view가 변수와 표현식 모두에 바인딩 가능해서 시간이 갈수록 관계없는 로직을 xml에 추가하게 될 수도 있다. 따라서 viewBinding 표현식에서 계산하지 말고 항상 부모 모델에서 값을 가져오는 게 좋다.
+
+
+## 이수형
+
+### MVC 패턴
+
+Model - View - Contoller로 이루어진 패턴
+
+- Model
+   - 데이터를 가지며 Application에서 사용되는 데이터와 그 데이터를 처리함
+   - View 또는 Controller에 묶이지않아 재사용이 가능함
+
+- View
+   - 사용자에게 보일 화면을 표현
+   - App 및 UI와의 상호작용에서 controller와 통신함
+   - 유저가 어떤 Action을 해도 View는 알수없음
+
+- Controller
+   - 사용자로부터 입력을 받고 이 입력을 모델에 의해 View 정의를 함
+   - Model의 데이터 변화에 따라 View를 선택
+
+### MVP 패턴
+
+MVC와는 다르게 View와 Model을 분리하고 서로간의 상호작용을 Presenter에 역할을 두어 서로의 의존성을 최소화
+
+- Model
+   - 프로그램 내부적으로 쓰이는 데이터를 저장하고, 처리하는 역할을 함.
+   - View 또는 Presenter 등 다른 어떤 요소에도 의존적이지 않은 독립적인 영역임.
+- View
+   - UI를 담당하며 안드로이드에서는 Activity, Fragment가 대표적인 예.
+   - Model에서 처리된 데이터를 Presenter를 통해 받아서 유저에게 보여줌.
+   - Actio 및 액티비티 라이프사이클 상태 변경을 주시하며 Presenter에 보내는 역할임.
+   - Presenter를 이용해 데이터를 주고받기 때문에 Presenter에 매우 의존적임.
+- Presenter
+   - Model과 View사이의 매개체.
+   - 모델과 뷰를 매개체라는 점에서 Controller와 유사하지만, View에 직접 연결되는 대신 인터페이스를 통해 상호작용 한다는 점이 다름.
+   - 인터페이스를 통해 상호작용 하므로 MVC가 가진 테스트 문제와 함께 모듈화/유연성 문제 역시 해결할 수 있음.
+   - Data만 전달하며 어떻게 보여줄지는 View가 담당.
+
+
+### MVVM 패턴
+
+Model - View - ViewModel로 나누어 하나의 App을 최대한 기능적으로 작은 단위로 나누어 테스트가 쉽고 큰 프로젝트도 상대적으로 관리하기 좋은 구조
+
+- View
+   - View는 Activity나 Fragment 같은 화면에 표현되는 레이아웃을 정의함.
+   - View는 기본적으로 데이터를 보여주기만 해야 해서 비즈니스 로직을 포함하지 않지만 UI 변경과 관련된 일부 로직은 포함
+   - View는 ViewModel을 관찰하고 있다가 상태 변화가 전달되면 화면을 갱신해야 함.
+
+- ViewModel
+   - View와 Model 사이의 매개체 역할을 함.
+   - 모든 View와 관련된 비즈니스 로직은 이 곳에 들어가게 되며 데이터를 잘 가공해서 View에서 뿌리기 쉬운 Model로 바꾸는 역할을 함.
+   - View와 ViewModel은 MVP와는 다르게 1:N의 관계를 가질 수 있으며 여러 개의 Fragment가 하나의 ViewModel을 가질 수 있음.
+   - ViewModel은 View가 Data Binding할 수 있는 속성과 명령으로 구성되어 있음.
+
+- Model
+   - MVC의 Model과 역할은 동일함.
