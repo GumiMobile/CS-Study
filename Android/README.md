@@ -10,6 +10,7 @@
 * [ANR, 발생 시 대처](#ANR)
 * [메인 스레드와 워커 스레드](#메인-스레드와-워커-스레드)
 * [Bundle, Context](#Bundle)
+* [MVC, MVP, MVVM 패턴](#mvc-mvp-mvvm-패턴)
 
 [뒤로](https://github.com/GumiMobile/CS-Study)
 
@@ -653,3 +654,37 @@ fun onClick(v: View) {
 	- Model에게 직접 영향을 줄 수 있다.
 	- 다수의 View를 선택할 수 있다.
 	- 안드로이드에서는 주로 activity나 fragment로 표현된다.
+
+
+- 동작
+
+    (1) 사용자의 Action이 Controller에 들어온다.
+    
+    (2) Controller는 사용자의 Action을 확인하고, Model을 업데이트한다.
+    
+    (3) Controller는 Model을 나타내줄 View를 선택한다.
+    
+    (4) View는 Model을 이용하여 화면을 나타낸다.
+	
+
+> 참고) MVC에서 View가 업데이트 되는 방법
+> 
+> - View가 Model을 이용하여 직접 업데이트 하는 방법
+> - Model에서 View에게 Notify하여 업데이트 하는 방법
+> - View가 Polling으로 주기적으로  Model의 변경을 감지하여 업데이트 하는 방법
+
+- 특징
+	- Controller는 여러 개의 View를 선택할 수 있는 1:N 구조이다.
+	- Controller는 View를 선택할 뿐 직접 업데이트하지 않는다.(View는 Controller를 모른다)
+	
+- 장점
+	- 디자인 패턴 중 쉽고 단순한 편으로 보편적으로 많이 사용되는 디자인 패턴이다.
+	- 모델, 뷰 분리
+	- 모델의 비종속성으로 재사용 가능
+    
+- 단점
+	- Controller가 Android API에 종속되어 테스트가 어렵다
+	- View와 Model 사이의 의존성이 높다. View와 Model의 높은 의존성은 어플리케이션이 커질수록 복잡해지고 유지보수가 어려워질 수 있다.
+
+
+[뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
