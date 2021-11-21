@@ -686,5 +686,25 @@ fun onClick(v: View) {
 	- Controller가 Android API에 종속되어 테스트가 어렵다
 	- View와 Model 사이의 의존성이 높다. View와 Model의 높은 의존성은 어플리케이션이 커질수록 복잡해지고 유지보수가 어려워질 수 있다.
 
+### MVP ( Model - View - Presenter )
+
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FclZlsT%2FbtqBTLzeUCL%2FIDA8Ga6Yarndgr88g9Nkhk%2Fimg.png" alt="MVP" width="300" />
+
+- View
+	- 기본적인 것들은 MVC와 동일하나, MVC 패턴의 뷰에서 사용자 입력을 프레젠터에게 전달하는 역할 추가
+	- Activity/Fragment가 View에 포함된다.
+	- Presenter를 이용해 데이터를 주고받기 때문에 Presenter에 매우 의존적임.
+	
+- Model
+   - 프로그램 내부적으로 쓰이는 데이터를 저장하고, 처리하는 역할을 함.(MVC 패턴과 동일)
+   - View 또는 Presenter 등 다른 어떤 요소에도 의존적이지 않은 독립적인 영역임.
+
+- Presenter
+	- View와 Model 사이에서 data를 가공하고 전달하는 역할을 수행한다.
+	- View가 요청한 정보를 Model로부터 받고 가공하여 View에게 전달한다. (Data만 전달하며 어떻게 보여줄지는 View가 담당.)
+	- 모델과 뷰를 매개체라는 점에서 Controller와 유사하지만, View에 직접 연결되는 대신 인터페이스를 통해 상호작용 한다는 점이 다름.
+		- 인터페이스를 통해 상호작용 하므로 MVC가 가진 테스트 문제와 함께 모듈화/유연성 문제 역시 해결할 수 있음.
+
+
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
