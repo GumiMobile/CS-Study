@@ -705,6 +705,33 @@ fun onClick(v: View) {
 	- 모델과 뷰를 매개체라는 점에서 Controller와 유사하지만, View에 직접 연결되는 대신 인터페이스를 통해 상호작용 한다는 점이 다름.
 		- 인터페이스를 통해 상호작용 하므로 MVC가 가진 테스트 문제와 함께 모듈화/유연성 문제 역시 해결할 수 있음.
 
+- 동작
+
+	(1) 사용자의 Action이 View를 통해 들어온다.
+  
+	(2) View는 data를 Presenter에게 요청한다.
+  
+	(3) Presenter는 Model에게 data를 요청한다.
+  
+	(4) Model은 Presenter에게 요청받은 data를 반환한다.
+  
+	(5) Presenter는 View에게 data를 반환한다.
+	
+	(6) View는 Presenter가 응답한 데이터를 이용하여 화면을 나타낸다.	
+
+- 특징
+	- Presenter는 View와 Model의 인스턴스를 가지고 있어 둘을 연결하는 역할을 한다.
+	- Presenter와 View는 1:1 관계이다.
+	- 단순 Interface이기 때문에 테스트가 용이하고 모듈화/유연성 문제가 해결되었다.
+
+- 장점
+	- View와 Model을 분리하고 Presenter를 통해서만 데이터를 전달받기 때문에 MVC 패턴의 단점이었던 View와 Model의 의존성 문제를 해결했다.
+	
+- 단점
+	- 뷰-프레젠터 1:1관계 생성, 즉, 뷰-프레젠터의 강한 의존성 생성
+		- 이를 해결하기위해 MVVM 패턴 사용
+	- Android API를 참조해서는 안된다.(권장)
+	- Controller와 같이 코드가 집중되면 성능이 저하되고 유지보수가 어려워진다.
 
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
