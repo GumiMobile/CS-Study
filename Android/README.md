@@ -733,5 +733,32 @@ fun onClick(v: View) {
 	- Android API를 참조해서는 안된다.(권장)
 	- Controller와 같이 코드가 집중되면 성능이 저하되고 유지보수가 어려워진다.
 
+### MVVM ( Model - View - View Model )
+
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FCiXz0%2FbtqBQ1iMiVT%2FstaXr7UO95opKgXEU01EY0%2Fimg.png" alt="MVVM" width="300" />
+
+- View
+	- 사용자에게 보여지는 UI 부분 (다른 패턴과 동일)
+	- 기본적인 것들은 MVC와 동일하나, Activity/Fragment가 View에 포함된다.
+	- ViewModel을 관찰하고 있다가 상태 변화가 전달되면 UI를 갱신한다.
+	- 여러 뷰가 하나의 뷰 모델을 참조 할 수 있다.
+	- 뷰모델에게 사용자 액션을 전달한다. 사용자는 view를 통해 입력하고, view의 값을 바탕으로 viewModel의 값이 변경된다.
+	- model에는 영향을 주지 않는다.
+	- View는 기본적으로 데이터를 보여주기만 해야 해서 비즈니스 로직을 포함하지 않지만 UI 변경과 관련된 일부 로직은 포함
+
+- Model
+	- 어플리케이션에서 사용되는 데이터와 그 데이터를 처리하는 부분 (MVC, MVP와 동일)
+	- 기존 모델에 business logic을 추가하기 위해 MVVM에 SquareParams라는 Model을 추가했다.
+	- DB 사용이나 Retrofit을 통한 백엔드 API 호출 등을 주로 수행한다.
+	- 모델은 뷰, 뷰 모델 계층을 신경 쓸 필요 없다.
+	
+- ViewModel
+	- View를 표현하기 위해 만든 View를 위한 Model. 뷰에서 사용할 메소드, 필드를 갖는 뷰의 추상화된 모델
+	- 기본적으로 View에 종속되지 않는다.(그래서는 안된다)
+	- 모든 View와 관련된 비즈니스 로직은 이 곳에 들어가게 되며 데이터를 잘 가공해서 View에서 뿌리기 쉬운 Model로 바꾸는 역할을 함.
+	- View가 Model에 Event를 전달할 수 있도록 Hook(BindingAdapter)을 준비한다.
+	- MVC의 컨트롤러, MVP의 프레젠터를 대신하여 데이터 바인딩, Obsevable을 통해 자신의 상태를 뷰에게 알려 뷰의 갱신을 일으킬 수 있다.
+	> 원리) view에 입력이 들어오면 command패턴(명령)을 통해 viewModel에 명령을 내리고, `DataBinding`덕에 viewModel 값이 변화하면 바로 View의 정보가 바뀐다. (자동갱신)  
+
 
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
