@@ -760,5 +760,34 @@ fun onClick(v: View) {
 	- MVC의 컨트롤러, MVP의 프레젠터를 대신하여 데이터 바인딩, Obsevable을 통해 자신의 상태를 뷰에게 알려 뷰의 갱신을 일으킬 수 있다.
 	> 원리) view에 입력이 들어오면 command패턴(명령)을 통해 viewModel에 명령을 내리고, `DataBinding`덕에 viewModel 값이 변화하면 바로 View의 정보가 바뀐다. (자동갱신)  
 
+- 동작
+	
+	(1) 사용자의 Action들은 View를 통해 들어오게 된다.
 
+	(2) View에 Action이 들어오면, Command 패턴으로 View Model에 Action을 전달한다.
+
+	(3) View Model은 Model에게 데이터를 요청한다.
+
+	(4) Model은 View Model에게 요청받은 데이터를 응답한다.
+
+	(5) View Model은 응답 받은 데이터를 가공하여 저장한다.
+
+	(6) View는 View Model과 Data Binding하여 화면을 나타낸다.
+
+- 특징
+	- [Command 패턴](https://ko.wikipedia.org/wiki/%EC%BB%A4%EB%A7%A8%EB%93%9C_%ED%8C%A8%ED%84%B4)과 Data Binding 두 가지 패턴을 사용하여 View와 View Model 사이의 의존성을 없앴다.
+		- ⇒ view가 변수와 표현식 모두에 바인딩 가능해서 시간이 갈수록 관계없는 로직을 xml에 추가하게 될 수도 있다. 따라서 viewBinding 표현식에서 계산하지 말고 항상 부모 모델에서 값을 가져오는 게 좋다.
+	- View와 Model 사이에도 의존성이 없다.
+	- View Model과 View는 1 : n 관계이다.
+	- 하나의 App을 최대한 기능적으로 작은 단위로 나누어 테스트가 쉽고 큰 프로젝트도 상대적으로 관리하기 좋은 구조이다.
+
+- 장점
+	- 각각의 부분이 독립적이기 때문에 모듈화하여 개발할 수 있다.
+	- 뷰와 모델이 서로를 전혀 신경 쓰지 않기에 유닛 테스트 용이
+
+- 단점
+	- ViewModel의 설계가 어렵다.
+	- View가 변수와 표현식 모두에 Binding될 수 있으므로 갈수록 presentation logic이 늘어나 XML이 방대해진다. 
+		- 이를 방지하려면 항상 ViewModel에서 직접 값을 가져오는 것이 좋다.
+		
 [뒤로](https://github.com/GumiMobile/CS-Study) / [위로](#android)
